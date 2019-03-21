@@ -1,6 +1,6 @@
 package raylib
 
-foreign import "raylib"
+foreign import "raylib.lib"
 
 import _c "core:c"
 
@@ -11,36 +11,32 @@ RAD2DEG :: 57.296;
 MAX_TOUCH_POINTS :: 10;
 MAX_SHADER_LOCATIONS :: 32;
 MAX_MATERIAL_MAPS :: 12;
-CLITERAL :: 1;
-LIGHTGRAY :: Color;
-GRAY :: Color;
-DARKGRAY :: Color;
-YELLOW :: Color;
-GOLD :: Color;
-ORANGE :: Color;
-PINK :: Color;
-RED :: Color;
-MAROON :: Color;
-GREEN :: Color;
-LIME :: Color;
-DARKGREEN :: Color;
-SKYBLUE :: Color;
-BLUE :: Color;
-DARKBLUE :: Color;
-PURPLE :: Color;
-VIOLET :: Color;
-DARKPURPLE :: Color;
-BEIGE :: Color;
-BROWN :: Color;
-DARKBROWN :: Color;
-WHITE :: Color;
-BLACK :: Color;
-BLANK :: Color;
-MAGENTA :: Color;
-RAYWHITE :: Color;
-FormatText :: TextFormat;
-SubText :: TextSubtext;
-ShowWindow :: UnhideWindow;
+LIGHTGRAY := Color { 200, 200, 200, 255 };
+GRAY := Color { 130, 130, 130, 255 };
+DARKGRAY := Color { 80, 80, 80, 255 };
+YELLOW := Color { 253, 249, 0, 255 };
+GOLD := Color { 255, 203, 0, 255 };
+ORANGE := Color { 255, 161, 0, 255 };
+PINK := Color { 255, 109, 194, 255 };
+RED := Color { 230, 41, 55, 255 };
+MAROON := Color { 190, 33, 55, 255 };
+GREEN := Color { 0, 228, 48, 255 };
+LIME := Color { 0, 158, 47, 255 };
+DARKGREEN := Color { 0, 117, 44, 255 };
+SKYBLUE := Color { 102, 191, 255, 255 };
+BLUE := Color { 0, 121, 241, 255 };
+DARKBLUE := Color { 0, 82, 172, 255 };
+PURPLE := Color { 200, 122, 255, 255 };
+VIOLET := Color { 135, 60, 190, 255 };
+DARKPURPLE := Color { 112, 31, 126, 255 };
+BEIGE := Color { 211, 176, 131, 255 };
+BROWN := Color { 127, 106, 79, 255 };
+DARKBROWN := Color { 76, 63, 47, 255 };
+WHITE := Color { 255, 255, 255, 255 };
+BLACK := Color { 0, 0, 0, 255 };
+BLANK := Color { 0, 0, 0, 0 };
+MAGENTA := Color { 255, 0, 255, 255 };
+RAYWHITE := Color { 245, 245, 245, 255 };
 SpriteFont :: Font;
 Camera :: Camera3D;
 LOC_MAP_DIFFUSE :: 14;
@@ -48,45 +44,39 @@ LOC_MAP_SPECULAR :: 15;
 MAP_DIFFUSE :: 0;
 MAP_SPECULAR :: 1;
 
-bool :: AnonymousEnum0;
 Quaternion :: Vector4;
 Texture :: Texture2D;
 TextureCubemap :: Texture2D;
 RenderTexture :: RenderTexture2D;
 Music :: ^MusicData;
-ConfigFlag :: AnonymousEnum1;
-TraceLogType :: AnonymousEnum2;
-KeyboardKey :: AnonymousEnum3;
-AndroidButton :: AnonymousEnum4;
-MouseButton :: AnonymousEnum5;
-GamepadNumber :: AnonymousEnum6;
-GamepadPS3Button :: AnonymousEnum7;
-GamepadPS3Axis :: AnonymousEnum8;
-GamepadXbox360Button :: AnonymousEnum9;
-GamepadXbox360Axis :: AnonymousEnum10;
-GamepadAndroid :: AnonymousEnum11;
-ShaderLocationIndex :: AnonymousEnum12;
-ShaderUniformDataType :: AnonymousEnum13;
-TexmapIndex :: AnonymousEnum14;
-PixelFormat :: AnonymousEnum15;
-TextureFilterMode :: AnonymousEnum16;
-CubemapLayoutType :: AnonymousEnum17;
-TextureWrapMode :: AnonymousEnum18;
-FontType :: AnonymousEnum19;
-BlendMode :: AnonymousEnum20;
-GestureType :: AnonymousEnum21;
-CameraMode :: AnonymousEnum22;
-CameraType :: AnonymousEnum23;
-VrDeviceType :: AnonymousEnum24;
-NPatchType :: AnonymousEnum25;
+ConfigFlag :: AnonymousEnum0;
+TraceLogType :: AnonymousEnum1;
+KeyboardKey :: AnonymousEnum2;
+AndroidButton :: AnonymousEnum3;
+MouseButton :: AnonymousEnum4;
+GamepadNumber :: AnonymousEnum5;
+GamepadPS3Button :: AnonymousEnum6;
+GamepadPS3Axis :: AnonymousEnum7;
+GamepadXbox360Button :: AnonymousEnum8;
+GamepadXbox360Axis :: AnonymousEnum9;
+GamepadAndroid :: AnonymousEnum10;
+ShaderLocationIndex :: AnonymousEnum11;
+ShaderUniformDataType :: AnonymousEnum12;
+TexmapIndex :: AnonymousEnum13;
+PixelFormat :: AnonymousEnum14;
+TextureFilterMode :: AnonymousEnum15;
+CubemapLayoutType :: AnonymousEnum16;
+TextureWrapMode :: AnonymousEnum17;
+FontType :: AnonymousEnum18;
+BlendMode :: AnonymousEnum19;
+GestureType :: AnonymousEnum20;
+CameraMode :: AnonymousEnum21;
+CameraType :: AnonymousEnum22;
+VrDeviceType :: AnonymousEnum23;
+NPatchType :: AnonymousEnum24;
 TraceLogCallback :: #type proc();
 
 AnonymousEnum0 :: enum i32 {
-    false,
-    true,
-};
-
-AnonymousEnum1 :: enum i32 {
     FLAG_SHOW_LOGO = 1,
     FLAG_FULLSCREEN_MODE = 2,
     FLAG_WINDOW_RESIZABLE = 4,
@@ -97,7 +87,7 @@ AnonymousEnum1 :: enum i32 {
     FLAG_VSYNC_HINT = 64,
 };
 
-AnonymousEnum2 :: enum i32 {
+AnonymousEnum1 :: enum i32 {
     LOG_ALL,
     LOG_TRACE,
     LOG_DEBUG,
@@ -108,7 +98,7 @@ AnonymousEnum2 :: enum i32 {
     LOG_NONE,
 };
 
-AnonymousEnum3 :: enum i32 {
+AnonymousEnum2 :: enum i32 {
     KEY_APOSTROPHE = 39,
     KEY_COMMA = 44,
     KEY_MINUS = 45,
@@ -216,27 +206,27 @@ AnonymousEnum3 :: enum i32 {
     KEY_KP_EQUAL = 336,
 };
 
-AnonymousEnum4 :: enum i32 {
+AnonymousEnum3 :: enum i32 {
     KEY_BACK = 4,
     KEY_MENU = 82,
     KEY_VOLUME_UP = 24,
     KEY_VOLUME_DOWN = 25,
 };
 
-AnonymousEnum5 :: enum i32 {
+AnonymousEnum4 :: enum i32 {
     MOUSE_LEFT_BUTTON = 0,
     MOUSE_RIGHT_BUTTON = 1,
     MOUSE_MIDDLE_BUTTON = 2,
 };
 
-AnonymousEnum6 :: enum i32 {
+AnonymousEnum5 :: enum i32 {
     GAMEPAD_PLAYER1 = 0,
     GAMEPAD_PLAYER2 = 1,
     GAMEPAD_PLAYER3 = 2,
     GAMEPAD_PLAYER4 = 3,
 };
 
-AnonymousEnum7 :: enum i32 {
+AnonymousEnum6 :: enum i32 {
     GAMEPAD_PS3_BUTTON_TRIANGLE = 0,
     GAMEPAD_PS3_BUTTON_CIRCLE = 1,
     GAMEPAD_PS3_BUTTON_CROSS = 2,
@@ -254,7 +244,7 @@ AnonymousEnum7 :: enum i32 {
     GAMEPAD_PS3_BUTTON_LEFT = 27,
 };
 
-AnonymousEnum8 :: enum i32 {
+AnonymousEnum7 :: enum i32 {
     GAMEPAD_PS3_AXIS_LEFT_X = 0,
     GAMEPAD_PS3_AXIS_LEFT_Y = 1,
     GAMEPAD_PS3_AXIS_RIGHT_X = 2,
@@ -263,7 +253,7 @@ AnonymousEnum8 :: enum i32 {
     GAMEPAD_PS3_AXIS_R2 = 4,
 };
 
-AnonymousEnum9 :: enum i32 {
+AnonymousEnum8 :: enum i32 {
     GAMEPAD_XBOX_BUTTON_A = 0,
     GAMEPAD_XBOX_BUTTON_B = 1,
     GAMEPAD_XBOX_BUTTON_X = 2,
@@ -279,7 +269,7 @@ AnonymousEnum9 :: enum i32 {
     GAMEPAD_XBOX_BUTTON_LEFT = 13,
 };
 
-AnonymousEnum10 :: enum i32 {
+AnonymousEnum9 :: enum i32 {
     GAMEPAD_XBOX_AXIS_LEFT_X = 0,
     GAMEPAD_XBOX_AXIS_LEFT_Y = 1,
     GAMEPAD_XBOX_AXIS_RIGHT_X = 2,
@@ -288,7 +278,7 @@ AnonymousEnum10 :: enum i32 {
     GAMEPAD_XBOX_AXIS_RT = 5,
 };
 
-AnonymousEnum11 :: enum i32 {
+AnonymousEnum10 :: enum i32 {
     GAMEPAD_ANDROID_DPAD_UP = 19,
     GAMEPAD_ANDROID_DPAD_DOWN = 20,
     GAMEPAD_ANDROID_DPAD_LEFT = 21,
@@ -306,7 +296,7 @@ AnonymousEnum11 :: enum i32 {
     GAMEPAD_ANDROID_BUTTON_R2 = 105,
 };
 
-AnonymousEnum12 :: enum i32 {
+AnonymousEnum11 :: enum i32 {
     LOC_VERTEX_POSITION = 0,
     LOC_VERTEX_TEXCOORD01,
     LOC_VERTEX_TEXCOORD02,
@@ -334,7 +324,7 @@ AnonymousEnum12 :: enum i32 {
     LOC_MAP_BRDF,
 };
 
-AnonymousEnum13 :: enum i32 {
+AnonymousEnum12 :: enum i32 {
     UNIFORM_FLOAT = 0,
     UNIFORM_VEC2,
     UNIFORM_VEC3,
@@ -346,7 +336,7 @@ AnonymousEnum13 :: enum i32 {
     UNIFORM_SAMPLER2D,
 };
 
-AnonymousEnum14 :: enum i32 {
+AnonymousEnum13 :: enum i32 {
     MAP_ALBEDO = 0,
     MAP_METALNESS = 1,
     MAP_NORMAL = 2,
@@ -360,7 +350,7 @@ AnonymousEnum14 :: enum i32 {
     MAP_BRDF,
 };
 
-AnonymousEnum15 :: enum i32 {
+AnonymousEnum14 :: enum i32 {
     UNCOMPRESSED_GRAYSCALE = 1,
     UNCOMPRESSED_GRAY_ALPHA,
     UNCOMPRESSED_R5G6B5,
@@ -384,7 +374,7 @@ AnonymousEnum15 :: enum i32 {
     COMPRESSED_ASTC_8x8_RGBA,
 };
 
-AnonymousEnum16 :: enum i32 {
+AnonymousEnum15 :: enum i32 {
     FILTER_POINT = 0,
     FILTER_BILINEAR,
     FILTER_TRILINEAR,
@@ -393,7 +383,7 @@ AnonymousEnum16 :: enum i32 {
     FILTER_ANISOTROPIC_16X,
 };
 
-AnonymousEnum17 :: enum i32 {
+AnonymousEnum16 :: enum i32 {
     CUBEMAP_AUTO_DETECT = 0,
     CUBEMAP_LINE_VERTICAL,
     CUBEMAP_LINE_HORIZONTAL,
@@ -402,26 +392,26 @@ AnonymousEnum17 :: enum i32 {
     CUBEMAP_PANORAMA,
 };
 
-AnonymousEnum18 :: enum i32 {
+AnonymousEnum17 :: enum i32 {
     WRAP_REPEAT = 0,
     WRAP_CLAMP,
     WRAP_MIRROR_REPEAT,
     WRAP_MIRROR_CLAMP,
 };
 
-AnonymousEnum19 :: enum i32 {
+AnonymousEnum18 :: enum i32 {
     FONT_DEFAULT = 0,
     FONT_BITMAP,
     FONT_SDF,
 };
 
-AnonymousEnum20 :: enum i32 {
+AnonymousEnum19 :: enum i32 {
     BLEND_ALPHA = 0,
     BLEND_ADDITIVE,
     BLEND_MULTIPLIED,
 };
 
-AnonymousEnum21 :: enum i32 {
+AnonymousEnum20 :: enum i32 {
     GESTURE_NONE = 0,
     GESTURE_TAP = 1,
     GESTURE_DOUBLETAP = 2,
@@ -435,7 +425,7 @@ AnonymousEnum21 :: enum i32 {
     GESTURE_PINCH_OUT = 512,
 };
 
-AnonymousEnum22 :: enum i32 {
+AnonymousEnum21 :: enum i32 {
     CAMERA_CUSTOM = 0,
     CAMERA_FREE,
     CAMERA_ORBITAL,
@@ -443,12 +433,12 @@ AnonymousEnum22 :: enum i32 {
     CAMERA_THIRD_PERSON,
 };
 
-AnonymousEnum23 :: enum i32 {
+AnonymousEnum22 :: enum i32 {
     CAMERA_PERSPECTIVE = 0,
     CAMERA_ORTHOGRAPHIC,
 };
 
-AnonymousEnum24 :: enum i32 {
+AnonymousEnum23 :: enum i32 {
     HMD_DEFAULT_DEVICE = 0,
     HMD_OCULUS_RIFT_DK2,
     HMD_OCULUS_RIFT_CV1,
@@ -457,7 +447,7 @@ AnonymousEnum24 :: enum i32 {
     HMD_SONY_PSVR,
 };
 
-AnonymousEnum25 :: enum i32 {
+AnonymousEnum24 :: enum i32 {
     NPT_9PATCH = 0,
     NPT_3PATCH_VERTICAL,
     NPT_3PATCH_HORIZONTAL,
@@ -534,11 +524,11 @@ RenderTexture2D :: struct #packed {
     id : _c.uint,
     texture : Texture2D,
     depth : Texture2D,
-    depthTexture : bool,
+    depth_texture : bool,
 };
 
 NPatchInfo :: struct #packed {
-    sourceRec : Rectangle,
+    source_rec : Rectangle,
     left : _c.int,
     top : _c.int,
     right : _c.int,
@@ -549,16 +539,16 @@ NPatchInfo :: struct #packed {
 CharInfo :: struct #packed {
     value : _c.int,
     rec : Rectangle,
-    offsetX : _c.int,
-    offsetY : _c.int,
-    advanceX : _c.int,
+    offset_x : _c.int,
+    offset_y : _c.int,
+    advance_x : _c.int,
     data : ^_c.uchar,
 };
 
 Font :: struct #packed {
     texture : Texture2D,
-    baseSize : _c.int,
-    charsCount : _c.int,
+    base_size : _c.int,
+    chars_count : _c.int,
     chars : ^CharInfo,
 };
 
@@ -583,8 +573,8 @@ BoundingBox :: struct #packed {
 };
 
 Mesh :: struct #packed {
-    vertexCount : _c.int,
-    triangleCount : _c.int,
+    vertex_count : _c.int,
+    triangle_count : _c.int,
     vertices : ^_c.float,
     texcoords : ^_c.float,
     texcoords2 : ^_c.float,
@@ -592,12 +582,12 @@ Mesh :: struct #packed {
     tangents : ^_c.float,
     colors : ^_c.uchar,
     indices : ^_c.ushort,
-    baseVertices : ^_c.float,
-    baseNormals : ^_c.float,
-    weightBias : ^_c.float,
-    weightId : ^_c.int,
-    vaoId : _c.uint,
-    vboId : [7]_c.uint,
+    base_vertices : ^_c.float,
+    base_normals : ^_c.float,
+    weight_bias : ^_c.float,
+    weight_id : ^_c.int,
+    vao_id : _c.uint,
+    vbo_id : [7]_c.uint,
 };
 
 Shader :: struct #packed {
@@ -636,15 +626,15 @@ RayHitInfo :: struct #packed {
 };
 
 Wave :: struct #packed {
-    sampleCount : _c.uint,
-    sampleRate : _c.uint,
-    sampleSize : _c.uint,
+    sample_count : _c.uint,
+    sample_rate : _c.uint,
+    sample_size : _c.uint,
     channels : _c.uint,
     data : rawptr,
 };
 
 Sound :: struct #packed {
-    audioBuffer : rawptr,
+    audio_buffer : rawptr,
     source : _c.uint,
     buffer : _c.uint,
     format : _c.int,
@@ -653,593 +643,587 @@ Sound :: struct #packed {
 MusicData :: struct #packed {};
 
 AudioStream :: struct #packed {
-    sampleRate : _c.uint,
-    sampleSize : _c.uint,
+    sample_rate : _c.uint,
+    sample_size : _c.uint,
     channels : _c.uint,
-    audioBuffer : rawptr,
+    audio_buffer : rawptr,
     format : _c.int,
     source : _c.uint,
     buffers : [2]_c.uint,
 };
 
 VrDeviceInfo :: struct #packed {
-    hResolution : _c.int,
-    vResolution : _c.int,
-    hScreenSize : _c.float,
-    vScreenSize : _c.float,
-    vScreenCenter : _c.float,
-    eyeToScreenDistance : _c.float,
-    lensSeparationDistance : _c.float,
-    interpupillaryDistance : _c.float,
-    lensDistortionValues : [4]_c.float,
-    chromaAbCorrection : [4]_c.float,
+    h_resolution : _c.int,
+    v_resolution : _c.int,
+    h_screen_size : _c.float,
+    v_screen_size : _c.float,
+    v_screen_center : _c.float,
+    eye_to_screen_distance : _c.float,
+    lens_separation_distance : _c.float,
+    interpupillary_distance : _c.float,
+    lens_distortion_values : [4]_c.float,
+    chroma_ab_correction : [4]_c.float,
 };
 
 VrStereoConfig :: struct #packed {
-    stereoFbo : RenderTexture2D,
-    distortionShader : Shader,
-    eyesProjection : [2]Matrix,
-    eyesViewOffset : [2]Matrix,
-    eyeViewportRight : [4]_c.int,
-    eyeViewportLeft : [4]_c.int,
+    stereo_fbo : RenderTexture2D,
+    distortion_shader : Shader,
+    eyes_projection : [2]Matrix,
+    eyes_view_offset : [2]Matrix,
+    eye_viewport_right : [4]_c.int,
+    eye_viewport_left : [4]_c.int,
 };
 
 @(default_calling_convention="c")
 foreign raylib {
 
     @(link_name="InitWindow")
-    InitWindow :: proc(
+    init_window :: proc(
         width : _c.int,
         height : _c.int,
         title : cstring
     ) ---;
 
     @(link_name="WindowShouldClose")
-    WindowShouldClose :: proc() -> bool ---;
+    window_should_close :: proc() -> bool ---;
 
     @(link_name="CloseWindow")
-    CloseWindow :: proc() ---;
+    close_window :: proc() ---;
 
     @(link_name="IsWindowReady")
-    IsWindowReady :: proc() -> bool ---;
+    is_window_ready :: proc() -> bool ---;
 
     @(link_name="IsWindowMinimized")
-    IsWindowMinimized :: proc() -> bool ---;
+    is_window_minimized :: proc() -> bool ---;
 
     @(link_name="IsWindowResized")
-    IsWindowResized :: proc() -> bool ---;
+    is_window_resized :: proc() -> bool ---;
 
     @(link_name="IsWindowHidden")
-    IsWindowHidden :: proc() -> bool ---;
+    is_window_hidden :: proc() -> bool ---;
 
     @(link_name="ToggleFullscreen")
-    ToggleFullscreen :: proc() ---;
+    toggle_fullscreen :: proc() ---;
 
     @(link_name="UnhideWindow")
-    UnhideWindow :: proc() ---;
+    unhide_window :: proc() ---;
 
     @(link_name="HideWindow")
-    HideWindow :: proc() ---;
+    hide_window :: proc() ---;
 
     @(link_name="SetWindowIcon")
-    SetWindowIcon :: proc(image : Image) ---;
+    set_window_icon :: proc(image : Image) ---;
 
     @(link_name="SetWindowTitle")
-    SetWindowTitle :: proc(title : cstring) ---;
+    set_window_title :: proc(title : cstring) ---;
 
     @(link_name="SetWindowPosition")
-    SetWindowPosition :: proc(
+    set_window_position :: proc(
         x : _c.int,
         y : _c.int
     ) ---;
 
     @(link_name="SetWindowMonitor")
-    SetWindowMonitor :: proc(monitor : _c.int) ---;
+    set_window_monitor :: proc(monitor : _c.int) ---;
 
     @(link_name="SetWindowMinSize")
-    SetWindowMinSize :: proc(
+    set_window_min_size :: proc(
         width : _c.int,
         height : _c.int
     ) ---;
 
     @(link_name="SetWindowSize")
-    SetWindowSize :: proc(
+    set_window_size :: proc(
         width : _c.int,
         height : _c.int
     ) ---;
 
     @(link_name="GetWindowHandle")
-    GetWindowHandle :: proc() -> rawptr ---;
+    get_window_handle :: proc() -> rawptr ---;
 
     @(link_name="GetScreenWidth")
-    GetScreenWidth :: proc() -> _c.int ---;
+    get_screen_width :: proc() -> _c.int ---;
 
     @(link_name="GetScreenHeight")
-    GetScreenHeight :: proc() -> _c.int ---;
+    get_screen_height :: proc() -> _c.int ---;
 
     @(link_name="GetMonitorCount")
-    GetMonitorCount :: proc() -> _c.int ---;
+    get_monitor_count :: proc() -> _c.int ---;
 
     @(link_name="GetMonitorWidth")
-    GetMonitorWidth :: proc(monitor : _c.int) -> _c.int ---;
+    get_monitor_width :: proc(monitor : _c.int) -> _c.int ---;
 
     @(link_name="GetMonitorHeight")
-    GetMonitorHeight :: proc(monitor : _c.int) -> _c.int ---;
+    get_monitor_height :: proc(monitor : _c.int) -> _c.int ---;
 
     @(link_name="GetMonitorPhysicalWidth")
-    GetMonitorPhysicalWidth :: proc(monitor : _c.int) -> _c.int ---;
+    get_monitor_physical_width :: proc(monitor : _c.int) -> _c.int ---;
 
     @(link_name="GetMonitorPhysicalHeight")
-    GetMonitorPhysicalHeight :: proc(monitor : _c.int) -> _c.int ---;
+    get_monitor_physical_height :: proc(monitor : _c.int) -> _c.int ---;
 
     @(link_name="GetMonitorName")
-    GetMonitorName :: proc(monitor : _c.int) -> cstring ---;
+    get_monitor_name :: proc(monitor : _c.int) -> cstring ---;
 
     @(link_name="GetClipboardText")
-    GetClipboardText :: proc() -> cstring ---;
+    get_clipboard_text :: proc() -> cstring ---;
 
     @(link_name="SetClipboardText")
-    SetClipboardText :: proc(text : cstring) ---;
-
-    @(link_name="ShowCursor")
-    ShowCursor :: proc() ---;
-
-    @(link_name="HideCursor")
-    HideCursor :: proc() ---;
+    set_clipboard_text :: proc(text : cstring) ---;
 
     @(link_name="IsCursorHidden")
-    IsCursorHidden :: proc() -> bool ---;
+    is_cursor_hidden :: proc() -> bool ---;
 
     @(link_name="EnableCursor")
-    EnableCursor :: proc() ---;
+    enable_cursor :: proc() ---;
 
     @(link_name="DisableCursor")
-    DisableCursor :: proc() ---;
+    disable_cursor :: proc() ---;
 
     @(link_name="ClearBackground")
-    ClearBackground :: proc(color : Color) ---;
+    clear_background :: proc(color : Color) ---;
 
     @(link_name="BeginDrawing")
-    BeginDrawing :: proc() ---;
+    begin_drawing :: proc() ---;
 
     @(link_name="EndDrawing")
-    EndDrawing :: proc() ---;
+    end_drawing :: proc() ---;
 
     @(link_name="BeginMode2D")
-    BeginMode2D :: proc(camera : Camera2D) ---;
+    begin_mode2_d :: proc(camera : Camera2D) ---;
 
     @(link_name="EndMode2D")
-    EndMode2D :: proc() ---;
+    end_mode2_d :: proc() ---;
 
     @(link_name="BeginMode3D")
-    BeginMode3D :: proc(camera : Camera3D) ---;
+    begin_mode3_d :: proc(camera : Camera3D) ---;
 
     @(link_name="EndMode3D")
-    EndMode3D :: proc() ---;
+    end_mode3_d :: proc() ---;
 
     @(link_name="BeginTextureMode")
-    BeginTextureMode :: proc(target : RenderTexture2D) ---;
+    begin_texture_mode :: proc(target : RenderTexture2D) ---;
 
     @(link_name="EndTextureMode")
-    EndTextureMode :: proc() ---;
+    end_texture_mode :: proc() ---;
 
     @(link_name="GetMouseRay")
-    GetMouseRay :: proc(
-        mousePosition : Vector2,
+    get_mouse_ray :: proc(
+        mouse_position : Vector2,
         camera : Camera
     ) -> Ray ---;
 
     @(link_name="GetWorldToScreen")
-    GetWorldToScreen :: proc(
+    get_world_to_screen :: proc(
         position : Vector3,
         camera : Camera
     ) -> Vector2 ---;
 
     @(link_name="GetCameraMatrix")
-    GetCameraMatrix :: proc(camera : Camera) -> Matrix ---;
+    get_camera_matrix :: proc(camera : Camera) -> Matrix ---;
 
     @(link_name="SetTargetFPS")
-    SetTargetFPS :: proc(fps : _c.int) ---;
+    set_target_fps :: proc(fps : _c.int) ---;
 
     @(link_name="GetFPS")
-    GetFPS :: proc() -> _c.int ---;
+    get_fps :: proc() -> _c.int ---;
 
     @(link_name="GetFrameTime")
-    GetFrameTime :: proc() -> _c.float ---;
+    get_frame_time :: proc() -> _c.float ---;
 
     @(link_name="GetTime")
-    GetTime :: proc() -> _c.double ---;
+    get_time :: proc() -> _c.double ---;
 
     @(link_name="ColorToInt")
-    ColorToInt :: proc(color : Color) -> _c.int ---;
+    color_to_int :: proc(color : Color) -> _c.int ---;
 
     @(link_name="ColorNormalize")
-    ColorNormalize :: proc(color : Color) -> Vector4 ---;
+    color_normalize :: proc(color : Color) -> Vector4 ---;
 
     @(link_name="ColorToHSV")
-    ColorToHSV :: proc(color : Color) -> Vector3 ---;
+    color_to_hsv :: proc(color : Color) -> Vector3 ---;
 
     @(link_name="ColorFromHSV")
-    ColorFromHSV :: proc(hsv : Vector3) -> Color ---;
+    color_from_hsv :: proc(hsv : Vector3) -> Color ---;
 
     @(link_name="GetColor")
-    GetColor :: proc(hexValue : _c.int) -> Color ---;
+    get_color :: proc(hex_value : _c.int) -> Color ---;
 
     @(link_name="Fade")
-    Fade :: proc(
+    fade :: proc(
         color : Color,
         alpha : _c.float
     ) -> Color ---;
 
     @(link_name="SetConfigFlags")
-    SetConfigFlags :: proc(flags : _c.uchar) ---;
+    set_config_flags :: proc(flags : _c.uchar) ---;
 
     @(link_name="SetTraceLogLevel")
-    SetTraceLogLevel :: proc(logType : _c.int) ---;
+    set_trace_log_level :: proc(log_type : _c.int) ---;
 
     @(link_name="SetTraceLogExit")
-    SetTraceLogExit :: proc(logType : _c.int) ---;
+    set_trace_log_exit :: proc(log_type : _c.int) ---;
 
     @(link_name="SetTraceLogCallback")
-    SetTraceLogCallback :: proc(callback : TraceLogCallback) ---;
+    set_trace_log_callback :: proc(callback : TraceLogCallback) ---;
 
     @(link_name="TraceLog")
-    TraceLog :: proc(
-        logType : _c.int,
+    trace_log :: proc(
+        log_type : _c.int,
         text : cstring
     ) ---;
 
     @(link_name="TakeScreenshot")
-    TakeScreenshot :: proc(fileName : cstring) ---;
+    take_screenshot :: proc(file_name : cstring) ---;
 
     @(link_name="GetRandomValue")
-    GetRandomValue :: proc(
+    get_random_value :: proc(
         min : _c.int,
         max : _c.int
     ) -> _c.int ---;
 
     @(link_name="FileExists")
-    FileExists :: proc(fileName : cstring) -> bool ---;
+    file_exists :: proc(file_name : cstring) -> bool ---;
 
     @(link_name="IsFileExtension")
-    IsFileExtension :: proc(
-        fileName : cstring,
+    is_file_extension :: proc(
+        file_name : cstring,
         ext : cstring
     ) -> bool ---;
 
     @(link_name="GetExtension")
-    GetExtension :: proc(fileName : cstring) -> cstring ---;
+    get_extension :: proc(file_name : cstring) -> cstring ---;
 
     @(link_name="GetFileName")
-    GetFileName :: proc(filePath : cstring) -> cstring ---;
+    get_file_name :: proc(file_path : cstring) -> cstring ---;
 
     @(link_name="GetFileNameWithoutExt")
-    GetFileNameWithoutExt :: proc(filePath : cstring) -> cstring ---;
+    get_file_name_without_ext :: proc(file_path : cstring) -> cstring ---;
 
     @(link_name="GetDirectoryPath")
-    GetDirectoryPath :: proc(fileName : cstring) -> cstring ---;
+    get_directory_path :: proc(file_name : cstring) -> cstring ---;
 
     @(link_name="GetWorkingDirectory")
-    GetWorkingDirectory :: proc() -> cstring ---;
+    get_working_directory :: proc() -> cstring ---;
 
     @(link_name="GetDirectoryFiles")
-    GetDirectoryFiles :: proc(
-        dirPath : cstring,
+    get_directory_files :: proc(
+        dir_path : cstring,
         count : ^_c.int
     ) -> ^cstring ---;
 
     @(link_name="ClearDirectoryFiles")
-    ClearDirectoryFiles :: proc() ---;
+    clear_directory_files :: proc() ---;
 
     @(link_name="ChangeDirectory")
-    ChangeDirectory :: proc(dir : cstring) -> bool ---;
+    change_directory :: proc(dir : cstring) -> bool ---;
 
     @(link_name="IsFileDropped")
-    IsFileDropped :: proc() -> bool ---;
+    is_file_dropped :: proc() -> bool ---;
 
     @(link_name="GetDroppedFiles")
-    GetDroppedFiles :: proc(count : ^_c.int) -> ^cstring ---;
+    get_dropped_files :: proc(count : ^_c.int) -> ^cstring ---;
 
     @(link_name="ClearDroppedFiles")
-    ClearDroppedFiles :: proc() ---;
+    clear_dropped_files :: proc() ---;
 
     @(link_name="GetFileModTime")
-    GetFileModTime :: proc(fileName : cstring) -> _c.long ---;
+    get_file_mod_time :: proc(file_name : cstring) -> _c.long ---;
 
     @(link_name="StorageSaveValue")
-    StorageSaveValue :: proc(
+    storage_save_value :: proc(
         position : _c.int,
         value : _c.int
     ) ---;
 
     @(link_name="StorageLoadValue")
-    StorageLoadValue :: proc(position : _c.int) -> _c.int ---;
+    storage_load_value :: proc(position : _c.int) -> _c.int ---;
 
     @(link_name="OpenURL")
-    OpenURL :: proc(url : cstring) ---;
+    open_url :: proc(url : cstring) ---;
 
     @(link_name="IsKeyPressed")
-    IsKeyPressed :: proc(key : _c.int) -> bool ---;
+    is_key_pressed :: proc(key : _c.int) -> bool ---;
 
     @(link_name="IsKeyDown")
-    IsKeyDown :: proc(key : _c.int) -> bool ---;
+    is_key_down :: proc(key : _c.int) -> bool ---;
 
     @(link_name="IsKeyReleased")
-    IsKeyReleased :: proc(key : _c.int) -> bool ---;
+    is_key_released :: proc(key : _c.int) -> bool ---;
 
     @(link_name="IsKeyUp")
-    IsKeyUp :: proc(key : _c.int) -> bool ---;
+    is_key_up :: proc(key : _c.int) -> bool ---;
 
     @(link_name="GetKeyPressed")
-    GetKeyPressed :: proc() -> _c.int ---;
+    get_key_pressed :: proc() -> _c.int ---;
 
     @(link_name="SetExitKey")
-    SetExitKey :: proc(key : _c.int) ---;
+    set_exit_key :: proc(key : _c.int) ---;
 
     @(link_name="IsGamepadAvailable")
-    IsGamepadAvailable :: proc(gamepad : _c.int) -> bool ---;
+    is_gamepad_available :: proc(gamepad : _c.int) -> bool ---;
 
     @(link_name="IsGamepadName")
-    IsGamepadName :: proc(
+    is_gamepad_name :: proc(
         gamepad : _c.int,
         name : cstring
     ) -> bool ---;
 
     @(link_name="GetGamepadName")
-    GetGamepadName :: proc(gamepad : _c.int) -> cstring ---;
+    get_gamepad_name :: proc(gamepad : _c.int) -> cstring ---;
 
     @(link_name="IsGamepadButtonPressed")
-    IsGamepadButtonPressed :: proc(
+    is_gamepad_button_pressed :: proc(
         gamepad : _c.int,
         button : _c.int
     ) -> bool ---;
 
     @(link_name="IsGamepadButtonDown")
-    IsGamepadButtonDown :: proc(
+    is_gamepad_button_down :: proc(
         gamepad : _c.int,
         button : _c.int
     ) -> bool ---;
 
     @(link_name="IsGamepadButtonReleased")
-    IsGamepadButtonReleased :: proc(
+    is_gamepad_button_released :: proc(
         gamepad : _c.int,
         button : _c.int
     ) -> bool ---;
 
     @(link_name="IsGamepadButtonUp")
-    IsGamepadButtonUp :: proc(
+    is_gamepad_button_up :: proc(
         gamepad : _c.int,
         button : _c.int
     ) -> bool ---;
 
     @(link_name="GetGamepadButtonPressed")
-    GetGamepadButtonPressed :: proc() -> _c.int ---;
+    get_gamepad_button_pressed :: proc() -> _c.int ---;
 
     @(link_name="GetGamepadAxisCount")
-    GetGamepadAxisCount :: proc(gamepad : _c.int) -> _c.int ---;
+    get_gamepad_axis_count :: proc(gamepad : _c.int) -> _c.int ---;
 
     @(link_name="GetGamepadAxisMovement")
-    GetGamepadAxisMovement :: proc(
+    get_gamepad_axis_movement :: proc(
         gamepad : _c.int,
         axis : _c.int
     ) -> _c.float ---;
 
     @(link_name="IsMouseButtonPressed")
-    IsMouseButtonPressed :: proc(button : _c.int) -> bool ---;
+    is_mouse_button_pressed :: proc(button : _c.int) -> bool ---;
 
     @(link_name="IsMouseButtonDown")
-    IsMouseButtonDown :: proc(button : _c.int) -> bool ---;
+    is_mouse_button_down :: proc(button : _c.int) -> bool ---;
 
     @(link_name="IsMouseButtonReleased")
-    IsMouseButtonReleased :: proc(button : _c.int) -> bool ---;
+    is_mouse_button_released :: proc(button : _c.int) -> bool ---;
 
     @(link_name="IsMouseButtonUp")
-    IsMouseButtonUp :: proc(button : _c.int) -> bool ---;
+    is_mouse_button_up :: proc(button : _c.int) -> bool ---;
 
     @(link_name="GetMouseX")
-    GetMouseX :: proc() -> _c.int ---;
+    get_mouse_x :: proc() -> _c.int ---;
 
     @(link_name="GetMouseY")
-    GetMouseY :: proc() -> _c.int ---;
+    get_mouse_y :: proc() -> _c.int ---;
 
     @(link_name="GetMousePosition")
-    GetMousePosition :: proc() -> Vector2 ---;
+    get_mouse_position :: proc() -> Vector2 ---;
 
     @(link_name="SetMousePosition")
-    SetMousePosition :: proc(
+    set_mouse_position :: proc(
         x : _c.int,
         y : _c.int
     ) ---;
 
     @(link_name="SetMouseOffset")
-    SetMouseOffset :: proc(
-        offsetX : _c.int,
-        offsetY : _c.int
+    set_mouse_offset :: proc(
+        offset_x : _c.int,
+        offset_y : _c.int
     ) ---;
 
     @(link_name="SetMouseScale")
-    SetMouseScale :: proc(
-        scaleX : _c.float,
-        scaleY : _c.float
+    set_mouse_scale :: proc(
+        scale_x : _c.float,
+        scale_y : _c.float
     ) ---;
 
     @(link_name="GetMouseWheelMove")
-    GetMouseWheelMove :: proc() -> _c.int ---;
+    get_mouse_wheel_move :: proc() -> _c.int ---;
 
     @(link_name="GetTouchX")
-    GetTouchX :: proc() -> _c.int ---;
+    get_touch_x :: proc() -> _c.int ---;
 
     @(link_name="GetTouchY")
-    GetTouchY :: proc() -> _c.int ---;
+    get_touch_y :: proc() -> _c.int ---;
 
     @(link_name="GetTouchPosition")
-    GetTouchPosition :: proc(index : _c.int) -> Vector2 ---;
+    get_touch_position :: proc(index : _c.int) -> Vector2 ---;
 
     @(link_name="SetGesturesEnabled")
-    SetGesturesEnabled :: proc(gestureFlags : _c.uint) ---;
+    set_gestures_enabled :: proc(gesture_flags : _c.uint) ---;
 
     @(link_name="IsGestureDetected")
-    IsGestureDetected :: proc(gesture : _c.int) -> bool ---;
+    is_gesture_detected :: proc(gesture : _c.int) -> bool ---;
 
     @(link_name="GetGestureDetected")
-    GetGestureDetected :: proc() -> _c.int ---;
+    get_gesture_detected :: proc() -> _c.int ---;
 
     @(link_name="GetTouchPointsCount")
-    GetTouchPointsCount :: proc() -> _c.int ---;
+    get_touch_points_count :: proc() -> _c.int ---;
 
     @(link_name="GetGestureHoldDuration")
-    GetGestureHoldDuration :: proc() -> _c.float ---;
+    get_gesture_hold_duration :: proc() -> _c.float ---;
 
     @(link_name="GetGestureDragVector")
-    GetGestureDragVector :: proc() -> Vector2 ---;
+    get_gesture_drag_vector :: proc() -> Vector2 ---;
 
     @(link_name="GetGestureDragAngle")
-    GetGestureDragAngle :: proc() -> _c.float ---;
+    get_gesture_drag_angle :: proc() -> _c.float ---;
 
     @(link_name="GetGesturePinchVector")
-    GetGesturePinchVector :: proc() -> Vector2 ---;
+    get_gesture_pinch_vector :: proc() -> Vector2 ---;
 
     @(link_name="GetGesturePinchAngle")
-    GetGesturePinchAngle :: proc() -> _c.float ---;
+    get_gesture_pinch_angle :: proc() -> _c.float ---;
 
     @(link_name="SetCameraMode")
-    SetCameraMode :: proc(
+    set_camera_mode :: proc(
         camera : Camera,
         mode : _c.int
     ) ---;
 
     @(link_name="UpdateCamera")
-    UpdateCamera :: proc(camera : ^Camera) ---;
+    update_camera :: proc(camera : ^Camera) ---;
 
     @(link_name="SetCameraPanControl")
-    SetCameraPanControl :: proc(panKey : _c.int) ---;
+    set_camera_pan_control :: proc(pan_key : _c.int) ---;
 
     @(link_name="SetCameraAltControl")
-    SetCameraAltControl :: proc(altKey : _c.int) ---;
+    set_camera_alt_control :: proc(alt_key : _c.int) ---;
 
     @(link_name="SetCameraSmoothZoomControl")
-    SetCameraSmoothZoomControl :: proc(szKey : _c.int) ---;
+    set_camera_smooth_zoom_control :: proc(sz_key : _c.int) ---;
 
     @(link_name="SetCameraMoveControls")
-    SetCameraMoveControls :: proc(
-        frontKey : _c.int,
-        backKey : _c.int,
-        rightKey : _c.int,
-        leftKey : _c.int,
-        upKey : _c.int,
-        downKey : _c.int
+    set_camera_move_controls :: proc(
+        front_key : _c.int,
+        back_key : _c.int,
+        right_key : _c.int,
+        left_key : _c.int,
+        up_key : _c.int,
+        down_key : _c.int
     ) ---;
 
     @(link_name="DrawPixel")
-    DrawPixel :: proc(
-        posX : _c.int,
-        posY : _c.int,
+    draw_pixel :: proc(
+        pos_x : _c.int,
+        pos_y : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawPixelV")
-    DrawPixelV :: proc(
+    draw_pixel_v :: proc(
         position : Vector2,
         color : Color
     ) ---;
 
     @(link_name="DrawLine")
-    DrawLine :: proc(
-        startPosX : _c.int,
-        startPosY : _c.int,
-        endPosX : _c.int,
-        endPosY : _c.int,
+    draw_line :: proc(
+        start_pos_x : _c.int,
+        start_pos_y : _c.int,
+        end_pos_x : _c.int,
+        end_pos_y : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawLineV")
-    DrawLineV :: proc(
-        startPos : Vector2,
-        endPos : Vector2,
+    draw_line_v :: proc(
+        start_pos : Vector2,
+        end_pos : Vector2,
         color : Color
     ) ---;
 
     @(link_name="DrawLineEx")
-    DrawLineEx :: proc(
-        startPos : Vector2,
-        endPos : Vector2,
+    draw_line_ex :: proc(
+        start_pos : Vector2,
+        end_pos : Vector2,
         thick : _c.float,
         color : Color
     ) ---;
 
     @(link_name="DrawLineBezier")
-    DrawLineBezier :: proc(
-        startPos : Vector2,
-        endPos : Vector2,
+    draw_line_bezier :: proc(
+        start_pos : Vector2,
+        end_pos : Vector2,
         thick : _c.float,
         color : Color
     ) ---;
 
     @(link_name="DrawCircle")
-    DrawCircle :: proc(
-        centerX : _c.int,
-        centerY : _c.int,
+    draw_circle :: proc(
+        center_x : _c.int,
+        center_y : _c.int,
         radius : _c.float,
         color : Color
     ) ---;
 
     @(link_name="DrawCircleSector")
-    DrawCircleSector :: proc(
+    draw_circle_sector :: proc(
         center : Vector2,
         radius : _c.float,
-        startAngle : _c.int,
-        endAngle : _c.int,
+        start_angle : _c.int,
+        end_angle : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawCircleGradient")
-    DrawCircleGradient :: proc(
-        centerX : _c.int,
-        centerY : _c.int,
+    draw_circle_gradient :: proc(
+        center_x : _c.int,
+        center_y : _c.int,
         radius : _c.float,
         color1 : Color,
         color2 : Color
     ) ---;
 
     @(link_name="DrawCircleV")
-    DrawCircleV :: proc(
+    draw_circle_v :: proc(
         center : Vector2,
         radius : _c.float,
         color : Color
     ) ---;
 
     @(link_name="DrawCircleLines")
-    DrawCircleLines :: proc(
-        centerX : _c.int,
-        centerY : _c.int,
+    draw_circle_lines :: proc(
+        center_x : _c.int,
+        center_y : _c.int,
         radius : _c.float,
         color : Color
     ) ---;
 
     @(link_name="DrawRectangle")
-    DrawRectangle :: proc(
-        posX : _c.int,
-        posY : _c.int,
+    draw_rectangle :: proc(
+        pos_x : _c.int,
+        pos_y : _c.int,
         width : _c.int,
         height : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawRectangleV")
-    DrawRectangleV :: proc(
+    draw_rectangle_v :: proc(
         position : Vector2,
         size : Vector2,
         color : Color
     ) ---;
 
     @(link_name="DrawRectangleRec")
-    DrawRectangleRec :: proc(
+    draw_rectangle_rec :: proc(
         rec : Rectangle,
         color : Color
     ) ---;
 
     @(link_name="DrawRectanglePro")
-    DrawRectanglePro :: proc(
+    draw_rectangle_pro :: proc(
         rec : Rectangle,
         origin : Vector2,
         rotation : _c.float,
@@ -1247,9 +1231,9 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawRectangleGradientV")
-    DrawRectangleGradientV :: proc(
-        posX : _c.int,
-        posY : _c.int,
+    draw_rectangle_gradient_v :: proc(
+        pos_x : _c.int,
+        pos_y : _c.int,
         width : _c.int,
         height : _c.int,
         color1 : Color,
@@ -1257,9 +1241,9 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawRectangleGradientH")
-    DrawRectangleGradientH :: proc(
-        posX : _c.int,
-        posY : _c.int,
+    draw_rectangle_gradient_h :: proc(
+        pos_x : _c.int,
+        pos_y : _c.int,
         width : _c.int,
         height : _c.int,
         color1 : Color,
@@ -1267,7 +1251,7 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawRectangleGradientEx")
-    DrawRectangleGradientEx :: proc(
+    draw_rectangle_gradient_ex :: proc(
         rec : Rectangle,
         col1 : Color,
         col2 : Color,
@@ -1276,23 +1260,23 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawRectangleLines")
-    DrawRectangleLines :: proc(
-        posX : _c.int,
-        posY : _c.int,
+    draw_rectangle_lines :: proc(
+        pos_x : _c.int,
+        pos_y : _c.int,
         width : _c.int,
         height : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawRectangleLinesEx")
-    DrawRectangleLinesEx :: proc(
+    draw_rectangle_lines_ex :: proc(
         rec : Rectangle,
-        lineThick : _c.int,
+        line_thick : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawTriangle")
-    DrawTriangle :: proc(
+    draw_triangle :: proc(
         v1 : Vector2,
         v2 : Vector2,
         v3 : Vector2,
@@ -1300,7 +1284,7 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawTriangleLines")
-    DrawTriangleLines :: proc(
+    draw_triangle_lines :: proc(
         v1 : Vector2,
         v2 : Vector2,
         v3 : Vector2,
@@ -1308,7 +1292,7 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawPoly")
-    DrawPoly :: proc(
+    draw_poly :: proc(
         center : Vector2,
         sides : _c.int,
         radius : _c.float,
@@ -1317,33 +1301,33 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawPolyEx")
-    DrawPolyEx :: proc(
+    draw_poly_ex :: proc(
         points : ^Vector2,
-        numPoints : _c.int,
+        num_points : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawPolyExLines")
-    DrawPolyExLines :: proc(
+    draw_poly_ex_lines :: proc(
         points : ^Vector2,
-        numPoints : _c.int,
+        num_points : _c.int,
         color : Color
     ) ---;
 
     @(link_name="SetShapesTexture")
-    SetShapesTexture :: proc(
+    set_shapes_texture :: proc(
         texture : Texture2D,
         source : Rectangle
     ) ---;
 
     @(link_name="CheckCollisionRecs")
-    CheckCollisionRecs :: proc(
+    check_collision_recs :: proc(
         rec1 : Rectangle,
         rec2 : Rectangle
     ) -> bool ---;
 
     @(link_name="CheckCollisionCircles")
-    CheckCollisionCircles :: proc(
+    check_collision_circles :: proc(
         center1 : Vector2,
         radius1 : _c.float,
         center2 : Vector2,
@@ -1351,33 +1335,33 @@ foreign raylib {
     ) -> bool ---;
 
     @(link_name="CheckCollisionCircleRec")
-    CheckCollisionCircleRec :: proc(
+    check_collision_circle_rec :: proc(
         center : Vector2,
         radius : _c.float,
         rec : Rectangle
     ) -> bool ---;
 
     @(link_name="GetCollisionRec")
-    GetCollisionRec :: proc(
+    get_collision_rec :: proc(
         rec1 : Rectangle,
         rec2 : Rectangle
     ) -> Rectangle ---;
 
     @(link_name="CheckCollisionPointRec")
-    CheckCollisionPointRec :: proc(
+    check_collision_point_rec :: proc(
         point : Vector2,
         rec : Rectangle
     ) -> bool ---;
 
     @(link_name="CheckCollisionPointCircle")
-    CheckCollisionPointCircle :: proc(
+    check_collision_point_circle :: proc(
         point : Vector2,
         center : Vector2,
         radius : _c.float
     ) -> bool ---;
 
     @(link_name="CheckCollisionPointTriangle")
-    CheckCollisionPointTriangle :: proc(
+    check_collision_point_triangle :: proc(
         point : Vector2,
         p1 : Vector2,
         p2 : Vector2,
@@ -1385,17 +1369,17 @@ foreign raylib {
     ) -> bool ---;
 
     @(link_name="LoadImage")
-    LoadImage :: proc(fileName : cstring) -> Image ---;
+    load_image :: proc(file_name : cstring) -> Image ---;
 
     @(link_name="LoadImageEx")
-    LoadImageEx :: proc(
+    load_image_ex :: proc(
         pixels : ^Color,
         width : _c.int,
         height : _c.int
     ) -> Image ---;
 
     @(link_name="LoadImagePro")
-    LoadImagePro :: proc(
+    load_image_pro :: proc(
         data : rawptr,
         width : _c.int,
         height : _c.int,
@@ -1403,197 +1387,197 @@ foreign raylib {
     ) -> Image ---;
 
     @(link_name="LoadImageRaw")
-    LoadImageRaw :: proc(
-        fileName : cstring,
+    load_image_raw :: proc(
+        file_name : cstring,
         width : _c.int,
         height : _c.int,
         format : _c.int,
-        headerSize : _c.int
+        header_size : _c.int
     ) -> Image ---;
 
     @(link_name="ExportImage")
-    ExportImage :: proc(
+    export_image :: proc(
         image : Image,
-        fileName : cstring
+        file_name : cstring
     ) ---;
 
     @(link_name="ExportImageAsCode")
-    ExportImageAsCode :: proc(
+    export_image_as_code :: proc(
         image : Image,
-        fileName : cstring
+        file_name : cstring
     ) ---;
 
     @(link_name="LoadTexture")
-    LoadTexture :: proc(fileName : cstring) -> Texture2D ---;
+    load_texture :: proc(file_name : cstring) -> Texture2D ---;
 
     @(link_name="LoadTextureFromImage")
-    LoadTextureFromImage :: proc(image : Image) -> Texture2D ---;
+    load_texture_from_image :: proc(image : Image) -> Texture2D ---;
 
     @(link_name="LoadTextureCubemap")
-    LoadTextureCubemap :: proc(
+    load_texture_cubemap :: proc(
         image : Image,
-        layoutType : _c.int
+        layout_type : _c.int
     ) -> TextureCubemap ---;
 
     @(link_name="LoadRenderTexture")
-    LoadRenderTexture :: proc(
+    load_render_texture :: proc(
         width : _c.int,
         height : _c.int
     ) -> RenderTexture2D ---;
 
     @(link_name="UnloadImage")
-    UnloadImage :: proc(image : Image) ---;
+    unload_image :: proc(image : Image) ---;
 
     @(link_name="UnloadTexture")
-    UnloadTexture :: proc(texture : Texture2D) ---;
+    unload_texture :: proc(texture : Texture2D) ---;
 
     @(link_name="UnloadRenderTexture")
-    UnloadRenderTexture :: proc(target : RenderTexture2D) ---;
+    unload_render_texture :: proc(target : RenderTexture2D) ---;
 
     @(link_name="GetImageData")
-    GetImageData :: proc(image : Image) -> ^Color ---;
+    get_image_data :: proc(image : Image) -> ^Color ---;
 
     @(link_name="GetImageDataNormalized")
-    GetImageDataNormalized :: proc(image : Image) -> ^Vector4 ---;
+    get_image_data_normalized :: proc(image : Image) -> ^Vector4 ---;
 
     @(link_name="GetPixelDataSize")
-    GetPixelDataSize :: proc(
+    get_pixel_data_size :: proc(
         width : _c.int,
         height : _c.int,
         format : _c.int
     ) -> _c.int ---;
 
     @(link_name="GetTextureData")
-    GetTextureData :: proc(texture : Texture2D) -> Image ---;
+    get_texture_data :: proc(texture : Texture2D) -> Image ---;
 
     @(link_name="GetScreenData")
-    GetScreenData :: proc() -> Image ---;
+    get_screen_data :: proc() -> Image ---;
 
     @(link_name="UpdateTexture")
-    UpdateTexture :: proc(
+    update_texture :: proc(
         texture : Texture2D,
         pixels : rawptr
     ) ---;
 
     @(link_name="ImageCopy")
-    ImageCopy :: proc(image : Image) -> Image ---;
+    image_copy :: proc(image : Image) -> Image ---;
 
     @(link_name="ImageToPOT")
-    ImageToPOT :: proc(
+    image_to_pot :: proc(
         image : ^Image,
-        fillColor : Color
+        fill_color : Color
     ) ---;
 
     @(link_name="ImageFormat")
-    ImageFormat :: proc(
+    image_format :: proc(
         image : ^Image,
-        newFormat : _c.int
+        new_format : _c.int
     ) ---;
 
     @(link_name="ImageAlphaMask")
-    ImageAlphaMask :: proc(
+    image_alpha_mask :: proc(
         image : ^Image,
-        alphaMask : Image
+        alpha_mask : Image
     ) ---;
 
     @(link_name="ImageAlphaClear")
-    ImageAlphaClear :: proc(
+    image_alpha_clear :: proc(
         image : ^Image,
         color : Color,
         threshold : _c.float
     ) ---;
 
     @(link_name="ImageAlphaCrop")
-    ImageAlphaCrop :: proc(
+    image_alpha_crop :: proc(
         image : ^Image,
         threshold : _c.float
     ) ---;
 
     @(link_name="ImageAlphaPremultiply")
-    ImageAlphaPremultiply :: proc(image : ^Image) ---;
+    image_alpha_premultiply :: proc(image : ^Image) ---;
 
     @(link_name="ImageCrop")
-    ImageCrop :: proc(
+    image_crop :: proc(
         image : ^Image,
         crop : Rectangle
     ) ---;
 
     @(link_name="ImageResize")
-    ImageResize :: proc(
+    image_resize :: proc(
         image : ^Image,
-        newWidth : _c.int,
-        newHeight : _c.int
+        new_width : _c.int,
+        new_height : _c.int
     ) ---;
 
     @(link_name="ImageResizeNN")
-    ImageResizeNN :: proc(
+    image_resize_nn :: proc(
         image : ^Image,
-        newWidth : _c.int,
-        newHeight : _c.int
+        new_width : _c.int,
+        new_height : _c.int
     ) ---;
 
     @(link_name="ImageResizeCanvas")
-    ImageResizeCanvas :: proc(
+    image_resize_canvas :: proc(
         image : ^Image,
-        newWidth : _c.int,
-        newHeight : _c.int,
-        offsetX : _c.int,
-        offsetY : _c.int,
+        new_width : _c.int,
+        new_height : _c.int,
+        offset_x : _c.int,
+        offset_y : _c.int,
         color : Color
     ) ---;
 
     @(link_name="ImageMipmaps")
-    ImageMipmaps :: proc(image : ^Image) ---;
+    image_mipmaps :: proc(image : ^Image) ---;
 
     @(link_name="ImageDither")
-    ImageDither :: proc(
+    image_dither :: proc(
         image : ^Image,
-        rBpp : _c.int,
-        gBpp : _c.int,
-        bBpp : _c.int,
-        aBpp : _c.int
+        r_bpp : _c.int,
+        g_bpp : _c.int,
+        b_bpp : _c.int,
+        a_bpp : _c.int
     ) ---;
 
     @(link_name="ImageExtractPalette")
-    ImageExtractPalette :: proc(
+    image_extract_palette :: proc(
         image : Image,
-        maxPaletteSize : _c.int,
-        extractCount : ^_c.int
+        max_palette_size : _c.int,
+        extract_count : ^_c.int
     ) -> ^Color ---;
 
     @(link_name="ImageText")
-    ImageText :: proc(
+    image_text :: proc(
         text : cstring,
-        fontSize : _c.int,
+        font_size : _c.int,
         color : Color
     ) -> Image ---;
 
     @(link_name="ImageTextEx")
-    ImageTextEx :: proc(
+    image_text_ex :: proc(
         font : Font,
         text : cstring,
-        fontSize : _c.float,
+        font_size : _c.float,
         spacing : _c.float,
         tint : Color
     ) -> Image ---;
 
     @(link_name="ImageDraw")
-    ImageDraw :: proc(
+    image_draw :: proc(
         dst : ^Image,
         src : Image,
-        srcRec : Rectangle,
-        dstRec : Rectangle
+        src_rec : Rectangle,
+        dst_rec : Rectangle
     ) ---;
 
     @(link_name="ImageDrawRectangle")
-    ImageDrawRectangle :: proc(
+    image_draw_rectangle :: proc(
         dst : ^Image,
         rec : Rectangle,
         color : Color
     ) ---;
 
     @(link_name="ImageDrawRectangleLines")
-    ImageDrawRectangleLines :: proc(
+    image_draw_rectangle_lines :: proc(
         dst : ^Image,
         rec : Rectangle,
         thick : _c.int,
@@ -1601,77 +1585,77 @@ foreign raylib {
     ) ---;
 
     @(link_name="ImageDrawText")
-    ImageDrawText :: proc(
+    image_draw_text :: proc(
         dst : ^Image,
         position : Vector2,
         text : cstring,
-        fontSize : _c.int,
+        font_size : _c.int,
         color : Color
     ) ---;
 
     @(link_name="ImageDrawTextEx")
-    ImageDrawTextEx :: proc(
+    image_draw_text_ex :: proc(
         dst : ^Image,
         position : Vector2,
         font : Font,
         text : cstring,
-        fontSize : _c.float,
+        font_size : _c.float,
         spacing : _c.float,
         color : Color
     ) ---;
 
     @(link_name="ImageFlipVertical")
-    ImageFlipVertical :: proc(image : ^Image) ---;
+    image_flip_vertical :: proc(image : ^Image) ---;
 
     @(link_name="ImageFlipHorizontal")
-    ImageFlipHorizontal :: proc(image : ^Image) ---;
+    image_flip_horizontal :: proc(image : ^Image) ---;
 
     @(link_name="ImageRotateCW")
-    ImageRotateCW :: proc(image : ^Image) ---;
+    image_rotate_cw :: proc(image : ^Image) ---;
 
     @(link_name="ImageRotateCCW")
-    ImageRotateCCW :: proc(image : ^Image) ---;
+    image_rotate_ccw :: proc(image : ^Image) ---;
 
     @(link_name="ImageColorTint")
-    ImageColorTint :: proc(
+    image_color_tint :: proc(
         image : ^Image,
         color : Color
     ) ---;
 
     @(link_name="ImageColorInvert")
-    ImageColorInvert :: proc(image : ^Image) ---;
+    image_color_invert :: proc(image : ^Image) ---;
 
     @(link_name="ImageColorGrayscale")
-    ImageColorGrayscale :: proc(image : ^Image) ---;
+    image_color_grayscale :: proc(image : ^Image) ---;
 
     @(link_name="ImageColorContrast")
-    ImageColorContrast :: proc(
+    image_color_contrast :: proc(
         image : ^Image,
         contrast : _c.float
     ) ---;
 
     @(link_name="ImageColorBrightness")
-    ImageColorBrightness :: proc(
+    image_color_brightness :: proc(
         image : ^Image,
         brightness : _c.int
     ) ---;
 
     @(link_name="ImageColorReplace")
-    ImageColorReplace :: proc(
+    image_color_replace :: proc(
         image : ^Image,
         color : Color,
         replace : Color
     ) ---;
 
     @(link_name="GenImageColor")
-    GenImageColor :: proc(
+    gen_image_color :: proc(
         width : _c.int,
         height : _c.int,
         color : Color
     ) -> Image ---;
 
     @(link_name="GenImageGradientV")
-    GenImageGradientV :: proc(
+    gen_image_gradient_v :: proc(
         width : _c.int,
         height : _c.int,
         top : Color,
@@ -1679,7 +1663,7 @@ foreign raylib {
     ) -> Image ---;
 
     @(link_name="GenImageGradientH")
-    GenImageGradientH :: proc(
+    gen_image_gradient_h :: proc(
         width : _c.int,
         height : _c.int,
         left : Color,
@@ -1687,7 +1671,7 @@ foreign raylib {
     ) -> Image ---;
 
     @(link_name="GenImageGradientRadial")
-    GenImageGradientRadial :: proc(
+    gen_image_gradient_radial :: proc(
         width : _c.int,
         height : _c.int,
         density : _c.float,
@@ -1696,70 +1680,70 @@ foreign raylib {
     ) -> Image ---;
 
     @(link_name="GenImageChecked")
-    GenImageChecked :: proc(
+    gen_image_checked :: proc(
         width : _c.int,
         height : _c.int,
-        checksX : _c.int,
-        checksY : _c.int,
+        checks_x : _c.int,
+        checks_y : _c.int,
         col1 : Color,
         col2 : Color
     ) -> Image ---;
 
     @(link_name="GenImageWhiteNoise")
-    GenImageWhiteNoise :: proc(
+    gen_image_white_noise :: proc(
         width : _c.int,
         height : _c.int,
         factor : _c.float
     ) -> Image ---;
 
     @(link_name="GenImagePerlinNoise")
-    GenImagePerlinNoise :: proc(
+    gen_image_perlin_noise :: proc(
         width : _c.int,
         height : _c.int,
-        offsetX : _c.int,
-        offsetY : _c.int,
+        offset_x : _c.int,
+        offset_y : _c.int,
         scale : _c.float
     ) -> Image ---;
 
     @(link_name="GenImageCellular")
-    GenImageCellular :: proc(
+    gen_image_cellular :: proc(
         width : _c.int,
         height : _c.int,
-        tileSize : _c.int
+        tile_size : _c.int
     ) -> Image ---;
 
     @(link_name="GenTextureMipmaps")
-    GenTextureMipmaps :: proc(texture : ^Texture2D) ---;
+    gen_texture_mipmaps :: proc(texture : ^Texture2D) ---;
 
     @(link_name="SetTextureFilter")
-    SetTextureFilter :: proc(
+    set_texture_filter :: proc(
         texture : Texture2D,
-        filterMode : _c.int
+        filter_mode : _c.int
     ) ---;
 
     @(link_name="SetTextureWrap")
-    SetTextureWrap :: proc(
+    set_texture_wrap :: proc(
         texture : Texture2D,
-        wrapMode : _c.int
+        wrap_mode : _c.int
     ) ---;
 
     @(link_name="DrawTexture")
-    DrawTexture :: proc(
+    draw_texture :: proc(
         texture : Texture2D,
-        posX : _c.int,
-        posY : _c.int,
+        pos_x : _c.int,
+        pos_y : _c.int,
         tint : Color
     ) ---;
 
     @(link_name="DrawTextureV")
-    DrawTextureV :: proc(
+    draw_texture_v :: proc(
         texture : Texture2D,
         position : Vector2,
         tint : Color
     ) ---;
 
     @(link_name="DrawTextureEx")
-    DrawTextureEx :: proc(
+    draw_texture_ex :: proc(
         texture : Texture2D,
         position : Vector2,
         rotation : _c.float,
@@ -1768,15 +1752,15 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawTextureRec")
-    DrawTextureRec :: proc(
+    draw_texture_rec :: proc(
         texture : Texture2D,
-        sourceRec : Rectangle,
+        source_rec : Rectangle,
         position : Vector2,
         tint : Color
     ) ---;
 
     @(link_name="DrawTextureQuad")
-    DrawTextureQuad :: proc(
+    draw_texture_quad :: proc(
         texture : Texture2D,
         tiling : Vector2,
         offset : Vector2,
@@ -1785,228 +1769,228 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawTexturePro")
-    DrawTexturePro :: proc(
+    draw_texture_pro :: proc(
         texture : Texture2D,
-        sourceRec : Rectangle,
-        destRec : Rectangle,
+        source_rec : Rectangle,
+        dest_rec : Rectangle,
         origin : Vector2,
         rotation : _c.float,
         tint : Color
     ) ---;
 
     @(link_name="DrawTextureNPatch")
-    DrawTextureNPatch :: proc(
+    draw_texture_n_patch :: proc(
         texture : Texture2D,
-        nPatchInfo : NPatchInfo,
-        destRec : Rectangle,
+        n_patch_info : NPatchInfo,
+        dest_rec : Rectangle,
         origin : Vector2,
         rotation : _c.float,
         tint : Color
     ) ---;
 
     @(link_name="GetFontDefault")
-    GetFontDefault :: proc() -> Font ---;
+    get_font_default :: proc() -> Font ---;
 
     @(link_name="LoadFont")
-    LoadFont :: proc(fileName : cstring) -> Font ---;
+    load_font :: proc(file_name : cstring) -> Font ---;
 
     @(link_name="LoadFontEx")
-    LoadFontEx :: proc(
-        fileName : cstring,
-        fontSize : _c.int,
-        fontChars : ^_c.int,
-        charsCount : _c.int
+    load_font_ex :: proc(
+        file_name : cstring,
+        font_size : _c.int,
+        font_chars : ^_c.int,
+        chars_count : _c.int
     ) -> Font ---;
 
     @(link_name="LoadFontFromImage")
-    LoadFontFromImage :: proc(
+    load_font_from_image :: proc(
         image : Image,
         key : Color,
-        firstChar : _c.int
+        first_char : _c.int
     ) -> Font ---;
 
     @(link_name="LoadFontData")
-    LoadFontData :: proc(
-        fileName : cstring,
-        fontSize : _c.int,
-        fontChars : ^_c.int,
-        charsCount : _c.int,
+    load_font_data :: proc(
+        file_name : cstring,
+        font_size : _c.int,
+        font_chars : ^_c.int,
+        chars_count : _c.int,
         type : _c.int
     ) -> ^CharInfo ---;
 
     @(link_name="GenImageFontAtlas")
-    GenImageFontAtlas :: proc(
+    gen_image_font_atlas :: proc(
         chars : ^CharInfo,
-        charsCount : _c.int,
-        fontSize : _c.int,
+        chars_count : _c.int,
+        font_size : _c.int,
         padding : _c.int,
-        packMethod : _c.int
+        pack_method : _c.int
     ) -> Image ---;
 
     @(link_name="UnloadFont")
-    UnloadFont :: proc(font : Font) ---;
+    unload_font :: proc(font : Font) ---;
 
     @(link_name="DrawFPS")
-    DrawFPS :: proc(
-        posX : _c.int,
-        posY : _c.int
+    draw_fps :: proc(
+        pos_x : _c.int,
+        pos_y : _c.int
     ) ---;
 
     @(link_name="DrawText")
-    DrawText :: proc(
+    draw_text :: proc(
         text : cstring,
-        posX : _c.int,
-        posY : _c.int,
-        fontSize : _c.int,
+        pos_x : _c.int,
+        pos_y : _c.int,
+        font_size : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawTextEx")
-    DrawTextEx :: proc(
+    draw_text_ex :: proc(
         font : Font,
         text : cstring,
         position : Vector2,
-        fontSize : _c.float,
+        font_size : _c.float,
         spacing : _c.float,
         tint : Color
     ) ---;
 
     @(link_name="DrawTextRec")
-    DrawTextRec :: proc(
+    draw_text_rec :: proc(
         font : Font,
         text : cstring,
         rec : Rectangle,
-        fontSize : _c.float,
+        font_size : _c.float,
         spacing : _c.float,
-        wordWrap : bool,
+        word_wrap : bool,
         tint : Color
     ) ---;
 
     @(link_name="DrawTextRecEx")
-    DrawTextRecEx :: proc(
+    draw_text_rec_ex :: proc(
         font : Font,
         text : cstring,
         rec : Rectangle,
-        fontSize : _c.float,
+        font_size : _c.float,
         spacing : _c.float,
-        wordWrap : bool,
+        word_wrap : bool,
         tint : Color,
-        selectStart : _c.int,
-        selectLength : _c.int,
-        selectText : Color,
-        selectBack : Color
+        select_start : _c.int,
+        select_length : _c.int,
+        select_text : Color,
+        select_back : Color
     ) ---;
 
     @(link_name="MeasureText")
-    MeasureText :: proc(
+    measure_text :: proc(
         text : cstring,
-        fontSize : _c.int
+        font_size : _c.int
     ) -> _c.int ---;
 
     @(link_name="MeasureTextEx")
-    MeasureTextEx :: proc(
+    measure_text_ex :: proc(
         font : Font,
         text : cstring,
-        fontSize : _c.float,
+        font_size : _c.float,
         spacing : _c.float
     ) -> Vector2 ---;
 
     @(link_name="GetGlyphIndex")
-    GetGlyphIndex :: proc(
+    get_glyph_index :: proc(
         font : Font,
         character : _c.int
     ) -> _c.int ---;
 
     @(link_name="TextIsEqual")
-    TextIsEqual :: proc(
+    text_is_equal :: proc(
         text1 : cstring,
         text2 : cstring
     ) -> bool ---;
 
     @(link_name="TextLength")
-    TextLength :: proc(text : cstring) -> _c.uint ---;
+    text_length :: proc(text : cstring) -> _c.uint ---;
 
     @(link_name="TextFormat")
-    TextFormat :: proc(text : cstring) -> cstring ---;
+    text_format :: proc(text : cstring) -> cstring ---;
 
     @(link_name="TextSubtext")
-    TextSubtext :: proc(
+    text_subtext :: proc(
         text : cstring,
         position : _c.int,
         length : _c.int
     ) -> cstring ---;
 
     @(link_name="TextReplace")
-    TextReplace :: proc(
+    text_replace :: proc(
         text : cstring,
         replace : cstring,
         by : cstring
     ) -> cstring ---;
 
     @(link_name="TextInsert")
-    TextInsert :: proc(
+    text_insert :: proc(
         text : cstring,
         insert : cstring,
         position : _c.int
     ) -> cstring ---;
 
     @(link_name="TextJoin")
-    TextJoin :: proc(
-        textList : ^cstring,
+    text_join :: proc(
+        text_list : ^cstring,
         count : _c.int,
         delimiter : cstring
     ) -> cstring ---;
 
     @(link_name="TextSplit")
-    TextSplit :: proc(
+    text_split :: proc(
         text : cstring,
         delimiter : _c.char,
         count : ^_c.int
     ) -> ^cstring ---;
 
     @(link_name="TextAppend")
-    TextAppend :: proc(
+    text_append :: proc(
         text : cstring,
         append : cstring,
         position : ^_c.int
     ) ---;
 
     @(link_name="TextFindIndex")
-    TextFindIndex :: proc(
+    text_find_index :: proc(
         text : cstring,
         find : cstring
     ) -> _c.int ---;
 
     @(link_name="TextToUpper")
-    TextToUpper :: proc(text : cstring) -> cstring ---;
+    text_to_upper :: proc(text : cstring) -> cstring ---;
 
     @(link_name="TextToLower")
-    TextToLower :: proc(text : cstring) -> cstring ---;
+    text_to_lower :: proc(text : cstring) -> cstring ---;
 
     @(link_name="TextToPascal")
-    TextToPascal :: proc(text : cstring) -> cstring ---;
+    text_to_pascal :: proc(text : cstring) -> cstring ---;
 
     @(link_name="TextToInteger")
-    TextToInteger :: proc(text : cstring) -> _c.int ---;
+    text_to_integer :: proc(text : cstring) -> _c.int ---;
 
     @(link_name="DrawLine3D")
-    DrawLine3D :: proc(
-        startPos : Vector3,
-        endPos : Vector3,
+    draw_line3_d :: proc(
+        start_pos : Vector3,
+        end_pos : Vector3,
         color : Color
     ) ---;
 
     @(link_name="DrawCircle3D")
-    DrawCircle3D :: proc(
+    draw_circle3_d :: proc(
         center : Vector3,
         radius : _c.float,
-        rotationAxis : Vector3,
-        rotationAngle : _c.float,
+        rotation_axis : Vector3,
+        rotation_angle : _c.float,
         color : Color
     ) ---;
 
     @(link_name="DrawCube")
-    DrawCube :: proc(
+    draw_cube :: proc(
         position : Vector3,
         width : _c.float,
         height : _c.float,
@@ -2015,14 +1999,14 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawCubeV")
-    DrawCubeV :: proc(
+    draw_cube_v :: proc(
         position : Vector3,
         size : Vector3,
         color : Color
     ) ---;
 
     @(link_name="DrawCubeWires")
-    DrawCubeWires :: proc(
+    draw_cube_wires :: proc(
         position : Vector3,
         width : _c.float,
         height : _c.float,
@@ -2031,14 +2015,14 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawCubeWiresV")
-    DrawCubeWiresV :: proc(
+    draw_cube_wires_v :: proc(
         position : Vector3,
         size : Vector3,
         color : Color
     ) ---;
 
     @(link_name="DrawCubeTexture")
-    DrawCubeTexture :: proc(
+    draw_cube_texture :: proc(
         texture : Texture2D,
         position : Vector3,
         width : _c.float,
@@ -2048,15 +2032,15 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawSphere")
-    DrawSphere :: proc(
-        centerPos : Vector3,
+    draw_sphere :: proc(
+        center_pos : Vector3,
         radius : _c.float,
         color : Color
     ) ---;
 
     @(link_name="DrawSphereEx")
-    DrawSphereEx :: proc(
-        centerPos : Vector3,
+    draw_sphere_ex :: proc(
+        center_pos : Vector3,
         radius : _c.float,
         rings : _c.int,
         slices : _c.int,
@@ -2064,8 +2048,8 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawSphereWires")
-    DrawSphereWires :: proc(
-        centerPos : Vector3,
+    draw_sphere_wires :: proc(
+        center_pos : Vector3,
         radius : _c.float,
         rings : _c.int,
         slices : _c.int,
@@ -2073,158 +2057,158 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawCylinder")
-    DrawCylinder :: proc(
+    draw_cylinder :: proc(
         position : Vector3,
-        radiusTop : _c.float,
-        radiusBottom : _c.float,
+        radius_top : _c.float,
+        radius_bottom : _c.float,
         height : _c.float,
         slices : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawCylinderWires")
-    DrawCylinderWires :: proc(
+    draw_cylinder_wires :: proc(
         position : Vector3,
-        radiusTop : _c.float,
-        radiusBottom : _c.float,
+        radius_top : _c.float,
+        radius_bottom : _c.float,
         height : _c.float,
         slices : _c.int,
         color : Color
     ) ---;
 
     @(link_name="DrawPlane")
-    DrawPlane :: proc(
-        centerPos : Vector3,
+    draw_plane :: proc(
+        center_pos : Vector3,
         size : Vector2,
         color : Color
     ) ---;
 
     @(link_name="DrawRay")
-    DrawRay :: proc(
+    draw_ray :: proc(
         ray : Ray,
         color : Color
     ) ---;
 
     @(link_name="DrawGrid")
-    DrawGrid :: proc(
+    draw_grid :: proc(
         slices : _c.int,
         spacing : _c.float
     ) ---;
 
     @(link_name="DrawGizmo")
-    DrawGizmo :: proc(position : Vector3) ---;
+    draw_gizmo :: proc(position : Vector3) ---;
 
     @(link_name="LoadModel")
-    LoadModel :: proc(fileName : cstring) -> Model ---;
+    load_model :: proc(file_name : cstring) -> Model ---;
 
     @(link_name="LoadModelFromMesh")
-    LoadModelFromMesh :: proc(mesh : Mesh) -> Model ---;
+    load_model_from_mesh :: proc(mesh : Mesh) -> Model ---;
 
     @(link_name="UnloadModel")
-    UnloadModel :: proc(model : Model) ---;
+    unload_model :: proc(model : Model) ---;
 
     @(link_name="LoadMesh")
-    LoadMesh :: proc(fileName : cstring) -> Mesh ---;
+    load_mesh :: proc(file_name : cstring) -> Mesh ---;
 
     @(link_name="UnloadMesh")
-    UnloadMesh :: proc(mesh : ^Mesh) ---;
+    unload_mesh :: proc(mesh : ^Mesh) ---;
 
     @(link_name="ExportMesh")
-    ExportMesh :: proc(
+    export_mesh :: proc(
         mesh : Mesh,
-        fileName : cstring
+        file_name : cstring
     ) ---;
 
     @(link_name="MeshBoundingBox")
-    MeshBoundingBox :: proc(mesh : Mesh) -> BoundingBox ---;
+    mesh_bounding_box :: proc(mesh : Mesh) -> BoundingBox ---;
 
     @(link_name="MeshTangents")
-    MeshTangents :: proc(mesh : ^Mesh) ---;
+    mesh_tangents :: proc(mesh : ^Mesh) ---;
 
     @(link_name="MeshBinormals")
-    MeshBinormals :: proc(mesh : ^Mesh) ---;
+    mesh_binormals :: proc(mesh : ^Mesh) ---;
 
     @(link_name="GenMeshPoly")
-    GenMeshPoly :: proc(
+    gen_mesh_poly :: proc(
         sides : _c.int,
         radius : _c.float
     ) -> Mesh ---;
 
     @(link_name="GenMeshPlane")
-    GenMeshPlane :: proc(
+    gen_mesh_plane :: proc(
         width : _c.float,
         length : _c.float,
-        resX : _c.int,
-        resZ : _c.int
+        res_x : _c.int,
+        res_z : _c.int
     ) -> Mesh ---;
 
     @(link_name="GenMeshCube")
-    GenMeshCube :: proc(
+    gen_mesh_cube :: proc(
         width : _c.float,
         height : _c.float,
         length : _c.float
     ) -> Mesh ---;
 
     @(link_name="GenMeshSphere")
-    GenMeshSphere :: proc(
+    gen_mesh_sphere :: proc(
         radius : _c.float,
         rings : _c.int,
         slices : _c.int
     ) -> Mesh ---;
 
     @(link_name="GenMeshHemiSphere")
-    GenMeshHemiSphere :: proc(
+    gen_mesh_hemi_sphere :: proc(
         radius : _c.float,
         rings : _c.int,
         slices : _c.int
     ) -> Mesh ---;
 
     @(link_name="GenMeshCylinder")
-    GenMeshCylinder :: proc(
+    gen_mesh_cylinder :: proc(
         radius : _c.float,
         height : _c.float,
         slices : _c.int
     ) -> Mesh ---;
 
     @(link_name="GenMeshTorus")
-    GenMeshTorus :: proc(
+    gen_mesh_torus :: proc(
         radius : _c.float,
         size : _c.float,
-        radSeg : _c.int,
+        rad_seg : _c.int,
         sides : _c.int
     ) -> Mesh ---;
 
     @(link_name="GenMeshKnot")
-    GenMeshKnot :: proc(
+    gen_mesh_knot :: proc(
         radius : _c.float,
         size : _c.float,
-        radSeg : _c.int,
+        rad_seg : _c.int,
         sides : _c.int
     ) -> Mesh ---;
 
     @(link_name="GenMeshHeightmap")
-    GenMeshHeightmap :: proc(
+    gen_mesh_heightmap :: proc(
         heightmap : Image,
         size : Vector3
     ) -> Mesh ---;
 
     @(link_name="GenMeshCubicmap")
-    GenMeshCubicmap :: proc(
+    gen_mesh_cubicmap :: proc(
         cubicmap : Image,
-        cubeSize : Vector3
+        cube_size : Vector3
     ) -> Mesh ---;
 
     @(link_name="LoadMaterial")
-    LoadMaterial :: proc(fileName : cstring) -> Material ---;
+    load_material :: proc(file_name : cstring) -> Material ---;
 
     @(link_name="LoadMaterialDefault")
-    LoadMaterialDefault :: proc() -> Material ---;
+    load_material_default :: proc() -> Material ---;
 
     @(link_name="UnloadMaterial")
-    UnloadMaterial :: proc(material : Material) ---;
+    unload_material :: proc(material : Material) ---;
 
     @(link_name="DrawModel")
-    DrawModel :: proc(
+    draw_model :: proc(
         model : Model,
         position : Vector3,
         scale : _c.float,
@@ -2232,17 +2216,17 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawModelEx")
-    DrawModelEx :: proc(
+    draw_model_ex :: proc(
         model : Model,
         position : Vector3,
-        rotationAxis : Vector3,
-        rotationAngle : _c.float,
+        rotation_axis : Vector3,
+        rotation_angle : _c.float,
         scale : Vector3,
         tint : Color
     ) ---;
 
     @(link_name="DrawModelWires")
-    DrawModelWires :: proc(
+    draw_model_wires :: proc(
         model : Model,
         position : Vector3,
         scale : _c.float,
@@ -2250,23 +2234,23 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawModelWiresEx")
-    DrawModelWiresEx :: proc(
+    draw_model_wires_ex :: proc(
         model : Model,
         position : Vector3,
-        rotationAxis : Vector3,
-        rotationAngle : _c.float,
+        rotation_axis : Vector3,
+        rotation_angle : _c.float,
         scale : Vector3,
         tint : Color
     ) ---;
 
     @(link_name="DrawBoundingBox")
-    DrawBoundingBox :: proc(
+    draw_bounding_box :: proc(
         box : BoundingBox,
         color : Color
     ) ---;
 
     @(link_name="DrawBillboard")
-    DrawBillboard :: proc(
+    draw_billboard :: proc(
         camera : Camera,
         texture : Texture2D,
         center : Vector3,
@@ -2275,65 +2259,65 @@ foreign raylib {
     ) ---;
 
     @(link_name="DrawBillboardRec")
-    DrawBillboardRec :: proc(
+    draw_billboard_rec :: proc(
         camera : Camera,
         texture : Texture2D,
-        sourceRec : Rectangle,
+        source_rec : Rectangle,
         center : Vector3,
         size : _c.float,
         tint : Color
     ) ---;
 
     @(link_name="CheckCollisionSpheres")
-    CheckCollisionSpheres :: proc(
-        centerA : Vector3,
-        radiusA : _c.float,
-        centerB : Vector3,
-        radiusB : _c.float
+    check_collision_spheres :: proc(
+        center_a : Vector3,
+        radius_a : _c.float,
+        center_b : Vector3,
+        radius_b : _c.float
     ) -> bool ---;
 
     @(link_name="CheckCollisionBoxes")
-    CheckCollisionBoxes :: proc(
+    check_collision_boxes :: proc(
         box1 : BoundingBox,
         box2 : BoundingBox
     ) -> bool ---;
 
     @(link_name="CheckCollisionBoxSphere")
-    CheckCollisionBoxSphere :: proc(
+    check_collision_box_sphere :: proc(
         box : BoundingBox,
-        centerSphere : Vector3,
-        radiusSphere : _c.float
+        center_sphere : Vector3,
+        radius_sphere : _c.float
     ) -> bool ---;
 
     @(link_name="CheckCollisionRaySphere")
-    CheckCollisionRaySphere :: proc(
+    check_collision_ray_sphere :: proc(
         ray : Ray,
-        spherePosition : Vector3,
-        sphereRadius : _c.float
+        sphere_position : Vector3,
+        sphere_radius : _c.float
     ) -> bool ---;
 
     @(link_name="CheckCollisionRaySphereEx")
-    CheckCollisionRaySphereEx :: proc(
+    check_collision_ray_sphere_ex :: proc(
         ray : Ray,
-        spherePosition : Vector3,
-        sphereRadius : _c.float,
-        collisionPoint : ^Vector3
+        sphere_position : Vector3,
+        sphere_radius : _c.float,
+        collision_point : ^Vector3
     ) -> bool ---;
 
     @(link_name="CheckCollisionRayBox")
-    CheckCollisionRayBox :: proc(
+    check_collision_ray_box :: proc(
         ray : Ray,
         box : BoundingBox
     ) -> bool ---;
 
     @(link_name="GetCollisionRayModel")
-    GetCollisionRayModel :: proc(
+    get_collision_ray_model :: proc(
         ray : Ray,
         model : ^Model
     ) -> RayHitInfo ---;
 
     @(link_name="GetCollisionRayTriangle")
-    GetCollisionRayTriangle :: proc(
+    get_collision_ray_triangle :: proc(
         ray : Ray,
         p1 : Vector3,
         p2 : Vector3,
@@ -2341,115 +2325,115 @@ foreign raylib {
     ) -> RayHitInfo ---;
 
     @(link_name="GetCollisionRayGround")
-    GetCollisionRayGround :: proc(
+    get_collision_ray_ground :: proc(
         ray : Ray,
-        groundHeight : _c.float
+        ground_height : _c.float
     ) -> RayHitInfo ---;
 
     @(link_name="LoadText")
-    LoadText :: proc(fileName : cstring) -> cstring ---;
+    load_text :: proc(file_name : cstring) -> cstring ---;
 
     @(link_name="LoadShader")
-    LoadShader :: proc(
-        vsFileName : cstring,
-        fsFileName : cstring
+    load_shader :: proc(
+        vs_file_name : cstring,
+        fs_file_name : cstring
     ) -> Shader ---;
 
     @(link_name="LoadShaderCode")
-    LoadShaderCode :: proc(
-        vsCode : cstring,
-        fsCode : cstring
+    load_shader_code :: proc(
+        vs_code : cstring,
+        fs_code : cstring
     ) -> Shader ---;
 
     @(link_name="UnloadShader")
-    UnloadShader :: proc(shader : Shader) ---;
+    unload_shader :: proc(shader : Shader) ---;
 
     @(link_name="GetShaderDefault")
-    GetShaderDefault :: proc() -> Shader ---;
+    get_shader_default :: proc() -> Shader ---;
 
     @(link_name="GetTextureDefault")
-    GetTextureDefault :: proc() -> Texture2D ---;
+    get_texture_default :: proc() -> Texture2D ---;
 
     @(link_name="GetShaderLocation")
-    GetShaderLocation :: proc(
+    get_shader_location :: proc(
         shader : Shader,
-        uniformName : cstring
+        uniform_name : cstring
     ) -> _c.int ---;
 
     @(link_name="SetShaderValue")
-    SetShaderValue :: proc(
+    set_shader_value :: proc(
         shader : Shader,
-        uniformLoc : _c.int,
+        uniform_loc : _c.int,
         value : rawptr,
-        uniformType : _c.int
+        uniform_type : _c.int
     ) ---;
 
     @(link_name="SetShaderValueV")
-    SetShaderValueV :: proc(
+    set_shader_value_v :: proc(
         shader : Shader,
-        uniformLoc : _c.int,
+        uniform_loc : _c.int,
         value : rawptr,
-        uniformType : _c.int,
+        uniform_type : _c.int,
         count : _c.int
     ) ---;
 
     @(link_name="SetShaderValueMatrix")
-    SetShaderValueMatrix :: proc(
+    set_shader_value_matrix :: proc(
         shader : Shader,
-        uniformLoc : _c.int,
+        uniform_loc : _c.int,
         mat : Matrix
     ) ---;
 
     @(link_name="SetMatrixProjection")
-    SetMatrixProjection :: proc(proj : Matrix) ---;
+    set_matrix_projection :: proc(proj : Matrix) ---;
 
     @(link_name="SetMatrixModelview")
-    SetMatrixModelview :: proc(view : Matrix) ---;
+    set_matrix_modelview :: proc(view : Matrix) ---;
 
     @(link_name="GetMatrixModelview")
-    GetMatrixModelview :: proc() -> Matrix ---;
+    get_matrix_modelview :: proc() -> Matrix ---;
 
     @(link_name="GenTextureCubemap")
-    GenTextureCubemap :: proc(
+    gen_texture_cubemap :: proc(
         shader : Shader,
-        skyHDR : Texture2D,
+        sky_hdr : Texture2D,
         size : _c.int
     ) -> Texture2D ---;
 
     @(link_name="GenTextureIrradiance")
-    GenTextureIrradiance :: proc(
+    gen_texture_irradiance :: proc(
         shader : Shader,
         cubemap : Texture2D,
         size : _c.int
     ) -> Texture2D ---;
 
     @(link_name="GenTexturePrefilter")
-    GenTexturePrefilter :: proc(
+    gen_texture_prefilter :: proc(
         shader : Shader,
         cubemap : Texture2D,
         size : _c.int
     ) -> Texture2D ---;
 
     @(link_name="GenTextureBRDF")
-    GenTextureBRDF :: proc(
+    gen_texture_brdf :: proc(
         shader : Shader,
         size : _c.int
     ) -> Texture2D ---;
 
     @(link_name="BeginShaderMode")
-    BeginShaderMode :: proc(shader : Shader) ---;
+    begin_shader_mode :: proc(shader : Shader) ---;
 
     @(link_name="EndShaderMode")
-    EndShaderMode :: proc() ---;
+    end_shader_mode :: proc() ---;
 
     @(link_name="BeginBlendMode")
-    BeginBlendMode :: proc(mode : _c.int) ---;
+    begin_blend_mode :: proc(mode : _c.int) ---;
 
     @(link_name="EndBlendMode")
-    EndBlendMode :: proc() ---;
+    end_blend_mode :: proc() ---;
 
     @(link_name="BeginScissorMode")
-    BeginScissorMode :: proc(
+    begin_scissor_mode :: proc(
         x : _c.int,
         y : _c.int,
         width : _c.int,
@@ -2457,226 +2441,226 @@ foreign raylib {
     ) ---;
 
     @(link_name="EndScissorMode")
-    EndScissorMode :: proc() ---;
+    end_scissor_mode :: proc() ---;
 
     @(link_name="GetVrDeviceInfo")
-    GetVrDeviceInfo :: proc(vrDeviceType : _c.int) -> VrDeviceInfo ---;
+    get_vr_device_info :: proc(vr_device_type : _c.int) -> VrDeviceInfo ---;
 
     @(link_name="InitVrSimulator")
-    InitVrSimulator :: proc(info : VrDeviceInfo) ---;
+    init_vr_simulator :: proc(info : VrDeviceInfo) ---;
 
     @(link_name="UpdateVrTracking")
-    UpdateVrTracking :: proc(camera : ^Camera) ---;
+    update_vr_tracking :: proc(camera : ^Camera) ---;
 
     @(link_name="CloseVrSimulator")
-    CloseVrSimulator :: proc() ---;
+    close_vr_simulator :: proc() ---;
 
     @(link_name="IsVrSimulatorReady")
-    IsVrSimulatorReady :: proc() -> bool ---;
+    is_vr_simulator_ready :: proc() -> bool ---;
 
     @(link_name="ToggleVrMode")
-    ToggleVrMode :: proc() ---;
+    toggle_vr_mode :: proc() ---;
 
     @(link_name="BeginVrDrawing")
-    BeginVrDrawing :: proc() ---;
+    begin_vr_drawing :: proc() ---;
 
     @(link_name="EndVrDrawing")
-    EndVrDrawing :: proc() ---;
+    end_vr_drawing :: proc() ---;
 
     @(link_name="InitAudioDevice")
-    InitAudioDevice :: proc() ---;
+    init_audio_device :: proc() ---;
 
     @(link_name="CloseAudioDevice")
-    CloseAudioDevice :: proc() ---;
+    close_audio_device :: proc() ---;
 
     @(link_name="IsAudioDeviceReady")
-    IsAudioDeviceReady :: proc() -> bool ---;
+    is_audio_device_ready :: proc() -> bool ---;
 
     @(link_name="SetMasterVolume")
-    SetMasterVolume :: proc(volume : _c.float) ---;
+    set_master_volume :: proc(volume : _c.float) ---;
 
     @(link_name="LoadWave")
-    LoadWave :: proc(fileName : cstring) -> Wave ---;
+    load_wave :: proc(file_name : cstring) -> Wave ---;
 
     @(link_name="LoadWaveEx")
-    LoadWaveEx :: proc(
+    load_wave_ex :: proc(
         data : rawptr,
-        sampleCount : _c.int,
-        sampleRate : _c.int,
-        sampleSize : _c.int,
+        sample_count : _c.int,
+        sample_rate : _c.int,
+        sample_size : _c.int,
         channels : _c.int
     ) -> Wave ---;
 
     @(link_name="LoadSound")
-    LoadSound :: proc(fileName : cstring) -> Sound ---;
+    load_sound :: proc(file_name : cstring) -> Sound ---;
 
     @(link_name="LoadSoundFromWave")
-    LoadSoundFromWave :: proc(wave : Wave) -> Sound ---;
+    load_sound_from_wave :: proc(wave : Wave) -> Sound ---;
 
     @(link_name="UpdateSound")
-    UpdateSound :: proc(
+    update_sound :: proc(
         sound : Sound,
         data : rawptr,
-        samplesCount : _c.int
+        samples_count : _c.int
     ) ---;
 
     @(link_name="UnloadWave")
-    UnloadWave :: proc(wave : Wave) ---;
+    unload_wave :: proc(wave : Wave) ---;
 
     @(link_name="UnloadSound")
-    UnloadSound :: proc(sound : Sound) ---;
+    unload_sound :: proc(sound : Sound) ---;
 
     @(link_name="ExportWave")
-    ExportWave :: proc(
+    export_wave :: proc(
         wave : Wave,
-        fileName : cstring
+        file_name : cstring
     ) ---;
 
     @(link_name="ExportWaveAsCode")
-    ExportWaveAsCode :: proc(
+    export_wave_as_code :: proc(
         wave : Wave,
-        fileName : cstring
+        file_name : cstring
     ) ---;
 
     @(link_name="PlaySound")
-    PlaySound :: proc(sound : Sound) ---;
+    play_sound :: proc(sound : Sound) ---;
 
     @(link_name="PauseSound")
-    PauseSound :: proc(sound : Sound) ---;
+    pause_sound :: proc(sound : Sound) ---;
 
     @(link_name="ResumeSound")
-    ResumeSound :: proc(sound : Sound) ---;
+    resume_sound :: proc(sound : Sound) ---;
 
     @(link_name="StopSound")
-    StopSound :: proc(sound : Sound) ---;
+    stop_sound :: proc(sound : Sound) ---;
 
     @(link_name="IsSoundPlaying")
-    IsSoundPlaying :: proc(sound : Sound) -> bool ---;
+    is_sound_playing :: proc(sound : Sound) -> bool ---;
 
     @(link_name="SetSoundVolume")
-    SetSoundVolume :: proc(
+    set_sound_volume :: proc(
         sound : Sound,
         volume : _c.float
     ) ---;
 
     @(link_name="SetSoundPitch")
-    SetSoundPitch :: proc(
+    set_sound_pitch :: proc(
         sound : Sound,
         pitch : _c.float
     ) ---;
 
     @(link_name="WaveFormat")
-    WaveFormat :: proc(
+    wave_format :: proc(
         wave : ^Wave,
-        sampleRate : _c.int,
-        sampleSize : _c.int,
+        sample_rate : _c.int,
+        sample_size : _c.int,
         channels : _c.int
     ) ---;
 
     @(link_name="WaveCopy")
-    WaveCopy :: proc(wave : Wave) -> Wave ---;
+    wave_copy :: proc(wave : Wave) -> Wave ---;
 
     @(link_name="WaveCrop")
-    WaveCrop :: proc(
+    wave_crop :: proc(
         wave : ^Wave,
-        initSample : _c.int,
-        finalSample : _c.int
+        init_sample : _c.int,
+        final_sample : _c.int
     ) ---;
 
     @(link_name="GetWaveData")
-    GetWaveData :: proc(wave : Wave) -> ^_c.float ---;
+    get_wave_data :: proc(wave : Wave) -> ^_c.float ---;
 
     @(link_name="LoadMusicStream")
-    LoadMusicStream :: proc(fileName : cstring) -> Music ---;
+    load_music_stream :: proc(file_name : cstring) -> Music ---;
 
     @(link_name="UnloadMusicStream")
-    UnloadMusicStream :: proc(music : Music) ---;
+    unload_music_stream :: proc(music : Music) ---;
 
     @(link_name="PlayMusicStream")
-    PlayMusicStream :: proc(music : Music) ---;
+    play_music_stream :: proc(music : Music) ---;
 
     @(link_name="UpdateMusicStream")
-    UpdateMusicStream :: proc(music : Music) ---;
+    update_music_stream :: proc(music : Music) ---;
 
     @(link_name="StopMusicStream")
-    StopMusicStream :: proc(music : Music) ---;
+    stop_music_stream :: proc(music : Music) ---;
 
     @(link_name="PauseMusicStream")
-    PauseMusicStream :: proc(music : Music) ---;
+    pause_music_stream :: proc(music : Music) ---;
 
     @(link_name="ResumeMusicStream")
-    ResumeMusicStream :: proc(music : Music) ---;
+    resume_music_stream :: proc(music : Music) ---;
 
     @(link_name="IsMusicPlaying")
-    IsMusicPlaying :: proc(music : Music) -> bool ---;
+    is_music_playing :: proc(music : Music) -> bool ---;
 
     @(link_name="SetMusicVolume")
-    SetMusicVolume :: proc(
+    set_music_volume :: proc(
         music : Music,
         volume : _c.float
     ) ---;
 
     @(link_name="SetMusicPitch")
-    SetMusicPitch :: proc(
+    set_music_pitch :: proc(
         music : Music,
         pitch : _c.float
     ) ---;
 
     @(link_name="SetMusicLoopCount")
-    SetMusicLoopCount :: proc(
+    set_music_loop_count :: proc(
         music : Music,
         count : _c.int
     ) ---;
 
     @(link_name="GetMusicTimeLength")
-    GetMusicTimeLength :: proc(music : Music) -> _c.float ---;
+    get_music_time_length :: proc(music : Music) -> _c.float ---;
 
     @(link_name="GetMusicTimePlayed")
-    GetMusicTimePlayed :: proc(music : Music) -> _c.float ---;
+    get_music_time_played :: proc(music : Music) -> _c.float ---;
 
     @(link_name="InitAudioStream")
-    InitAudioStream :: proc(
-        sampleRate : _c.uint,
-        sampleSize : _c.uint,
+    init_audio_stream :: proc(
+        sample_rate : _c.uint,
+        sample_size : _c.uint,
         channels : _c.uint
     ) -> AudioStream ---;
 
     @(link_name="UpdateAudioStream")
-    UpdateAudioStream :: proc(
+    update_audio_stream :: proc(
         stream : AudioStream,
         data : rawptr,
-        samplesCount : _c.int
+        samples_count : _c.int
     ) ---;
 
     @(link_name="CloseAudioStream")
-    CloseAudioStream :: proc(stream : AudioStream) ---;
+    close_audio_stream :: proc(stream : AudioStream) ---;
 
     @(link_name="IsAudioBufferProcessed")
-    IsAudioBufferProcessed :: proc(stream : AudioStream) -> bool ---;
+    is_audio_buffer_processed :: proc(stream : AudioStream) -> bool ---;
 
     @(link_name="PlayAudioStream")
-    PlayAudioStream :: proc(stream : AudioStream) ---;
+    play_audio_stream :: proc(stream : AudioStream) ---;
 
     @(link_name="PauseAudioStream")
-    PauseAudioStream :: proc(stream : AudioStream) ---;
+    pause_audio_stream :: proc(stream : AudioStream) ---;
 
     @(link_name="ResumeAudioStream")
-    ResumeAudioStream :: proc(stream : AudioStream) ---;
+    resume_audio_stream :: proc(stream : AudioStream) ---;
 
     @(link_name="IsAudioStreamPlaying")
-    IsAudioStreamPlaying :: proc(stream : AudioStream) -> bool ---;
+    is_audio_stream_playing :: proc(stream : AudioStream) -> bool ---;
 
     @(link_name="StopAudioStream")
-    StopAudioStream :: proc(stream : AudioStream) ---;
+    stop_audio_stream :: proc(stream : AudioStream) ---;
 
     @(link_name="SetAudioStreamVolume")
-    SetAudioStreamVolume :: proc(
+    set_audio_stream_volume :: proc(
         stream : AudioStream,
         volume : _c.float
     ) ---;
 
     @(link_name="SetAudioStreamPitch")
-    SetAudioStreamPitch :: proc(
+    set_audio_stream_pitch :: proc(
         stream : AudioStream,
         pitch : _c.float
     ) ---;

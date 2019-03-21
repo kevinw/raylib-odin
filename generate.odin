@@ -6,31 +6,58 @@ import "shared:bindgen"
 main :: proc() {
     options : bindgen.GeneratorOptions;
 
-    options.parserOptions.customHandlers["RLAPI"] = macro_define_rlapi;
-    //options.parserOptions.customHandlers["CLITERAL"] = macro_cliteral;
-    //options.parserOptions.customExpressionHandlers["CLITERAL"] = macro_make_version;
+    {
 
-    //options.parserOptions.ignoredTokens = []string{"CLITERAL"};
+        // odin default casing
+        options.variableCase = bindgen.Case.Snake;
+        options.functionCase = bindgen.Case.Snake;
+        options.pseudoTypeCase = bindgen.Case.Pascal;
 
-    options.parserOptions.customHandlers["CLITERAL"] = cliteral_handler;
+        using options.parserOptions;
 
-    options.parserOptions.customExpressionHandlers["__declspec"] = declspec_handler;
+        customExpressionHandlers["CLITERAL"] = cliteral_handler;
+        customExpressionHandlers["Font"] = font_handler;
+        customExpressionHandlers["Camera3D"] = camera3d_handler;
 
-    options.parserOptions.customExpressionHandlers["Color"] = color_handler;
-
-    options.parserOptions.customExpressionHandlers["TextFormat"] = textformat_handler;
-    options.parserOptions.customExpressionHandlers["TextSubtext"] = textsubtext_handler;
-    options.parserOptions.customExpressionHandlers["UnhideWindow"] = unhidewindow_handler;
-    options.parserOptions.customExpressionHandlers["Font"] = font_handler;
-    options.parserOptions.customExpressionHandlers["Camera3D"] = camera3d_handler;
+        ignoredTokens = []string{"RLAPI"};
+    }
 
     bindgen.generate(
         packageName = "raylib",
-        foreignLibrary = "raylib",
-        outputFile = "raylib.odin",
-        headerFiles = []string{"../raylib/src/raylib.h"},
+        foreignLibrary = "raylib.lib",
+        outputFile = "raylib/raylib.odin",
+        headerFiles = []string{"./preprocessed/raylib.h"},
         options = options,
     );
+}
+
+cliteral_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue
+{
+    bindgen.check_and_eat_token(data, "CLITERAL");
+    bindgen.check_and_eat_token(data, "{");
+    r := bindgen.evaluate_i64(data);
+    bindgen.check_and_eat_token(data, ",");
+    g := bindgen.evaluate_i64(data);
+    bindgen.check_and_eat_token(data, ",");
+    b := bindgen.evaluate_i64(data);
+    bindgen.check_and_eat_token(data, ",");
+    a := bindgen.evaluate_i64(data);
+    bindgen.check_and_eat_token(data, "}");
+    data.defining_node.is_variable = true;
+    return fmt.tprintf("Color { %d, %d, %d, %d }", r, g, b, a);
+}
+
+macro_make_version :: proc(data : ^bindgen.ParserData) -> bindgen.LiteralValue {
+    bindgen.check_and_eat_token(data, "VK_MAKE_VERSION");
+    bindgen.check_and_eat_token(data, "(");
+    major := bindgen.evaluate_i64(data);
+    bindgen.check_and_eat_token(data, ",");
+    minor := bindgen.evaluate_i64(data);
+    bindgen.check_and_eat_token(data, ",");
+    patch := bindgen.evaluate_i64(data);
+    bindgen.check_and_eat_token(data, ")");
+
+    return (((major) << 22) | ((minor) << 12) | (patch));
 }
 
 color_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
@@ -57,7 +84,7 @@ camera3d_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
     bindgen.check_and_eat_token(data, "Camera3D"); return "Camera3D";
 }
 
-cliteral_handler :: proc(data: ^bindgen.ParserData) {
+_cliteral_handler :: proc(data: ^bindgen.ParserData) {
     fmt.println("HERE");
     bindgen.check_and_eat_token(data, "(");
     bindgen.parse_identifier(data);
@@ -72,47 +99,3 @@ declspec_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
     return "";
 }
 
-macro_define_rlapi :: proc(data: ^bindgen.ParserData) {
-    bindgen.check_and_eat_token(data, "RLAPI");
-}
-
-// Original macros:
-// #define VK_DEFINE_HANDLE(object) typedef struct object##_T* object;
-// #define VK_DEFINE_NON_DISPATCHABLE_HANDLE(object) typedef struct object##_T* object;
-/*
-#if defined(_WIN32) && defined(BUILD_LIBTYPE_SHARED)
-    #define RLAPI __declspec(dllexport)         // We are building raylib as a Win32 shared library (.dll)
-#elif defined(_WIN32) && defined(USE_LIBTYPE_SHARED)
-    #define RLAPI __declspec(dllimport)         // We are using raylib as a Win32 shared library (.dll)
-#else
-    #define RLAPI   // We are building or using raylib as a static library (or Linux shared library)
-#endif
-*/
-
-macro_cliteral :: proc(data: ^bindgen.ParserData) {
-    bindgen.eat_token(data);
-    bindgen.check_and_eat_token(data, "(");
-    object := bindgen.parse_identifier(data);
-    bindgen.check_and_eat_token(data, ")");
-}
-
-macro_define_handle :: proc(data : ^bindgen.ParserData) {
-    bindgen.eat_token(data); // "VK_DEFINE_HANDLE" or "VK_DEFINE_NON_DISPATCHABLE_HANDLE"
-    bindgen.check_and_eat_token(data, "(");
-    object := bindgen.parse_identifier(data);
-    bindgen.check_and_eat_token(data, ")");
-
-    structName := fmt.tprint(object, "T");
-
-    structNode : bindgen.StructDefinitionNode;
-    structNode.name = structName;
-    append(&data.nodes.structDefinitions, structNode);
-
-    sourceType : bindgen.IdentifierType;
-    sourceType.name = structName;
-
-    typedefNode : bindgen.TypedefNode;
-    typedefNode.name = object;
-    typedefNode.sourceType = sourceType;
-    append(&data.nodes.typedefs, typedefNode);
-}
