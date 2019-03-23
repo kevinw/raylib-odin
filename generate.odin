@@ -1,13 +1,11 @@
 package generate
 
 import "core:fmt"
-import "shared:bindgen"
+import "./bindgen"
 
 main :: proc() {
     options : bindgen.GeneratorOptions;
-
     {
-
         // odin default casing
         options.variableCase = bindgen.Case.Snake;
         options.functionCase = bindgen.Case.Snake;
@@ -25,7 +23,9 @@ main :: proc() {
     bindgen.generate(
         packageName = "raylib",
         foreignLibrary = "raylib.lib",
-        outputFile = "raylib/raylib.odin",
+        outputFile = "raylib_bindings/raylib_bindings.odin",
+        typesFile = "raylib_types/raylib_types.odin",
+        bridgeFile = "raylib_bridge/raylib_bridge.odin",
         headerFiles = []string{"./preprocessed/raylib.h"},
         options = options,
     );
@@ -62,18 +62,6 @@ macro_make_version :: proc(data : ^bindgen.ParserData) -> bindgen.LiteralValue {
 
 color_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
     bindgen.check_and_eat_token(data, "Color"); return "Color";
-}
-
-textformat_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
-    bindgen.check_and_eat_token(data, "TextFormat"); return "TextFormat";
-}
-
-textsubtext_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
-    bindgen.check_and_eat_token(data, "TextSubtext"); return "TextSubtext";
-}
-
-unhidewindow_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
-    bindgen.check_and_eat_token(data, "UnhideWindow"); return "UnhideWindow";
 }
 
 font_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {

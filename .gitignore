@@ -1,4 +1,8 @@
 *.dll
 *.pdb
 *.exe
+.vs/
+temp/
+game.lib
+game.exp
 
