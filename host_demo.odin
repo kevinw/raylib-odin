@@ -116,11 +116,8 @@ load_plugin :: proc(plugin: ^Plugin, name: string) -> bool {
 
 _call_plugin_on_load :: proc(plugin: ^Plugin) {
     funcs: raylib_types.raylib_Funcs;
-    raylib_bindings.get_function_pointers(&funcs);
-
-    fmt.println("calling did_load_proc");
+    raylib_bindings.get_function_pointers(&funcs); // TODO: we only need to do this once.
     plugin.on_load_proc(&funcs);
-    fmt.println("did_load_proc returned");
 }
 
 unload_plugin :: proc(plugin: ^Plugin) {
@@ -162,15 +159,12 @@ main :: proc()
         return;
     }
 
-    defer unload_plugin(&plugin);
-
     for !window_should_close()    // Detect window close button or ESC key
     {
         plugin.update_and_draw_proc();
         plugin_maybe_reload(&plugin);
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------   
+    unload_plugin(&plugin);
     close_window();        // Close window and OpenGL context
 }
