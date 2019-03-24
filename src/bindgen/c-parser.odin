@@ -19,6 +19,8 @@ ParserOptions :: struct {
     // Handlers
     customHandlers : map[string]CustomHandler,
     customExpressionHandlers : map[string]CustomExpressionHandler,
+
+    enum_args_map : Enum_Args_Map,
 }
 
 ParserData :: struct {
@@ -189,7 +191,9 @@ parse_type :: proc(data : ^ParserData, definitionPermitted := false) -> Type {
         type = functionPointerType;
 
         check_and_eat_token(data, ")");
-        parse_function_parameters(data, &functionPointerType.parameters);
+
+        //fmt.println("func pointer name:", functionPointerType.name);
+        parse_function_parameters(data, &functionPointerType.parameters, nil);
     }
 
     return type;
@@ -586,7 +590,15 @@ parse_variable_or_function_declaration :: proc(data : ^ParserData) {
 
     token = peek_token(data);
     if token == "(" {
-        functionDeclarationNode := parse_function_declaration(data);
+        enum_args : [dynamic]string;
+
+        //fmt.println(data.options.enum_args_map);
+        if name in data.options.enum_args_map {
+            enum_args = data.options.enum_args_map[name];
+        }
+
+        //fmt.println("parse_function_declaration", name);
+        functionDeclarationNode := parse_function_declaration(data, &enum_args);
         functionDeclarationNode.returnType = type;
         functionDeclarationNode.name = name;
         return;
@@ -598,10 +610,10 @@ parse_variable_or_function_declaration :: proc(data : ^ParserData) {
     // @todo Expose global variables to generated code?
 }
 
-parse_function_declaration :: proc(data : ^ParserData) -> ^FunctionDeclarationNode {
+parse_function_declaration :: proc(data : ^ParserData, enum_args: ^[dynamic]string) -> ^FunctionDeclarationNode {
     node : FunctionDeclarationNode;
 
-    parse_function_parameters(data, &node.parameters);
+    parse_function_parameters(data, &node.parameters, enum_args);
 
     // Function definition? Ignore it.
     token := peek_token(data);
@@ -624,10 +636,11 @@ parse_function_declaration :: proc(data : ^ParserData) -> ^FunctionDeclarationNo
     return &data.nodes.functionDeclarations[len(data.nodes.functionDeclarations) - 1];
 }
 
-parse_function_parameters :: proc(data : ^ParserData, parameters : ^[dynamic]FunctionParameter) {
+parse_function_parameters :: proc(data : ^ParserData, parameters : ^[dynamic]FunctionParameter, enum_args: ^[dynamic]string) {
     check_and_eat_token(data, "(");
 
     token := peek_token(data);
+    i := 0;
     for token != ")" {
         parameter : FunctionParameter;
 
@@ -641,6 +654,10 @@ parse_function_parameters :: proc(data : ^ParserData, parameters : ^[dynamic]Fun
             break;
         } else {
             parameter.type = parse_type(data);
+            if enum_args != nil && i < len(enum_args) {
+                replacement_type := IdentifierType { enum_args[i] };
+                parameter.type = replacement_type;
+            }
         }
 
         // Check if named parameter
@@ -670,6 +687,7 @@ parse_function_parameters :: proc(data : ^ParserData, parameters : ^[dynamic]Fun
         }
 
         append(parameters, parameter);
+        i += 1;
     }
 
     check_and_eat_token(data, ")");

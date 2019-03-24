@@ -1,7 +1,9 @@
 package generate
 
 import "core:fmt"
+import "core:os"
 import "./bindgen"
+import "core:encoding/json"
 
 main :: proc() {
     options : bindgen.GeneratorOptions;
@@ -20,15 +22,50 @@ main :: proc() {
         ignoredTokens = []string{"RLAPI"};
     }
 
-    bindgen.generate(
+    args_map : bindgen.Enum_Args_Map;
+    {
+        aux_file := "preprocessed/aux_data.json";
+        aux_data, aux_ok := os.read_entire_file(aux_file);
+        if !aux_ok {
+            fmt.println_err("could not read", aux_file);
+            return;
+        }
+        aux_value, json_err := json.parse(aux_data);
+        if json_err != .None {
+            fmt.println_err("invalid json in", aux_file, "-", json_err);
+            return;
+        }
+
+        for func_name, val in (aux_value.value).(json.Object) {
+            for arg_type in (val.value).(json.Array) {
+                str := (arg_type.value).(string);
+                list := args_map[func_name];
+                append(&list, str);
+                args_map[func_name] = list;
+            }
+        }
+    }
+    
+    outputFile := "generated/raylib_bindings/raylib_bindings.odin";
+    typesFile := "generated/raylib_types/raylib_types.odin";
+    bridgeFile := "generated/raylib_bridge/raylib_bridge.odin";
+
+    ok := bindgen.generate(
         packageName = "raylib",
         foreignLibrary = "raylib.lib",
-        outputFile = "raylib_bindings/raylib_bindings.odin",
-        typesFile = "raylib_types/raylib_types.odin",
-        bridgeFile = "raylib_bridge/raylib_bridge.odin",
+        outputFile = outputFile,
+        typesFile = typesFile,
+        bridgeFile = bridgeFile,
         headerFiles = []string{"./preprocessed/raylib.h"},
         options = options,
+        enum_args_map = args_map,
     );
+
+    if ok {
+        fmt.println("wrote", outputFile);
+        fmt.println("wrote", typesFile);
+        fmt.println("wrote", bridgeFile);
+    }
 }
 
 cliteral_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue

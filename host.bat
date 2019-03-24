@@ -1,1 +1,1 @@
-call build_host.bat && host_demo.exe
+call build_host.bat && bin\host.exe

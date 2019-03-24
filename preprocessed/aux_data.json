@@ -1,0 +1,7 @@
+{
+    "IsKeyPressed": ["KeyboardKey"],
+    "IsKeyDown": ["KeyboardKey"],
+    "IsKeyReleased": ["KeyboardKey"],
+    "IsKeyUp": ["KeyboardKey"],
+    "SetExitKey": ["KeyboardKey"]
+}

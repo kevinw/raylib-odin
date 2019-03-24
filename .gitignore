@@ -1,6 +1,9 @@
 *.dll
 *.pdb
+*.obj
 *.exe
+*.bc
+*.ll
 .vs/
 temp/
 game.lib

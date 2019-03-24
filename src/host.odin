@@ -1,7 +1,7 @@
 package host_demo
 
-import "./raylib_types"
-using import "./raylib_bindings"
+using import "../generated/raylib_types"
+using import "../generated/raylib_bindings"
 
 import "core:os"
 import "core:fmt"
@@ -51,7 +51,7 @@ Plugin :: struct {
 }
 
 load_plugin :: proc(plugin: ^Plugin, name: string) -> bool {
-    temp_path :: "temp/temp.dll";
+    temp_path :: "bin/temp/temp.dll";
 
     // copy dll to temp location
     if !copy_file(name, temp_path, true) {
@@ -60,7 +60,7 @@ load_plugin :: proc(plugin: ^Plugin, name: string) -> bool {
         return false;
     }
 
-    if !copy_file("game.pdb", "temp/temp.pdb", true) {
+    if !copy_file("bin/game.pdb", "bin/temp/temp.pdb", true) {
         fmt.println("cannot copy pdb");
         return false;
     }
@@ -149,13 +149,20 @@ main :: proc()
     screenWidth :i32 = 800;
     screenHeight :i32 = 450;
 
+    // TODO: @enums
+    set_config_flags(
+        cast(u8)(
+            ConfigFlag.FLAG_MSAA_4X_HINT |
+            ConfigFlag.FLAG_VSYNC_HINT)
+    );
+
     init_window(screenWidth, screenHeight, "game");
-    
     set_target_fps(60);
+    init_audio_device();
 
     plugin: Plugin;
-    if !load_plugin(&plugin, "game.dll") {
-        fmt.println("error loading game.dll");
+    if !load_plugin(&plugin, "bin/game.dll") {
+        fmt.println("error loading bin/game.dll");
         return;
     }
 
@@ -166,5 +173,6 @@ main :: proc()
     }
 
     unload_plugin(&plugin);
+    close_audio_device();
     close_window();        // Close window and OpenGL context
 }
