@@ -125,10 +125,10 @@ update_and_draw :: proc() {
 
     speed := get_frame_time() * 400.0;
 
-    if is_key_down(KeyboardKey.KEY_RIGHT) || is_key_down(KeyboardKey.KEY_D) do position.x += speed;
-    if is_key_down(KeyboardKey.KEY_LEFT) || is_key_down(KeyboardKey.KEY_A) do position.x -= speed;
-    if is_key_down(KeyboardKey.KEY_UP) || is_key_down(KeyboardKey.KEY_W) do position.y -= speed;
-    if is_key_down(KeyboardKey.KEY_DOWN) || is_key_down(KeyboardKey.KEY_S) do position.y += speed;
+    if is_key_down(.KEY_RIGHT) || is_key_down(.KEY_D) do position.x += speed;
+    if is_key_down(.KEY_LEFT) || is_key_down(.KEY_A) do position.x -= speed;
+    if is_key_down(.KEY_UP) || is_key_down(.KEY_W) do position.y -= speed;
+    if is_key_down(.KEY_DOWN) || is_key_down(.KEY_S) do position.y += speed;
 
     if framesCounter >= (60.0 / framesSpeed) {
         framesCounter = 0;
