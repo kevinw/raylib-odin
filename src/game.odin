@@ -5,7 +5,7 @@ using import "../generated/raylib_bridge"
 
 using import "core:runtime"
 import "core:fmt"
-import "core:encoding/json"
+//import "core:encoding/json"
 
 State :: struct {
     num_frames : int,
@@ -114,13 +114,12 @@ update_and_draw :: proc() {
 
     using state;
     if !did_play && is_audio_device_ready() {
-        //play_sound(meow);
+        play_sound(meow);
         did_play = true;
     }
 
     clear_background(RAYWHITE);
 
-    //draw_texture(scarfy, 20, 60, WHITE);
     framesCounter += 1;
 
     speed := get_frame_time() * 400.0;
