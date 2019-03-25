@@ -1,6 +1,7 @@
 package demo
 
-using import "./raylib"
+using import "../../raylib_types"
+using import "../../raylib_bindings"
 
 main :: proc()
 {

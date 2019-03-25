@@ -141,7 +141,7 @@ generate :: proc(
 
 package %s_bindings
 
-foreign import "../../lib/%s"
+foreign import "../lib/%s"
 
 import _c "core:c"
 

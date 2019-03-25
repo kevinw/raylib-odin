@@ -5,7 +5,7 @@
 
 package raylib_bindings
 
-foreign import "../../lib/raylib.lib"
+foreign import "../lib/raylib.lib"
 
 import _c "core:c"
 

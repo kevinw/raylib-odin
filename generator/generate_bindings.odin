@@ -24,7 +24,7 @@ main :: proc() {
 
     args_map : bindgen.Enum_Args_Map;
     {
-        aux_file := "preprocessed/aux_data.json";
+        aux_file := "./generator/preprocessed/aux_data.json";
         aux_data, aux_ok := os.read_entire_file(aux_file);
         if !aux_ok {
             fmt.println_err("could not read", aux_file);
@@ -46,9 +46,9 @@ main :: proc() {
         }
     }
     
-    outputFile := "generated/raylib_bindings/raylib_bindings.odin";
-    typesFile := "generated/raylib_types/raylib_types.odin";
-    bridgeFile := "generated/raylib_bridge/raylib_bridge.odin";
+    outputFile := "raylib_bindings/raylib_bindings.odin";
+    typesFile := "raylib_types/raylib_types.odin";
+    bridgeFile := "raylib_bridge/raylib_bridge.odin";
 
     ok := bindgen.generate(
         packageName = "raylib",
@@ -56,7 +56,7 @@ main :: proc() {
         outputFile = outputFile,
         typesFile = typesFile,
         bridgeFile = bridgeFile,
-        headerFiles = []string{"./preprocessed/raylib.h"},
+        headerFiles = []string{"./generator/preprocessed/raylib.h"},
         options = options,
         enum_args_map = args_map,
     );

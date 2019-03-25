@@ -1,7 +1,7 @@
 package host_demo
 
-using import "../generated/raylib_types"
-using import "../generated/raylib_bindings"
+using import "../../raylib_types"
+using import "../../raylib_bindings"
 
 import "core:fmt"
 

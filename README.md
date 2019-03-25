@@ -4,11 +4,17 @@ Bindings for [raylib](http://www.raylib.com), a small C gamedev library, for the
 
 These are usable, but in a pre-alpha state and definitely a work in progress.
 
+## Running the examples
+
+```
+scripts\run_simple_demo
+```
+
 ## Live-reloading
 
 The library is setup to enable a live-reload harness.
 
-![live reload example](Docs/live-reload.gif)
+![live reload example](resources/live-reload.gif)
 
 ## TODO
 
