@@ -43,6 +43,8 @@ scripts\run_live_reload_demo
 
 You should see the game appear.
 
+![a screenshot of the live reload demo](resources/screenshots/example_live_reload.png)
+
 Then, in another console window (also opened with the "x64 Native Tools Command Prompt for VS 2017" shortcut), run
 
 ```
@@ -54,15 +56,11 @@ will notice, and reload the plugin.
 
 Try editing some of the values in `examples/live_reload_demo/game.odin` and saving the file to see the changes instantly.
 
+![live reload example](resources/live-reload.gif)
+
 ## Bindings
 
 To rebuild the bindings to raylib, run `scripts\build_raylib_bindings.bat`.
-
-## Live-reloading
-
-The library is setup to enable a live-reload harness.
-
-![live reload example](resources/live-reload.gif)
 
 ## TODO
 
