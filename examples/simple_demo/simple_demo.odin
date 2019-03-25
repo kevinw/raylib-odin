@@ -49,9 +49,9 @@ main :: proc()
 
         ball_position := get_mouse_position();
 
-        if is_mouse_button_pressed(cast(i32)MouseButton.MOUSE_LEFT_BUTTON) do ball_color = MAROON;
-        else if is_mouse_button_pressed(cast(i32)MouseButton.MOUSE_MIDDLE_BUTTON) do ball_color = LIME;
-        else if is_mouse_button_pressed(cast(i32)MouseButton.MOUSE_RIGHT_BUTTON) do ball_color = DARKBLUE;
+        if is_mouse_button_pressed(.MOUSE_LEFT_BUTTON) do ball_color = MAROON;
+        else if is_mouse_button_pressed(.MOUSE_MIDDLE_BUTTON) do ball_color = LIME;
+        else if is_mouse_button_pressed(.MOUSE_RIGHT_BUTTON) do ball_color = DARKBLUE;
 
         {
             begin_drawing();

@@ -15,11 +15,19 @@ These are usable, but in a pre-alpha state and definitely a work in progress.
 
 ## Running the examples
 
+### `examples/simple_demo`
+
 To run a simple demo:
 
 ```
 scripts\run_simple_demo
 ```
+
+You should see this:
+
+![a screenshot of a simple demo](resources/screenshots/example_simple_demo.png)
+
+### `examples/live_reload_demo`
 
 To run the live reload demo, first make sure you have the `sane` file watching tool:
 
