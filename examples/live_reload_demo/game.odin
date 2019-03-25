@@ -1,4 +1,4 @@
-package bridge_demo
+package live_reload_demo
 
 using import "core:runtime"
 import "core:math"
@@ -42,10 +42,7 @@ on_load :: proc(funcs: ^raylib_Funcs) {
     meow = load_sound("resources/tanatana.ogg");
 
     num_frames = 6;
-    frameRec.x = 0;
-    frameRec.y = 0;
-    frameRec.width = cast(f32)scarfy.width / cast(f32)num_frames;
-    frameRec.height = cast(f32)scarfy.height;
+    frameRec = Rectangle { 0, 0, cast(f32)scarfy.width / cast(f32)num_frames, cast(f32)scarfy.height };
     framesSpeed = 9;
 
     {
@@ -121,7 +118,7 @@ update_and_draw :: proc() {
 
         clear_background(RAYWHITE);
         draw_texture(bg, 0, 0, WHITE);
-        draw_texture_rec(scarfy, frameRec, position, WHITE);  // Draw part of the texture
+        draw_texture_rec(scarfy, frameRec, position, WHITE);
         draw_texture(cat, cast(i32)cat_x, 230, WHITE);
         draw_circle_v(get_mouse_position(), 15, RED);
     }
