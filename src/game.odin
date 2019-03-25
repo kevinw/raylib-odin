@@ -41,16 +41,6 @@ to_json :: proc(a: any) -> string {
         }
     }
 
-    //reflect.get_field_by_name(a, "num_frames")
-
-    /*
-    if ti_struct, ok := type_info.variant.(Type_Info_Struct); ok {
-        for name, i in ti_struct.names {
-            fmt.println("NAME:", name);
-        }
-    }
-    */
-
     return "{}";
 }
 
