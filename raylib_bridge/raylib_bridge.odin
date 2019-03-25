@@ -473,11 +473,11 @@ fade : proc "c" (
         alpha : _c.float
     ) -> Color;
 set_config_flags : proc "c" (flags : ConfigFlag);
-set_trace_log_level : proc "c" (log_type : _c.int);
-set_trace_log_exit : proc "c" (log_type : _c.int);
+set_trace_log_level : proc "c" (log_type : TraceLogType);
+set_trace_log_exit : proc "c" (log_type : TraceLogType);
 set_trace_log_callback : proc "c" (callback : TraceLogCallback);
 trace_log : proc "c" (
-        log_type : _c.int,
+        log_type : TraceLogType,
         text : cstring
     );
 take_screenshot : proc "c" (file_name : cstring);
@@ -517,38 +517,38 @@ is_key_released : proc "c" (key : KeyboardKey) -> bool;
 is_key_up : proc "c" (key : KeyboardKey) -> bool;
 get_key_pressed : proc "c" () -> _c.int;
 set_exit_key : proc "c" (key : KeyboardKey);
-is_gamepad_available : proc "c" (gamepad : _c.int) -> bool;
+is_gamepad_available : proc "c" (gamepad : GamepadNumber) -> bool;
 is_gamepad_name : proc "c" (
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         name : cstring
     ) -> bool;
-get_gamepad_name : proc "c" (gamepad : _c.int) -> cstring;
+get_gamepad_name : proc "c" (gamepad : GamepadNumber) -> cstring;
 is_gamepad_button_pressed : proc "c" (
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         button : _c.int
     ) -> bool;
 is_gamepad_button_down : proc "c" (
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         button : _c.int
     ) -> bool;
 is_gamepad_button_released : proc "c" (
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         button : _c.int
     ) -> bool;
 is_gamepad_button_up : proc "c" (
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         button : _c.int
     ) -> bool;
 get_gamepad_button_pressed : proc "c" () -> _c.int;
-get_gamepad_axis_count : proc "c" (gamepad : _c.int) -> _c.int;
+get_gamepad_axis_count : proc "c" (gamepad : GamepadNumber) -> _c.int;
 get_gamepad_axis_movement : proc "c" (
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         axis : _c.int
     ) -> _c.float;
-is_mouse_button_pressed : proc "c" (button : _c.int) -> bool;
-is_mouse_button_down : proc "c" (button : _c.int) -> bool;
-is_mouse_button_released : proc "c" (button : _c.int) -> bool;
-is_mouse_button_up : proc "c" (button : _c.int) -> bool;
+is_mouse_button_pressed : proc "c" (button : MouseButton) -> bool;
+is_mouse_button_down : proc "c" (button : MouseButton) -> bool;
+is_mouse_button_released : proc "c" (button : MouseButton) -> bool;
+is_mouse_button_up : proc "c" (button : MouseButton) -> bool;
 get_mouse_x : proc "c" () -> _c.int;
 get_mouse_y : proc "c" () -> _c.int;
 get_mouse_position : proc "c" () -> Vector2;
@@ -578,7 +578,7 @@ get_gesture_drag_angle : proc "c" () -> _c.float;
 get_gesture_pinch_vector : proc "c" () -> Vector2;
 get_gesture_pinch_angle : proc "c" () -> _c.float;
 set_camera_mode : proc "c" (
-        camera : Camera,
+        camera : CameraMode,
         mode : _c.int
     );
 update_camera : proc "c" (camera : ^Camera);

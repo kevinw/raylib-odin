@@ -5,5 +5,26 @@
     "IsKeyUp": ["KeyboardKey"],
     "SetExitKey": ["KeyboardKey"],
     
-    "SetConfigFlags": ["ConfigFlag"]
+    "SetConfigFlags": ["ConfigFlag"],
+
+    "SetTraceLogLevel": ["TraceLogType"],
+    "SetTraceLogExit": ["TraceLogType"],
+    "TraceLog": ["TraceLogType"],
+
+    "IsMouseButtonPressed": ["MouseButton"],
+    "IsMouseButtonDown": ["MouseButton"],
+    "IsMouseButtonReleased": ["MouseButton"],
+    "IsMouseButtonUp": ["MouseButton"],
+
+    "IsGamepadAvailable": ["GamepadNumber"],
+    "IsGamepadName": ["GamepadNumber"],
+    "GetGamepadName": ["GamepadNumber"],
+    "IsGamepadButtonPressed": ["GamepadNumber"],
+    "IsGamepadButtonDown": ["GamepadNumber"],
+    "IsGamepadButtonReleased": ["GamepadNumber"],
+    "IsGamepadButtonUp": ["GamepadNumber"],
+    "GetGamepadAxisCount": ["GamepadNumber"],
+    "GetGamepadAxisMovement": ["GamepadNumber"],
+
+    "SetCameraMode": ["CameraMode"]
 }

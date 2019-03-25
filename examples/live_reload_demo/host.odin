@@ -13,7 +13,7 @@ main :: proc() {
 
     set_config_flags(ConfigFlag.FLAG_MSAA_4X_HINT | ConfigFlag.FLAG_VSYNC_HINT);
 
-    init_window(screenWidth, screenHeight, "game");
+    init_window(screenWidth, screenHeight, "raylib-odin :: live reload example");
     set_window_position(40, 40);
     set_target_fps(60);
     init_audio_device();

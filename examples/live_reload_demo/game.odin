@@ -88,7 +88,7 @@ update_and_draw :: proc() {
         if is_key_down(.KEY_DOWN) || is_key_down(.KEY_S) do position.y += speed;
 
         // click to move the player as well
-        if is_mouse_button_down(0) {
+        if is_mouse_button_down(.MOUSE_LEFT_BUTTON) {
             mouse_pos := get_mouse_position();
             to_pos := math.length(math.Vec2 { mouse_pos.x - position.x, mouse_pos.y - position.y });
             if to_pos > 20 {

@@ -583,17 +583,17 @@ foreign raylib {
     set_config_flags :: proc(flags : ConfigFlag) ---;
 
     @(link_name="SetTraceLogLevel")
-    set_trace_log_level :: proc(log_type : _c.int) ---;
+    set_trace_log_level :: proc(log_type : TraceLogType) ---;
 
     @(link_name="SetTraceLogExit")
-    set_trace_log_exit :: proc(log_type : _c.int) ---;
+    set_trace_log_exit :: proc(log_type : TraceLogType) ---;
 
     @(link_name="SetTraceLogCallback")
     set_trace_log_callback :: proc(callback : TraceLogCallback) ---;
 
     @(link_name="TraceLog")
     trace_log :: proc(
-        log_type : _c.int,
+        log_type : TraceLogType,
         text : cstring
     ) ---;
 
@@ -685,38 +685,38 @@ foreign raylib {
     set_exit_key :: proc(key : KeyboardKey) ---;
 
     @(link_name="IsGamepadAvailable")
-    is_gamepad_available :: proc(gamepad : _c.int) -> bool ---;
+    is_gamepad_available :: proc(gamepad : GamepadNumber) -> bool ---;
 
     @(link_name="IsGamepadName")
     is_gamepad_name :: proc(
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         name : cstring
     ) -> bool ---;
 
     @(link_name="GetGamepadName")
-    get_gamepad_name :: proc(gamepad : _c.int) -> cstring ---;
+    get_gamepad_name :: proc(gamepad : GamepadNumber) -> cstring ---;
 
     @(link_name="IsGamepadButtonPressed")
     is_gamepad_button_pressed :: proc(
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         button : _c.int
     ) -> bool ---;
 
     @(link_name="IsGamepadButtonDown")
     is_gamepad_button_down :: proc(
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         button : _c.int
     ) -> bool ---;
 
     @(link_name="IsGamepadButtonReleased")
     is_gamepad_button_released :: proc(
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         button : _c.int
     ) -> bool ---;
 
     @(link_name="IsGamepadButtonUp")
     is_gamepad_button_up :: proc(
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         button : _c.int
     ) -> bool ---;
 
@@ -724,25 +724,25 @@ foreign raylib {
     get_gamepad_button_pressed :: proc() -> _c.int ---;
 
     @(link_name="GetGamepadAxisCount")
-    get_gamepad_axis_count :: proc(gamepad : _c.int) -> _c.int ---;
+    get_gamepad_axis_count :: proc(gamepad : GamepadNumber) -> _c.int ---;
 
     @(link_name="GetGamepadAxisMovement")
     get_gamepad_axis_movement :: proc(
-        gamepad : _c.int,
+        gamepad : GamepadNumber,
         axis : _c.int
     ) -> _c.float ---;
 
     @(link_name="IsMouseButtonPressed")
-    is_mouse_button_pressed :: proc(button : _c.int) -> bool ---;
+    is_mouse_button_pressed :: proc(button : MouseButton) -> bool ---;
 
     @(link_name="IsMouseButtonDown")
-    is_mouse_button_down :: proc(button : _c.int) -> bool ---;
+    is_mouse_button_down :: proc(button : MouseButton) -> bool ---;
 
     @(link_name="IsMouseButtonReleased")
-    is_mouse_button_released :: proc(button : _c.int) -> bool ---;
+    is_mouse_button_released :: proc(button : MouseButton) -> bool ---;
 
     @(link_name="IsMouseButtonUp")
-    is_mouse_button_up :: proc(button : _c.int) -> bool ---;
+    is_mouse_button_up :: proc(button : MouseButton) -> bool ---;
 
     @(link_name="GetMouseX")
     get_mouse_x :: proc() -> _c.int ---;
@@ -812,7 +812,7 @@ foreign raylib {
 
     @(link_name="SetCameraMode")
     set_camera_mode :: proc(
-        camera : Camera,
+        camera : CameraMode,
         mode : _c.int
     ) ---;
 
