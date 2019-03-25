@@ -472,7 +472,7 @@ fade : proc "c" (
         color : Color,
         alpha : _c.float
     ) -> Color;
-set_config_flags : proc "c" (flags : _c.uchar);
+set_config_flags : proc "c" (flags : ConfigFlag);
 set_trace_log_level : proc "c" (log_type : _c.int);
 set_trace_log_exit : proc "c" (log_type : _c.int);
 set_trace_log_callback : proc "c" (callback : TraceLogCallback);

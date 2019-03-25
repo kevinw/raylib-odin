@@ -580,7 +580,7 @@ foreign raylib {
     ) -> Color ---;
 
     @(link_name="SetConfigFlags")
-    set_config_flags :: proc(flags : _c.uchar) ---;
+    set_config_flags :: proc(flags : ConfigFlag) ---;
 
     @(link_name="SetTraceLogLevel")
     set_trace_log_level :: proc(log_type : _c.int) ---;

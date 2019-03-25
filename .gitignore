@@ -5,6 +5,7 @@
 *.bc
 *.ll
 .vs/
+.vscode/
 temp/
 game.lib
 game.exp

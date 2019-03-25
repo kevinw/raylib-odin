@@ -3,5 +3,7 @@
     "IsKeyDown": ["KeyboardKey"],
     "IsKeyReleased": ["KeyboardKey"],
     "IsKeyUp": ["KeyboardKey"],
-    "SetExitKey": ["KeyboardKey"]
+    "SetExitKey": ["KeyboardKey"],
+    
+    "SetConfigFlags": ["ConfigFlag"]
 }
