@@ -11,7 +11,7 @@ These are usable, but in a pre-alpha state and definitely a work in progress.
 - Windows 10 (for now)
 - Visual Studio 2017
 - A command-line prompt opened with the "x64 Native Tools Command Prompt for VS 2017" shortcut
-- `odin` on your PATH
+- `odin` on your PATH (built from odin's `master` branch is good)
 
 ## Running the examples
 
