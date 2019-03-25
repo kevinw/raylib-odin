@@ -1,7 +1,6 @@
 package bindgen
 
 import "core:fmt"
-import "core:unicode/utf8"
 
 Case :: enum {
     Unknown,
@@ -84,7 +83,7 @@ change_case :: proc(str : string, targetCase : Case) -> string {
     // Join
     newStr : string;
     if targetCase == Case.Pascal {
-        for part, i in parts {
+        for part, _ in parts {
             newStr = fmt.tprint(newStr, change_word_case(part, WordCase.FirstUpNumberReset));
         }
     }

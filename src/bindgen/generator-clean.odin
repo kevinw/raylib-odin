@@ -84,7 +84,7 @@ clean_define_name :: proc(defineName : string, options : ^GeneratorOptions) -> s
 
 // Convert to Odin's types
 clean_type :: proc(type : Type, options : ^GeneratorOptions, baseTab : string = "") -> string {
-    if _type, ok := type.(BuiltinType); ok {
+    if _type, ok1 := type.(BuiltinType); ok1 {
         if _type == BuiltinType.Void do return "";
         else if _type == BuiltinType.Int do return "_c.int";
         else if _type == BuiltinType.UInt do return "_c.uint";
@@ -104,7 +104,7 @@ clean_type :: proc(type : Type, options : ^GeneratorOptions, baseTab : string = 
             return "_c.double";
         }
     }
-    else if _type, ok := type.(StandardType); ok {
+    else if _type, ok2 := type.(StandardType); ok2 {
         if _type == StandardType.Int8 do return "i8";
         else if _type == StandardType.Int16 do return "i16";
         else if _type == StandardType.Int32 do return "i32";
@@ -120,18 +120,18 @@ clean_type :: proc(type : Type, options : ^GeneratorOptions, baseTab : string = 
         else if _type == StandardType.UIntPtr do return "_c.uintptr_t";
         else if _type == StandardType.IntPtr do return "_c.intptr_t";
     }
-    else if _type, ok := type.(PointerType); ok {
-        if __type, ok := _type.type.(BuiltinType); ok {
+    else if _type, ok3 := type.(PointerType); ok3 {
+        if __type, ok4 := _type.type.(BuiltinType); ok4 {
             if __type == BuiltinType.Void do return "rawptr";
             else if __type == BuiltinType.Char do return "cstring";
         }
         name := clean_type(_type.type^, options, baseTab);
         return fmt.tprint("^", name);
     }
-    else if _type, ok := type.(IdentifierType); ok {
+    else if _type, ok5 := type.(IdentifierType); ok5 {
         return clean_pseudo_type_name(_type.name, options);
     }
-    else if _type, ok := type.(FunctionPointerType); ok {
+    else if _type, ok6 := type.(FunctionPointerType); ok6 {
         output := "#type proc(";
         parameters := clean_function_parameters(_type.parameters, options, baseTab);
         output = fmt.tprint(output, parameters, ")");
