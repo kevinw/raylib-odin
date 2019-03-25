@@ -41,7 +41,7 @@ Then, start the live reload demo "host" program:
 scripts\run_live_reload_demo
 ```
 
-You should see the game appear.
+You should see the demo appear.
 
 ![a screenshot of the live reload demo](resources/screenshots/example_live_reload.png)
 
