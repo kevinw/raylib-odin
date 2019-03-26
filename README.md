@@ -1,10 +1,10 @@
 # odin-raylib
 
-from [Kevin Watters](https://kev.town)
-
 Bindings for [raylib](http://www.raylib.com), a small C gamedev library, for the [odin programming language](https://odin.handmade.network/).
 
 These are usable, but in a pre-alpha state and definitely a work in progress.
+
+from [Kevin Watters](https://kev.town)
 
 ## Prerequisites
 
@@ -66,3 +66,8 @@ To rebuild the bindings to raylib, run `scripts\build_raylib_bindings.bat`.
 
 - (maybe) implement a file watcher so that the live reload stuff doesn't need an external dependency like watchman
 - fix up bindgen code so that raylib.h doesn't need to be hand-tweaked
+
+## Acknowledgements
+
+- Thanks to [@TheElkantor](https://twitter.com/theelkantor) for their article ["How to add hot reload when using raylib"](https://www.developing-stuff.com/how-to-add-hot-reload-when-using-raylib/) - for pointing out that passing function pointers to a plugin was probably the easiest way to get a live reload harness going.
+
