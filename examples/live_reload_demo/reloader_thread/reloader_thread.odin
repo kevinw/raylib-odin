@@ -29,7 +29,7 @@ compile_game_dll :: proc() -> bool {
 }
 
 watcher_thread_proc :: proc(^thread.Thread) -> int {
-    fmt.println("hello from the reloader thread");
+    fmt.println("watching for changes in", _directory_to_watch);
 
     watch_subtree:win32.Bool = true;
     filter:u32 = win32.FILE_NOTIFY_CHANGE_LAST_WRITE;

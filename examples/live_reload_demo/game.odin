@@ -29,7 +29,7 @@ State :: struct {
 
     did_play: bool,
 
-    debug_console: Debug_Console,
+    console: Debug_Console,
 }
 
 state : State;
@@ -54,7 +54,8 @@ on_load :: proc(funcs: ^raylib_Funcs) {
         bg = load_texture_from_image(bg_img);
     }
 
-    Debug_Console_init(&debug_console);
+    debug_console.init(&console);
+    debug_console.log(&console, "game.dll loaded");
 }
 
 @(export)
@@ -62,6 +63,7 @@ on_unload :: proc() {
     bridge_deinit();
 
     using state;
+    debug_console.destroy(&console);
     unload_texture(scarfy);
     unload_sound(meow);
 }
@@ -88,6 +90,8 @@ update_and_draw :: proc() {
         if is_key_down(.KEY_LEFT) || is_key_down(.KEY_A) do position.x -= speed;
         if is_key_down(.KEY_UP) || is_key_down(.KEY_W) do position.y -= speed;
         if is_key_down(.KEY_DOWN) || is_key_down(.KEY_S) do position.y += speed;
+
+        if is_key_pressed(.KEY_L) do debug_console.log(&console, "this is a test");
 
         // click to move the player as well
         if is_mouse_button_down(.MOUSE_LEFT_BUTTON) {
@@ -126,5 +130,7 @@ update_and_draw :: proc() {
         draw_texture_rec(scarfy, frameRec, position, WHITE);
         draw_texture(cat, cast(i32)cat_x, 230, WHITE);
         draw_circle_v(get_mouse_position(), 15, RED);
+
+        debug_console.update_and_draw(&console);
     }
 }
