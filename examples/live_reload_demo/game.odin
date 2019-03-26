@@ -7,6 +7,7 @@ using import "../../raylib_types"
 using import "../../raylib_bridge"
 
 import "./game_math"
+using import "./debug_console"
 
 State :: struct {
     num_frames : int,
@@ -27,6 +28,8 @@ State :: struct {
     cat_velocity: f32,
 
     did_play: bool,
+
+    debug_console: Debug_Console,
 }
 
 state : State;
@@ -50,6 +53,8 @@ on_load :: proc(funcs: ^raylib_Funcs) {
         defer unload_image(bg_img);
         bg = load_texture_from_image(bg_img);
     }
+
+    Debug_Console_init(&debug_console);
 }
 
 @(export)

@@ -29,30 +29,15 @@ You should see this:
 
 ### `examples/live_reload_demo`
 
-To run the live reload demo, first make sure you have the `sane` file watching tool:
-
-```
-npm install -g sane
-```
-
-Then, start the live reload demo "host" program:
+To run the live reload demo:
 
 ```
 scripts\run_live_reload_demo
 ```
 
-You should see the demo appear.
+You should see the demo appear. It is running a background thread watching for changes in the source directory. When a change happens, it will rebuild the `bin/game.dll` file--which will then get automatically reloaded by the host process.
 
 ![a screenshot of the live reload demo](resources/screenshots/example_live_reload.png)
-
-Then, in another console window (also opened with the "x64 Native Tools Command Prompt for VS 2017" shortcut), run
-
-```
-scripts\run_live_reload_watcher
-```
-
-This will use `sane` to rebuild `bin/game.dll` anytime you make edits. When `bin/game.dll` is updated, the live reload host
-will notice, and reload the plugin.
 
 Try editing some of the values in `examples/live_reload_demo/game.odin` and saving the file to see the changes instantly.
 

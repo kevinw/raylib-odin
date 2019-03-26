@@ -4,15 +4,23 @@ using import "../../raylib_types"
 using import "../../raylib_bindings"
 
 import "core:fmt"
+import "core:os"
 
 using import "./plugin"
+
+when os.OS == "windows" do import "./reloader_thread"
 
 screenWidth :i32 = 800;
 screenHeight :i32 = 450;
 
 main :: proc() {
     // Create the window
-    set_config_flags(ConfigFlag.FLAG_MSAA_4X_HINT | ConfigFlag.FLAG_VSYNC_HINT);
+    set_config_flags(
+        // TODO: bindings could remove FLAG_ and the like from enums
+        ConfigFlag.FLAG_MSAA_4X_HINT
+        | ConfigFlag.FLAG_VSYNC_HINT
+        //| ConfigFlag.FLAG_FULLSCREEN_MODE
+    );
 
     init_window(screenWidth, screenHeight, "raylib-odin :: live reload example");
     defer close_window();
@@ -33,9 +41,16 @@ main :: proc() {
     }
     defer plugin_unload(&plugin);
 
+    // kick off live reload watcher thread
+    when os.OS == "windows" {
+        reloader := reloader_thread.start("cmd.exe /c scripts\\build_live_reload_plugin.bat", "examples\\live_reload_demo");
+        defer reloader_thread.finish(reloader);
+    }
+
     // Game loop
     for !window_should_close() {
         plugin.update_and_draw_proc();
         plugin_maybe_reload(&plugin, &plugin_funcs);
     }
+
 }

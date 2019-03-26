@@ -3,7 +3,8 @@ package generate
 import "core:fmt"
 import "core:os"
 import "./bindgen"
-import "core:encoding/json"
+// import "core:encoding/json"
+import "./preprocessed/aux_data"
 
 main :: proc() {
     options : bindgen.GeneratorOptions;
@@ -22,7 +23,8 @@ main :: proc() {
         ignoredTokens = []string{"RLAPI"};
     }
 
-    args_map : bindgen.Enum_Args_Map;
+    args_map : bindgen.Enum_Args_Map = aux_data.get_enum_args();
+    /*
     {
         aux_file := "./generator/preprocessed/aux_data.json";
         aux_data, aux_ok := os.read_entire_file(aux_file);
@@ -45,6 +47,7 @@ main :: proc() {
             }
         }
     }
+    */
     
     outputFile := "raylib_bindings/raylib_bindings.odin";
     typesFile := "raylib_types/raylib_types.odin";
