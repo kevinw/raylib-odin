@@ -41,5 +41,7 @@ get_enum_args :: proc() -> Enum_Args_Map {
 
     add_to_list(&m, "SetCameraMode", "CameraMode");
 
+    add_to_list(&m, "BeginBlendMode", "BlendMode");
+
     return m;
 }

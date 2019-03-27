@@ -3,6 +3,12 @@ package plugin
 import "core:os"
 import "core:fmt"
 
+Request :: enum {
+    None,
+    Reload,
+    Quit,
+}
+
 when os.OS == "windows" {
     import "core:sys/win32"
 
@@ -36,7 +42,7 @@ get_file_time :: proc(filename: string) -> (bool, os.File_Time) {
 
 On_Load_Proc :: #type proc(userdata: rawptr);
 On_Unload_Proc :: #type proc();
-Update_And_Draw_Proc :: #type proc();
+Update_And_Draw_Proc :: #type proc() -> Request;
 
 Plugin :: struct {
     name: string,
@@ -121,14 +127,14 @@ plugin_unload :: proc(plugin: ^Plugin) {
     plugin.module = nil;
 }
 
-plugin_maybe_reload :: proc(plugin: ^Plugin, userdata: rawptr) {
+plugin_maybe_reload :: proc(plugin: ^Plugin, userdata: rawptr, force_reload: bool = false) {
     ok, file_time := get_file_time(plugin.path_on_disk);
     if !ok {
         //fmt.println_err("could not get file time of plugin:", plugin.path_on_disk);
         return;
     }
 
-    if file_time == plugin.last_write_time do return;
+    if !force_reload && file_time == plugin.last_write_time do return;
 
     plugin.last_write_time = file_time;
 
@@ -136,3 +142,6 @@ plugin_maybe_reload :: proc(plugin: ^Plugin, userdata: rawptr) {
     plugin_load(plugin, plugin.name, userdata);
 }
 
+plugin_force_reload :: proc(plugin: ^Plugin, userdata: rawptr) {
+    plugin_maybe_reload(plugin, userdata, true);
+}

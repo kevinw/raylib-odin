@@ -1778,7 +1778,7 @@ raylib_Funcs :: struct {
     ) -> Texture2D,
     begin_shader_mode : proc "c" (shader : Shader),
     end_shader_mode : proc "c" (),
-    begin_blend_mode : proc "c" (mode : _c.int),
+    begin_blend_mode : proc "c" (mode : BlendMode),
     end_blend_mode : proc "c" (),
     begin_scissor_mode : proc "c" (
         x : _c.int,

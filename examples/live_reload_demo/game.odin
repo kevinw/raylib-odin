@@ -2,6 +2,9 @@ package live_reload_demo
 
 using import "core:runtime"
 import "core:math"
+import "core:os"
+import "core:fmt"
+import serializer "core:encoding/json"
 
 using import "../../raylib_types"
 using import "../../raylib_bridge"
@@ -9,36 +12,38 @@ using import "../../raylib_bridge"
 import "./game_math"
 using import "./debug_console"
 
+import "./plugin"
+
 State :: struct {
     num_frames : int,
-    frameRec : Rectangle,
-
     currentFrame : int,
     framesCounter : int,
     framesSpeed : int,
-
     position : Vector2,
-
-    scarfy : Texture,
-    bg : Texture,
-    cat : Texture,
-    meow : Sound,
-
     cat_x: f32,
     cat_velocity: f32,
+}
 
-    did_play: bool,
-
+Transient_State :: struct {
+    bg : Texture,
+    frameRec : Rectangle,
+    bg2 : Texture,
+    cat : Texture,
+    scarfy : Texture,
+    meow : Sound,
     console: Debug_Console,
+    did_play: bool,
 }
 
 state : State;
+transient_state : Transient_State;
 
 @(export)
 on_load :: proc(funcs: ^raylib_Funcs) {
     bridge_init(funcs);
 
     using state;
+    using transient_state;
 
     scarfy = load_texture("resources/scarfy.png");
     cat = load_texture("resources/cat.png");
@@ -52,6 +57,11 @@ on_load :: proc(funcs: ^raylib_Funcs) {
         bg_img := gen_image_gradient_v(850, 450, PURPLE, RAYWHITE);
         defer unload_image(bg_img);
         bg = load_texture_from_image(bg_img);
+
+        bg2_img := gen_image_gradient_h(850, 450, Color { 0, 0, 0, 0, }, Color { 255, 190, 200, 60 });
+        defer unload_image(bg2_img);
+
+        bg2 = load_texture_from_image(bg2_img);
     }
 
     debug_console.init(&console);
@@ -63,14 +73,32 @@ on_unload :: proc() {
     bridge_deinit();
 
     using state;
+    using transient_state;
+
+    if state_bytes, err := serializer.marshal(state); err == .None {
+        os.write_entire_file("\\Users\\Kevin\\AppData\\LocalLow\\Temp\\state.cel", state_bytes);
+    } else {
+        s := "";
+        switch err {
+            case .Unsupported_Type: s = "Unsupported_Type";
+            case: s = "TODO";
+        }
+        fmt.println_err("error serializing state to bytes: ", s);
+    }
+
     debug_console.destroy(&console);
     unload_texture(scarfy);
+    unload_texture(bg);
+    unload_texture(bg2);
     unload_sound(meow);
 }
 
 @(export)
-update_and_draw :: proc() {
+update_and_draw :: proc() -> plugin.Request {
     using state;
+    using transient_state;
+
+    request := plugin.Request.None;
 
     if !did_play && is_audio_device_ready() {
         //play_sound(meow);
@@ -92,6 +120,9 @@ update_and_draw :: proc() {
         if is_key_down(.KEY_DOWN) || is_key_down(.KEY_S) do position.y += speed;
 
         if is_key_pressed(.KEY_L) do debug_console.log(&console, "this is a test");
+
+        if is_key_pressed(.KEY_R) do request = .Reload;
+        if is_key_pressed(.KEY_Q) do request = .Quit;
 
         // click to move the player as well
         if is_mouse_button_down(.MOUSE_LEFT_BUTTON) {
@@ -133,10 +164,24 @@ update_and_draw :: proc() {
 
         clear_background(RAYWHITE);
         draw_texture(bg, 0, 0, WHITE);
+        {
+            begin_blend_mode(BlendMode.BLEND_ADDITIVE);
+            defer end_blend_mode();
+
+            draw_texture(bg2, 0, 0, WHITE);
+        }
+
         draw_texture_rec(scarfy, frameRec, position, WHITE);
         draw_texture(cat, cast(i32)cat_x, cast(i32)cat_y, cat_color);
-        draw_circle_v(get_mouse_position(), 15, RED);
+        {
+            begin_blend_mode(BlendMode.BLEND_MULTIPLIED);
+            defer end_blend_mode();
+
+            draw_circle_v(get_mouse_position(), 15, RED);
+        }
 
         debug_console.update_and_draw(&console);
     }
+
+    return request;
 }

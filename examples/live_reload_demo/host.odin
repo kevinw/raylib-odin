@@ -49,8 +49,11 @@ main :: proc() {
 
     // Game loop
     for !window_should_close() {
-        plugin.update_and_draw_proc();
-        plugin_maybe_reload(&plugin, &plugin_funcs);
+        force_reload := false;
+        switch plugin.update_and_draw_proc() {
+            case .Reload: force_reload = true;
+            case .Quit: return;
+        }
+        plugin_maybe_reload(&plugin, &plugin_funcs, force_reload);
     }
-
 }

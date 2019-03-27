@@ -2151,7 +2151,7 @@ foreign raylib {
     end_shader_mode :: proc() ---;
 
     @(link_name="BeginBlendMode")
-    begin_blend_mode :: proc(mode : _c.int) ---;
+    begin_blend_mode :: proc(mode : BlendMode) ---;
 
     @(link_name="EndBlendMode")
     end_blend_mode :: proc() ---;

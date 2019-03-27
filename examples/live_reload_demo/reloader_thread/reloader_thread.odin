@@ -12,10 +12,7 @@ compile_game_dll :: proc() -> bool {
 
     process_information: win32.Process_Information;
 
-    ok := win32.create_process_a(nil, _recompile_script,
-        nil, nil, false, 0, nil,  nil, &startup_info, &process_information);
-
-    if !ok {
+    if ok := win32.create_process_a(nil, _recompile_script, nil, nil, false, 0, nil,  nil, &startup_info, &process_information); !ok {
         fmt.println_err("could not invoke build script");
         return false;
     }
@@ -31,10 +28,9 @@ compile_game_dll :: proc() -> bool {
 watcher_thread_proc :: proc(^thread.Thread) -> int {
     fmt.println("watching for changes in", _directory_to_watch);
 
-    watch_subtree:win32.Bool = true;
-    filter:u32 = win32.FILE_NOTIFY_CHANGE_LAST_WRITE;
-
-    FALSE:win32.Bool = false;
+    watch_subtree:win32.Bool : true;
+    filter:u32 : win32.FILE_NOTIFY_CHANGE_LAST_WRITE;
+    FALSE:win32.Bool : false;
 
     handle := win32.find_first_change_notification_a(_directory_to_watch, watch_subtree, filter);
     if handle == win32.INVALID_HANDLE {
@@ -50,19 +46,22 @@ watcher_thread_proc :: proc(^thread.Thread) -> int {
 
         switch wait_status {
             case win32.WAIT_OBJECT_0:
+                // when we get a file change notification, it's often immediately followed by another one.
+                // so we'll lower our timeout and use that as a signal to actually recompile, to coalesce
+                // multiple updates into one.
                 next_timeout_ms = 150;
                 did_get_change = true;
             case win32.WAIT_TIMEOUT:
-                if did_get_change {
-                    did_get_change = false;
-                    next_timeout_ms = win32.INFINITE;
-                    ok : =compile_game_dll();
-                    if !ok {
-                        fmt.println_err("result:", ok);
-                    }
-                } else {
+                if !did_get_change {
                     fmt.println_err("error: infinite timeout triggered");
                     return -1;
+                }
+
+                // actually recompile the game.dll
+                did_get_change = false;
+                next_timeout_ms = win32.INFINITE;
+                if ok := compile_game_dll(); !ok {
+                    fmt.println_err("result:", ok);
                 }
             case:
                 fmt.println_err("unhandled wait_status", wait_status);
