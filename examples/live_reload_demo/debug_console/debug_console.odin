@@ -1,6 +1,7 @@
 package live_reload_demo
 
 import "core:strings"
+import "core:fmt"
 
 import "../game_math"
 
@@ -22,9 +23,12 @@ init :: proc(debug_console: ^Debug_Console) {
 destroy :: proc(debug_console: ^Debug_Console) {
 }
 
-log :: proc(using debug_console: ^Debug_Console, msg: string) {
-    time := get_time();
-    append(&entries, Console_Entry { strings.clone_to_cstring(msg), time });
+log :: proc(using debug_console: ^Debug_Console, format_args: ..any) {
+    entry := Console_Entry {};
+    entry.time = get_time();
+    entry.message = strings.clone_to_cstring(fmt.tprint(..format_args));
+
+    append(&entries, entry);
 }
 
 update_and_draw :: proc(using debug_console: ^Debug_Console) {

@@ -55,7 +55,7 @@ on_load :: proc(funcs: ^raylib_Funcs) {
     }
 
     debug_console.init(&console);
-    debug_console.log(&console, "game.dll loaded");
+    debug_console.log(&console, "game.dll loaded at time=", get_time(), " seconds");
 }
 
 @(export)
@@ -78,12 +78,12 @@ update_and_draw :: proc() {
     }
 
     // UPDATE
+    width_of_one_frame := cast(f32)scarfy.width / cast(f32)num_frames;
     {
         framesCounter += 1;
         delta_time := get_frame_time();
         player_move_pixels_per_second:f32 = 400.0;
         speed := delta_time * player_move_pixels_per_second;
-        width_of_one_frame := cast(f32)scarfy.width / cast(f32)num_frames;
 
         // move the player with the arrow or WASD keys
         if is_key_down(.KEY_RIGHT) || is_key_down(.KEY_D) do position.x += speed;
@@ -117,8 +117,14 @@ update_and_draw :: proc() {
 
         // smoothly move the cat towards the player
         smooth_time:f32 = 0.4;
+
         cat_x = game_math.smooth_damp(cat_x, position.x - 40, &cat_velocity, smooth_time, delta_time);
     }
+
+    player_rect := Rectangle { position.x, position.y, width_of_one_frame, f32(scarfy.height) };
+    cat_y:f32 : 230;
+    cat_rect := Rectangle { cat_x, cat_y, f32(cat.width), f32(cat.height) };
+    cat_color := check_collision_recs(player_rect, cat_rect) ? RED : WHITE;
 
     // DRAW
     {
@@ -128,7 +134,7 @@ update_and_draw :: proc() {
         clear_background(RAYWHITE);
         draw_texture(bg, 0, 0, WHITE);
         draw_texture_rec(scarfy, frameRec, position, WHITE);
-        draw_texture(cat, cast(i32)cat_x, 230, WHITE);
+        draw_texture(cat, cast(i32)cat_x, cast(i32)cat_y, cat_color);
         draw_circle_v(get_mouse_position(), 15, RED);
 
         debug_console.update_and_draw(&console);
