@@ -35,7 +35,7 @@ To run the live reload demo:
 scripts\run_live_reload_demo
 ```
 
-You should see the demo appear. It is running a background thread watching for changes in the source directory. When a change happens, it will rebuild the `bin/game.dll` file--which will then get automatically reloaded by the host process.
+You should see the demo appear. It runs a background thread watching for changes in the source directory. When a change happens, it will rebuild the `bin/game.dll` file--which will then get automatically reloaded by the host process.
 
 ![a screenshot of the live reload demo](resources/screenshots/example_live_reload.png)
 
@@ -49,7 +49,6 @@ To rebuild the bindings to raylib, run `scripts\build_raylib_bindings.bat`.
 
 ## TODO
 
-- (maybe) implement a file watcher so that the live reload stuff doesn't need an external dependency like watchman
 - fix up bindgen code so that raylib.h doesn't need to be hand-tweaked
 - make everything work on OSX and Linux
 

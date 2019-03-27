@@ -2,6 +2,8 @@ package live_reload_demo
 
 import "core:strings"
 
+import "../game_math"
+
 using import "../../../raylib_types"
 using import "../../../raylib_bridge"
 
@@ -25,20 +27,10 @@ log :: proc(using debug_console: ^Debug_Console, msg: string) {
     append(&entries, Console_Entry { strings.clone_to_cstring(msg), time });
 }
 
-_unlerp :: proc(ax, a1, a2: f64) -> f64 {
-    return (ax - a1) / (a2 - a1);
-}
-
-_saturate :: proc(f: f64) -> f64 {
-    if f < 0 do return 0;
-    if f > 1 do return 1;
-    return f;
-}
-
 update_and_draw :: proc(using debug_console: ^Debug_Console) {
     if len(entries) == 0 do return;
 
-    font_size:i32 = 16;
+    font_size:i32 = 20;
 
     new_entries: [dynamic]Console_Entry;
 
@@ -52,13 +44,16 @@ update_and_draw :: proc(using debug_console: ^Debug_Console) {
 
     time_visible :: 2.0;
 
-    alpha_for_time :: proc(elapsed: f64) -> u8 {
-        return u8(255.0 * (1.0 - _saturate(_unlerp(elapsed, time_visible - 0.5, time_visible))));
+    alpha_for_time :: inline proc(elapsed: f64) -> u8 {
+        return u8(255.0 * (1.0 - game_math.saturate(game_math.unlerp(elapsed, time_visible - 0.5, time_visible))));
     }
 
     for entry in entries {
         elapsed := now - entry.time;
-        if elapsed >= time_visible do continue;
+        if elapsed >= time_visible {
+            delete(entry.message);
+            continue;
+        }
 
         alpha := alpha_for_time(elapsed);
         shadow_color.a = alpha;

@@ -4,8 +4,18 @@ import "core:math"
 
 INFINITY :: math.F32_MAX + 1;
 
+saturate :: proc(f: f64) -> f64 {
+    if f < 0 do return 0;
+    if f > 1 do return 1;
+    return f;
+}
+
 clamp :: proc(val, min_val, max_val: f32) -> f32 {
     return min(max_val, max(min_val, val));
+}
+
+unlerp :: proc(ax, a1, a2: f64) -> f64 {
+    return (ax - a1) / (a2 - a1);
 }
 
 // thanks Unity decompiled
