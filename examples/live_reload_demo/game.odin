@@ -114,18 +114,18 @@ update_and_draw :: proc() -> plugin.Request {
         speed := delta_time * player_move_pixels_per_second;
 
         // move the player with the arrow or WASD keys
-        if is_key_down(.KEY_RIGHT) || is_key_down(.KEY_D) do position.x += speed;
-        if is_key_down(.KEY_LEFT) || is_key_down(.KEY_A) do position.x -= speed;
-        if is_key_down(.KEY_UP) || is_key_down(.KEY_W) do position.y -= speed;
-        if is_key_down(.KEY_DOWN) || is_key_down(.KEY_S) do position.y += speed;
+        if is_key_down(.RIGHT) || is_key_down(.D) do position.x += speed;
+        if is_key_down(.LEFT) || is_key_down(.A) do position.x -= speed;
+        if is_key_down(.UP) || is_key_down(.W) do position.y -= speed;
+        if is_key_down(.DOWN) || is_key_down(.S) do position.y += speed;
 
-        if is_key_pressed(.KEY_L) do debug_console.log(&console, "this is a test");
+        if is_key_pressed(.L) do debug_console.log(&console, "this is a test");
 
-        if is_key_pressed(.KEY_R) do request = .Reload;
-        if is_key_pressed(.KEY_Q) do request = .Quit;
+        if is_key_pressed(.R) do request = .Reload;
+        if is_key_pressed(.Q) do request = .Quit;
 
         // click to move the player as well
-        if is_mouse_button_down(.MOUSE_LEFT_BUTTON) {
+        if is_mouse_button_down(.LEFT_BUTTON) {
             mouse_pos := get_mouse_position();
             to_pos := math.length(math.Vec2 { mouse_pos.x - position.x, mouse_pos.y - position.y });
             if to_pos > 20 {
@@ -165,7 +165,7 @@ update_and_draw :: proc() -> plugin.Request {
         clear_background(RAYWHITE);
         draw_texture(bg, 0, 0, WHITE);
         {
-            begin_blend_mode(BlendMode.BLEND_ADDITIVE);
+            begin_blend_mode(BlendMode.ADDITIVE);
             defer end_blend_mode();
 
             draw_texture(bg2, 0, 0, WHITE);
@@ -174,7 +174,7 @@ update_and_draw :: proc() -> plugin.Request {
         draw_texture_rec(scarfy, frameRec, position, WHITE);
         draw_texture(cat, cast(i32)cat_x, cast(i32)cat_y, cat_color);
         {
-            begin_blend_mode(BlendMode.BLEND_MULTIPLIED);
+            begin_blend_mode(BlendMode.MULTIPLIED);
             defer end_blend_mode();
 
             draw_circle_v(get_mouse_position(), 15, RED);

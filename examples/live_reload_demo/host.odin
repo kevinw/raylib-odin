@@ -17,9 +17,9 @@ main :: proc() {
     // Create the window
     set_config_flags(
         // TODO: bindings could remove FLAG_ and the like from enums
-        ConfigFlag.FLAG_MSAA_4X_HINT
-        | ConfigFlag.FLAG_VSYNC_HINT
-        //| ConfigFlag.FLAG_FULLSCREEN_MODE
+        ConfigFlag.MSAA_4X_HINT
+        | ConfigFlag.VSYNC_HINT
+        //| ConfigFlag.FULLSCREEN_MODE
     );
 
     init_window(screenWidth, screenHeight, "raylib-odin :: live reload example");

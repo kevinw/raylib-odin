@@ -14,40 +14,23 @@ main :: proc() {
         options.functionCase = bindgen.Case.Snake;
         options.pseudoTypeCase = bindgen.Case.Pascal;
 
+        options.enumValuePrefixes = {
+            "FLAG_", "LOG_", "KEY_", "GAMEPAD_", "MOUSE_", "LOC_",
+            "UNIFORM_", "MAP_", "FONT_", "GESTURE_", "CAMERA_", "HMD_",
+            "BLEND_",
+        };
+
         using options.parserOptions;
 
         customExpressionHandlers["CLITERAL"] = cliteral_handler;
         customExpressionHandlers["Font"] = font_handler;
         customExpressionHandlers["Camera3D"] = camera3d_handler;
 
+
         ignoredTokens = []string{"RLAPI"};
     }
 
     args_map : bindgen.Enum_Args_Map = aux_data.get_enum_args();
-    /*
-    {
-        aux_file := "./generator/preprocessed/aux_data.json";
-        aux_data, aux_ok := os.read_entire_file(aux_file);
-        if !aux_ok {
-            fmt.println_err("could not read", aux_file);
-            return;
-        }
-        aux_value, json_err := json.parse(aux_data);
-        if json_err != .None {
-            fmt.println_err("invalid json in", aux_file, "-", json_err);
-            return;
-        }
-
-        for func_name, val in (aux_value.value).(json.Object) {
-            for arg_type in (val.value).(json.Array) {
-                str := (arg_type.value).(string);
-                list := args_map[func_name];
-                append(&list, str);
-                args_map[func_name] = list;
-            }
-        }
-    }
-    */
     
     outputFile := "raylib_bindings/raylib_bindings.odin";
     typesFile := "raylib_types/raylib_types.odin";
