@@ -9,6 +9,12 @@ import serializer "core:encoding/json"
 using import "../../raylib_types"
 using import "../../raylib_bridge"
 
+// RAYLIB_EXTRA
+unload :: proc {
+    unload_texture,
+    unload_sound
+};
+
 import "./game_math"
 using import "./debug_console"
 
@@ -87,11 +93,12 @@ on_unload :: proc() {
     }
 
     debug_console.destroy(&console);
-    unload_texture(scarfy);
-    unload_texture(bg);
-    unload_texture(bg2);
-    unload_sound(meow);
+    unload(scarfy);
+    unload(bg);
+    unload(bg2);
+    unload(meow);
 }
+
 
 @(export)
 update_and_draw :: proc() -> plugin.Request {
