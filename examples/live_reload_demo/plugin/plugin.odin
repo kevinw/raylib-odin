@@ -27,6 +27,16 @@ when os.OS == "windows" {
         res := win32.copy_file_w(src_wc, dst_wc, win32.Bool(!force));
         return bool(res);
     }
+
+    _file_exists :: proc(filename: string) -> bool {
+        wide_path := win32.utf8_to_wstring(filename);
+        data: win32.File_Attribute_Data;
+
+        if !win32.get_file_attributes_ex_w(wide_path, win32.GetFileExInfoStandard, &data) {
+            return false;
+        }
+        return true;
+    }
 }
 
 get_file_time :: proc(filename: string) -> (bool, os.File_Time) {
@@ -57,6 +67,7 @@ Plugin :: struct {
 
 plugin_load :: proc(plugin: ^Plugin, name: string, userdata: rawptr) -> bool {
     temp_path :: "bin/temp/temp.dll";
+    temp_pdb_path :: "bin/temp/temp.pdb";
 
     // copy dll to temp location
     if !_copy_file(name, temp_path, true) {
@@ -65,9 +76,13 @@ plugin_load :: proc(plugin: ^Plugin, name: string, userdata: rawptr) -> bool {
         return false;
     }
 
-    if !_copy_file("bin/game.pdb", "bin/temp/temp.pdb", true) {
-        fmt.println("cannot copy pdb");
-        return false;
+    if !_file_exists("bin/game.pdb") {
+        fmt.println("!!!!!!!!!! pdb doesn't exist, skipping");
+    } else {
+        if !_copy_file("bin/game.pdb", temp_pdb_path, true) {
+            fmt.println("cannot copy pdb from bin/game.pdb to bin/temp/temp.pdb");
+            return false;
+        }
     }
 
     // load dll
