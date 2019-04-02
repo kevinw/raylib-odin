@@ -41,7 +41,7 @@ State :: struct {
     currentFrame : int,
     framesCounter : int,
     position : Vector2,
-    cat_x: f32,
+    cat_position: Vector2,
     cat_velocity: f32,
 }
 
@@ -177,12 +177,12 @@ update_and_draw :: proc() -> plugin.Request {
         // smoothly move the cat towards the player
         smooth_time:f32 = 0.4;
 
-        cat_x = game_math.smooth_damp(cat_x, position.x - 40, &cat_velocity, smooth_time, delta_time);
+        cat_position.x = game_math.smooth_damp(cat_position.x, position.x - 40, &cat_velocity, smooth_time, delta_time);
+        cat_position.y = 230;
     }
 
     player_rect := Rectangle { position.x, position.y, width_of_one_frame, f32(scarfy.height) };
-    cat_y:f32 : 230;
-    cat_rect := Rectangle { cat_x, cat_y, f32(cat.width), f32(cat.height) };
+    cat_rect := Rectangle { cat_position.x, cat_position.y, f32(cat.width), f32(cat.height) };
     cat_color := check_collision_recs(player_rect, cat_rect) ? RED : WHITE;
 
     // DRAW
@@ -200,7 +200,9 @@ update_and_draw :: proc() -> plugin.Request {
         }
 
         draw_texture_rec(scarfy, frameRec, position, WHITE);
-        draw_texture(cat, cast(i32)cat_x, cast(i32)cat_y, cat_color);
+        cat_rotation:f32 = 0.0;
+        cat_scale:f32 = 1.0;
+        draw_texture_ex(cat, cat_position, cat_rotation, cat_scale, cat_color);
         {
             begin_blend_mode(BlendMode.MULTIPLIED);
             defer end_blend_mode();
