@@ -22,6 +22,8 @@ compile_game_dll :: proc() -> bool {
         return false;
     }
 
+    // TODO: something like win32.destroy_handle(process_information.process);
+
     return true;
 }
 
@@ -53,7 +55,7 @@ watcher_thread_proc :: proc(^thread.Thread) -> int {
                 did_get_change = true;
             case win32.WAIT_TIMEOUT:
                 if !did_get_change {
-                    fmt.println_err("error: infinite timeout triggered");
+                    panic("error: infinite timeout triggered");
                     return -1;
                 }
 

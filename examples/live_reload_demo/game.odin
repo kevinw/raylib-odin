@@ -9,6 +9,9 @@ import serializer "core:encoding/json"
 using import "../../raylib_types"
 using import "../../raylib_bridge"
 
+//import "shared:odin-json"
+import "./json_ext"
+
 // RAYLIB_EXTRA
 unload :: proc {
     unload_texture,
@@ -20,6 +23,20 @@ using import "./debug_console"
 
 import "./plugin"
 
+state_json_dir :: "temp";
+state_json_path :: "temp/state.json";
+
+when os.OS == "windows" {
+    import "core:sys/win32"
+
+    mkdir_if_not_exist :: proc(dir: string) -> os.Errno {
+        dir_wstr := win32.utf8_to_wstring(dir, context.temp_allocator);
+        if win32.Bool(false) == win32.create_directory_w(dir_wstr, nil) do return os.Errno(win32.get_last_error());
+        return os.ERROR_NONE;
+    }
+}
+
+// This state persists during a plugin reload.
 State :: struct {
     currentFrame : int,
     framesCounter : int,
@@ -27,6 +44,7 @@ State :: struct {
     cat_x: f32,
     cat_velocity: f32,
 }
+
 
 Transient_State :: struct {
     bg : Texture,
@@ -43,61 +61,6 @@ Transient_State :: struct {
 
 state : State;
 transient_state : Transient_State;
-
-unmarshal_state :: proc(state: ^State, json_filename: string) -> bool {
-    bytes, ok := os.read_entire_file(json_filename);
-    if !ok {
-        fmt.println_err("could not read ", json_filename);
-        return false;
-    }
-
-    value, err := serializer.parse(bytes);
-    if err != .None {
-        fmt.println_err("json parse error ", err);
-        return false;
-    }
-
-    //fmt.println("value: ", value);
-
-    u(state, value);
-
-    return true;
-}
-
-u :: proc(p: ^State, value: serializer.Value) {
-    type_info := type_info_base(type_info_of(State));
-
-    if ti_struct, ok := type_info.variant.(Type_Info_Struct); ok {
-
-        if json_map, is_object := value.value.(serializer.Object); is_object {
-            for name, i in ti_struct.names {
-                ptr_to_field := rawptr(uintptr(p) + ti_struct.offsets[i]);
-                switch field_type in ti_struct.types[i].variant {
-                    case Type_Info_Integer:
-                        val := json_map[name].value.(serializer.Integer);
-                        r := cast(^int)ptr_to_field;
-                        r^ = int(val);
-                    case Type_Info_Float:
-                        val := json_map[name].value.(serializer.Float);
-                        base_arg := any{id=typeid_base(ti_struct.types[i].id), data=ptr_to_field};
-                        switch float_val in base_arg {
-                            case f32:
-                                (cast(^f32)base_arg.data)^ = cast(f32)val;
-                            case f64:
-                                (cast(^f64)base_arg.data)^ = val;
-                            case:
-                                fmt.println_err("ERROR: unexpected float type");
-                        }
-                }
-            }
-        }
-    }
-
-    else if ti_ptr, ok2 := type_info.variant.(Type_Info_Pointer); ok2 {
-        fmt.println("pointer!", ti_ptr);
-    }
-}
-
 
 @(export)
 on_load :: proc(funcs: ^raylib_Funcs) {
@@ -124,13 +87,13 @@ on_load :: proc(funcs: ^raylib_Funcs) {
         bg2 = load_texture_from_image(bg2_img);
     }
 
-    unmarshal_state(&state, path_to_state_json);
+    if !json_ext.unmarshal_file(&state, state_json_path) {
+        fmt.println("error unmarshalling json");
+    }
 
     debug_console.init(&console);
     debug_console.log(&console, "game.dll loaded at time=", get_time(), " seconds");
 }
-
-path_to_state_json :: "\\Users\\Kevin\\AppData\\LocalLow\\Temp\\state.json";
 
 @(export)
 on_unload :: proc() {
@@ -140,7 +103,8 @@ on_unload :: proc() {
     using transient_state;
 
     if state_bytes, err := serializer.marshal(state); err == .None {
-        os.write_entire_file(path_to_state_json, state_bytes);
+        mkdir_if_not_exist(state_json_dir);
+        os.write_entire_file(state_json_path, state_bytes);
     } else {
         s := "";
         switch err {
@@ -156,7 +120,6 @@ on_unload :: proc() {
     unload(bg2);
     unload(meow);
 }
-
 
 @(export)
 update_and_draw :: proc() -> plugin.Request {

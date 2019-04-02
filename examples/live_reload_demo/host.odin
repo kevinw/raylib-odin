@@ -48,12 +48,26 @@ main :: proc() {
     }
 
     // Game loop
+    RELOAD_INTERVAL_MS:f32 : 0.25;
+    reload_timer := RELOAD_INTERVAL_MS;
     for !window_should_close() {
         force_reload := false;
         switch plugin.update_and_draw_proc() {
             case .Reload: force_reload = true;
             case .Quit: return;
         }
-        plugin_maybe_reload(&plugin, &plugin_funcs, force_reload);
+
+        needs_reload_check := false;
+        if !force_reload {
+            reload_timer -= get_frame_time();
+            for reload_timer < 0 {
+                reload_timer += RELOAD_INTERVAL_MS;
+                needs_reload_check = true;
+            }
+        }
+
+        if needs_reload_check || force_reload {
+            plugin_maybe_reload(&plugin, &plugin_funcs, force_reload);
+        }
     }
 }

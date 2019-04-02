@@ -76,13 +76,8 @@ plugin_load :: proc(plugin: ^Plugin, name: string, userdata: rawptr) -> bool {
         return false;
     }
 
-    if !_file_exists("bin/game.pdb") {
-        fmt.println("!!!!!!!!!! pdb doesn't exist, skipping");
-    } else {
-        if !_copy_file("bin/game.pdb", temp_pdb_path, true) {
-            fmt.println("cannot copy pdb from bin/game.pdb to bin/temp/temp.pdb");
-            return false;
-        }
+    if !_copy_file("bin/game.pdb", temp_pdb_path, true) {
+        fmt.println("ERROR: cannot copy pdb from bin/game.pdb to bin/temp/temp.pdb");
     }
 
     // load dll
