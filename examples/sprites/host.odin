@@ -35,15 +35,15 @@ main :: proc() {
     raylib_bindings.get_function_pointers(&plugin_funcs);
 
     plugin: Plugin;
-    if !plugin_load(&plugin, "bin/game.dll", &plugin_funcs) {
-        fmt.println("error loading bin/game.dll");
+    if !plugin_load(&plugin, "bin/sprites_game.dll", &plugin_funcs) {
+        fmt.println("error loading bin/sprites_game.dll");
         return;
     }
     defer plugin_unload(&plugin);
 
     // kick off live reload watcher thread
     when os.OS == "windows" {
-        reloader := reloader_thread.start("cmd.exe /c scripts\\build_live_reload_plugin.bat", "examples\\live_reload_demo");
+        reloader := reloader_thread.start("cmd.exe /c scripts\\build_sprites_plugin.bat", "examples\\sprites");
         defer reloader_thread.finish(reloader);
     }
 

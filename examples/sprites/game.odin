@@ -17,7 +17,7 @@ unload :: proc {
     unload_sound
 };
 
-import "../shared/game_math"
+//import "../shared/game_math"
 import "../shared/plugin"
 using import "../shared/debug_console"
 
@@ -39,8 +39,6 @@ State :: struct {
     currentFrame : int,
     framesCounter : int,
     position : Vector2,
-    cat_position: Vector2,
-    cat_velocity: f32,
 }
 
 
@@ -50,11 +48,8 @@ Transient_State :: struct {
     num_frames : int,
     framesSpeed : int,
     bg2 : Texture,
-    cat : Texture,
     scarfy : Texture,
-    meow : Sound,
     console: Debug_Console,
-    did_play: bool,
 }
 
 state : State;
@@ -67,8 +62,6 @@ on_load :: proc(funcs: ^raylib_Funcs) {
     using transient_state;
 
     scarfy = load_texture("resources/scarfy.png");
-    cat = load_texture("resources/cat.png");
-    meow = load_sound("resources/tanatana.ogg");
 
     num_frames = 6;
     frameRec = Rectangle { 0, 0, cast(f32)scarfy.width / cast(f32)num_frames, cast(f32)scarfy.height };
@@ -116,7 +109,6 @@ on_unload :: proc() {
     unload(scarfy);
     unload(bg);
     unload(bg2);
-    unload(meow);
 }
 
 @(export)
@@ -125,11 +117,6 @@ update_and_draw :: proc() -> plugin.Request {
     using transient_state;
 
     request := plugin.Request.None;
-
-    if !did_play && is_audio_device_ready() {
-        //play_sound(meow);
-        did_play = true;
-    }
 
     // UPDATE
     width_of_one_frame := cast(f32)scarfy.width / cast(f32)num_frames;
@@ -172,16 +159,7 @@ update_and_draw :: proc() -> plugin.Request {
             frameRec.x = cast(f32)currentFrame * width_of_one_frame;
         }
 
-        // smoothly move the cat towards the player
-        smooth_time:f32 = 0.4;
-
-        cat_position.x = game_math.smooth_damp(cat_position.x, position.x - 40, &cat_velocity, smooth_time, delta_time);
-        cat_position.y = 230;
     }
-
-    player_rect := Rectangle { position.x, position.y, width_of_one_frame, f32(scarfy.height) };
-    cat_rect := Rectangle { cat_position.x, cat_position.y, f32(cat.width), f32(cat.height) };
-    cat_color := check_collision_recs(player_rect, cat_rect) ? RED : WHITE;
 
     // DRAW
     {
@@ -198,9 +176,6 @@ update_and_draw :: proc() -> plugin.Request {
         }
 
         draw_texture_rec(scarfy, frameRec, position, WHITE);
-        cat_rotation:f32 = 0.0;
-        cat_scale:f32 = 1.0;
-        draw_texture_ex(cat, cat_position, cat_rotation, cat_scale, cat_color);
         {
             begin_blend_mode(BlendMode.MULTIPLIED);
             defer end_blend_mode();
