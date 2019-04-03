@@ -14,6 +14,15 @@ Bunny :: struct {
     color : Color,
 }
 
+get_random_color :: inline proc() -> Color {
+    return Color {
+        cast(u8)get_random_value(0, 255),
+        cast(u8)get_random_value(0, 255),
+        cast(u8)get_random_value(0, 255),
+        255
+    };
+}
+
 main :: proc() {
 
     screen_width :: 1280;
@@ -33,21 +42,26 @@ main :: proc() {
     for !window_should_close() {
         if is_mouse_button_down(.LEFT_BUTTON) {
             for _ in 0..100 {
-                bunnies[bunnies_count].position = get_mouse_position();
-                bunnies[bunnies_count].speed.x = f32(get_random_value(250, 500)) / f32(60);
-                bunnies[bunnies_count].speed.y = f32(get_random_value(250, 500) - 500) / f32(60);
-                bunnies[bunnies_count].color = Color {
-                    cast(u8)get_random_value(0, 255), cast(u8)get_random_value(0, 255), cast(u8)get_random_value(0, 255), 255 };
+                new_bunny := &bunnies[bunnies_count];
                 bunnies_count += 1;
+
+                using new_bunny;
+                position = get_mouse_position();
+                speed.x = f32(get_random_value(250, 500)) / f32(60);
+                speed.y = f32(get_random_value(250, 500) - 500) / f32(60);
+                color = get_random_color();
             }
         }
 
         for i in 0..bunnies_count {
-            bunnies[i].position.x += bunnies[i].speed.x;
-            bunnies[i].position.y += bunnies[i].speed.y;
+            bunny := &bunnies[i];
+            using bunny;
 
-            if bunnies[i].position.x > cast(f32)get_screen_width() || bunnies[i].position.x < 0 do bunnies[i].speed.x *= -1;
-            if bunnies[i].position.y > cast(f32)get_screen_height() || bunnies[i].position.y < 0 do bunnies[i].speed.y *= -1;
+            position.x += speed.x;
+            position.y += speed.y;
+
+            if position.x > cast(f32)get_screen_width() || position.x < 0 do speed.x *= -1;
+            if position.y > cast(f32)get_screen_height() || position.y < 0 do speed.y *= -1;
         }
 
         begin_drawing();
