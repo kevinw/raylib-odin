@@ -69,11 +69,11 @@ on_load :: proc(funcs: ^raylib_Funcs) {
     spr.scale = 1.0;
     spr.tint = WHITE;
     spr.animations = make([]sprite.Anim, 1);
-    spr.animations[0].name = "walk_right";
-    spr.animations[0].fps = 12.0;
-    spr.animations[0].texture = scarfy;
-    spr.animations[0].rects = sprite.rects_from_horizontal_texture(cast(f32)scarfy.width, cast(f32)scarfy.height, 6);
     spr.current_anim = &spr.animations[0];
+    spr.current_anim.name = "walk_right";
+    spr.current_anim.fps = 10.0;
+    spr.current_anim.texture = scarfy;
+    spr.current_anim.rects = sprite.rects_from_horizontal_texture(cast(f32)scarfy.width, cast(f32)scarfy.height, 6);
 
     num_frames = 6;
 

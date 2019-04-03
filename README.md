@@ -43,6 +43,14 @@ Try editing some of the values in `examples/live_reload_demo/game.odin` and savi
 
 ![live reload example](resources/live-reload.gif)
 
+### `examples/bunnymark`
+
+```
+odin run examples\bunnymark\bunnymark.odin
+```
+
+![a screenshot of the bunnymark demo](resources/screenshots/example_bunnymark.png)
+
 ## Bindings
 
 To rebuild the bindings to raylib, run `scripts\build_raylib_bindings.bat`.
