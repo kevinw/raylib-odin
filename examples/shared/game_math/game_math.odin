@@ -10,6 +10,10 @@ saturate :: proc(f: f64) -> f64 {
     return f;
 }
 
+repeat :: proc(t, length: f32) -> f32 {
+    return clamp(t - math.floor(t / length) * length, 0.0, length);
+}
+
 clamp :: proc(val, min_val, max_val: f32) -> f32 {
     return min(max_val, max(min_val, val));
 }

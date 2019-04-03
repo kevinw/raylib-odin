@@ -22,7 +22,7 @@ main :: proc() {
         //| ConfigFlag.FULLSCREEN_MODE
     );
 
-    init_window(screenWidth, screenHeight, "raylib-odin :: live reload example");
+    init_window(screenWidth, screenHeight, "raylib-odin :: sprite example");
     defer close_window();
 
     set_window_position(40, 40);
@@ -43,7 +43,7 @@ main :: proc() {
 
     // kick off live reload watcher thread
     when os.OS == "windows" {
-        reloader := reloader_thread.start("cmd.exe /c scripts\\build_sprites_plugin.bat", "examples\\sprites");
+        reloader := reloader_thread.start("cmd.exe /c scripts\\build_sprites_plugin.bat", "examples");
         defer reloader_thread.finish(reloader);
     }
 

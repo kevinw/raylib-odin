@@ -11,6 +11,8 @@ using import "../../raylib_bridge"
 
 import "../shared/json_ext"
 
+import "../shared/sprite"
+
 // RAYLIB_EXTRA
 unload :: proc {
     unload_texture,
@@ -44,9 +46,8 @@ State :: struct {
 
 Transient_State :: struct {
     bg : Texture,
-    frameRec : Rectangle,
+    spr : sprite.Sprite,
     num_frames : int,
-    framesSpeed : int,
     bg2 : Texture,
     scarfy : Texture,
     console: Debug_Console,
@@ -63,9 +64,18 @@ on_load :: proc(funcs: ^raylib_Funcs) {
 
     scarfy = load_texture("resources/scarfy.png");
 
+    spr.pos = Vector2 { 50.0, 50.0 };
+    spr.rotation = 0.0;
+    spr.scale = 1.0;
+    spr.tint = WHITE;
+    spr.animations = make([]sprite.Anim, 1);
+    spr.animations[0].name = "walk_right";
+    spr.animations[0].fps = 12.0;
+    spr.animations[0].texture = scarfy;
+    spr.animations[0].rects = sprite.rects_from_horizontal_texture(cast(f32)scarfy.width, cast(f32)scarfy.height, 6);
+    spr.current_anim = &spr.animations[0];
+
     num_frames = 6;
-    frameRec = Rectangle { 0, 0, cast(f32)scarfy.width / cast(f32)num_frames, cast(f32)scarfy.height };
-    framesSpeed = 9;
 
     {
         bg_img := gen_image_gradient_v(850, 450, PURPLE, RAYWHITE);
@@ -118,24 +128,34 @@ update_and_draw :: proc() -> plugin.Request {
 
     request := plugin.Request.None;
 
+    sprites := make([]sprite.Sprite, 1, context.temp_allocator);
+    sprites[0] = spr;
+
     // UPDATE
-    width_of_one_frame := cast(f32)scarfy.width / cast(f32)num_frames;
+    spr_rect := sprite.current_rect(&spr);
+    width_of_one_frame := spr_rect.width;
     {
         framesCounter += 1;
         delta_time := get_frame_time();
         player_move_pixels_per_second:f32 = 400.0;
         speed := delta_time * player_move_pixels_per_second;
 
-        // move the player with the arrow or WASD keys
-        if is_key_down(.RIGHT) || is_key_down(.D) do position.x += speed;
-        if is_key_down(.LEFT) || is_key_down(.A) do position.x -= speed;
-        if is_key_down(.UP) || is_key_down(.W) do position.y -= speed;
-        if is_key_down(.DOWN) || is_key_down(.S) do position.y += speed;
+        prev_position := position;
 
+        // debug key L - log a message
         if is_key_pressed(.L) do debug_console.log(&console, "this is a test");
 
+        // debug key R - reload the plugin
         if is_key_pressed(.R) do request = .Reload;
+
+        // debug key Q - quit
         if is_key_pressed(.Q) do request = .Quit;
+
+        // move the player with the arrow or WASD keys
+        if is_key_down(.RIGHT) || is_key_down(.D) do position.x += speed;
+        if is_key_down(.LEFT)  || is_key_down(.A) do position.x -= speed;
+        if is_key_down(.UP)    || is_key_down(.W) do position.y -= speed;
+        if is_key_down(.DOWN)  || is_key_down(.S) do position.y += speed;
 
         // click to move the player as well
         if is_mouse_button_down(.LEFT_BUTTON) {
@@ -143,7 +163,7 @@ update_and_draw :: proc() -> plugin.Request {
             to_pos := math.length(math.Vec2 { mouse_pos.x - position.x, mouse_pos.y - position.y });
             if to_pos > 20 {
                 mouse_pos.x -= f32(width_of_one_frame) * .5;
-                mouse_pos.y -= f32(scarfy.height) * .5;
+                mouse_pos.y -= f32(spr_rect.height) * .5;
                 if mouse_pos.x > position.x do position.x = min(mouse_pos.x, position.x + speed);
                 else if mouse_pos.x < position.x do position.x = max(mouse_pos.x, position.x - speed);
                 if mouse_pos.y > position.y do position.y = min(mouse_pos.y, position.y + speed);
@@ -151,14 +171,12 @@ update_and_draw :: proc() -> plugin.Request {
             }
         }
 
-        // update the player sprite
-        if framesCounter >= (60.0 / framesSpeed) {
-            framesCounter = 0;
-            currentFrame += 1;
-            if currentFrame >= num_frames do currentFrame = 0.0;
-            frameRec.x = cast(f32)currentFrame * width_of_one_frame;
-        }
+        // TODO: these flip values get lost on reload
+        if prev_position.x < position.x do spr.flip_x = false;
+        else if prev_position.x > position.x do spr.flip_x = true;
 
+        sprites[0].pos = position;
+        sprite.update_many(sprites, delta_time);
     }
 
     // DRAW
@@ -171,15 +189,15 @@ update_and_draw :: proc() -> plugin.Request {
         {
             begin_blend_mode(BlendMode.ADDITIVE);
             defer end_blend_mode();
-
             draw_texture(bg2, 0, 0, WHITE);
         }
 
-        draw_texture_rec(scarfy, frameRec, position, WHITE);
+        sprite.draw_many(sprites);
+
         {
+            // mouse cursor
             begin_blend_mode(BlendMode.MULTIPLIED);
             defer end_blend_mode();
-
             draw_circle_v(get_mouse_position(), 15, RED);
         }
 
