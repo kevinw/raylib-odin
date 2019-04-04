@@ -46,11 +46,12 @@ State :: struct {
 
 Transient_State :: struct {
     bg : Texture,
-    spr : sprite.Sprite,
     num_frames : int,
     bg2 : Texture,
     scarfy : Texture,
     console: Debug_Console,
+
+    sprs : []sprite.Sprite,
 }
 
 state : State;
@@ -64,16 +65,39 @@ on_load :: proc(funcs: ^raylib_Funcs) {
 
     scarfy = load_texture("resources/scarfy.png");
 
-    spr.pos = Vector2 { 50.0, 50.0 };
-    spr.rotation = 0.0;
-    spr.scale = 1.0;
-    spr.tint = WHITE;
-    spr.animations = make([]sprite.Anim, 1);
-    spr.current_anim = &spr.animations[0];
-    spr.current_anim.name = "walk_right";
-    spr.current_anim.fps = 10.0;
-    spr.current_anim.texture = scarfy;
-    spr.current_anim.rects = sprite.rects_from_horizontal_texture(cast(f32)scarfy.width, cast(f32)scarfy.height, 6);
+    sprs = make([]sprite.Sprite, 51);
+
+    for i in 0..49 {
+        bg_spr := &sprs[i];
+        using bg_spr;
+
+        pos = Vector2 { 
+            cast(f32)get_random_value(0, get_screen_width()),
+            cast(f32)get_random_value(0, get_screen_height()),
+        };
+        rotation = cast(f32)get_random_value(0, 360);
+        tint = Color { 255, 255, 255, cast(u8)get_random_value(30, 100) };
+        animations = make([]sprite.Anim, 1);
+        current_anim = &animations[0];
+        current_anim.name = "walk_right";
+        current_anim.fps = cast(f32)get_random_value(1, 15);
+        current_anim.texture = scarfy;
+        current_anim.rects = sprite.rects_from_horizontal_texture(cast(f32)scarfy.width, cast(f32)scarfy.height, 6);
+    }
+
+    spr := &sprs[50];
+    {
+        using spr;
+        pos = Vector2 { 50.0, 50.0 };
+        rotation = 0.0;
+        tint = WHITE;
+        animations = make([]sprite.Anim, 1);
+        current_anim = &animations[0];
+        current_anim.name = "walk_right";
+        current_anim.fps = 10.0;
+        current_anim.texture = scarfy;
+        current_anim.rects = sprite.rects_from_horizontal_texture(cast(f32)scarfy.width, cast(f32)scarfy.height, 6);
+    }
 
     num_frames = 6;
 
@@ -128,11 +152,10 @@ update_and_draw :: proc() -> plugin.Request {
 
     request := plugin.Request.None;
 
-    sprites := make([]sprite.Sprite, 1, context.temp_allocator);
-    sprites[0] = spr;
+    spr := &sprs[50];
 
     // UPDATE
-    spr_rect := sprite.current_rect(&spr);
+    spr_rect := sprite.current_rect(spr);
     width_of_one_frame := spr_rect.width;
     {
         framesCounter += 1;
@@ -175,8 +198,8 @@ update_and_draw :: proc() -> plugin.Request {
         if prev_position.x < position.x do spr.flip_x = false;
         else if prev_position.x > position.x do spr.flip_x = true;
 
-        sprites[0].pos = position;
-        sprite.update_many(sprites, delta_time);
+        spr.pos = position;
+        sprite.update_many(sprs, delta_time);
     }
 
     // DRAW
@@ -192,7 +215,7 @@ update_and_draw :: proc() -> plugin.Request {
             draw_texture(bg2, 0, 0, WHITE);
         }
 
-        sprite.draw_many(sprites);
+        sprite.draw_many(sprs);
 
         {
             // mouse cursor

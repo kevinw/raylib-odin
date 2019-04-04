@@ -79,7 +79,10 @@ draw_many :: proc(sprites: []Sprite) {
         source_rect := current_anim.rects[current_rect_index(sprite)];
         dest_rect := Rectangle { pos.x, pos.y, source_rect.width, source_rect.height };
 
-        source_rect = Rectangle_scale(source_rect, flip_x ? -1 : 1, flip_y ? -1 : 1);
+        scale_x := f32(flip_x ? -1 : 1);
+        scale_y := f32(flip_y ? -1 : 1);
+
+        source_rect = Rectangle_scale(source_rect, scale_x, scale_y);
 
         draw_texture_pro(
             current_anim.texture, 
