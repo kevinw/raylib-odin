@@ -6,31 +6,48 @@ import "./bindgen"
 // import "core:encoding/json"
 import "./preprocessed/aux_data"
 
-main :: proc() {
+when os.OS == "windows" {
+    import "core:sys/win32"
+
+    mkdir_if_not_exist :: proc(dir: string) -> os.Errno {
+        dir_wstr := win32.utf8_to_wstring(dir, context.temp_allocator);
+        if win32.Bool(false) == win32.create_directory_w(dir_wstr, nil) do return os.Errno(win32.get_last_error());
+        return os.ERROR_NONE;
+    }
+}
+
+default_generator_options :: proc() -> bindgen.GeneratorOptions {
     options : bindgen.GeneratorOptions;
+
+    // odin default casing
+    options.variableCase = .Snake;
+    options.functionCase = .Snake;
+    options.pseudoTypeCase = .Pascal;
+
+    return options;
+}
+
+generate_raylib_bindings :: proc() {
+    options := default_generator_options();
+    options.enumValuePrefixes = {
+        "FLAG_", "LOG_", "KEY_", "GAMEPAD_", "MOUSE_", "LOC_",
+        "UNIFORM_", "MAP_", "FONT_", "GESTURE_", "CAMERA_", "HMD_",
+        "BLEND_",
+    };
+
     {
-        // odin default casing
-        options.variableCase = bindgen.Case.Snake;
-        options.functionCase = bindgen.Case.Snake;
-        options.pseudoTypeCase = bindgen.Case.Pascal;
-
-        options.enumValuePrefixes = {
-            "FLAG_", "LOG_", "KEY_", "GAMEPAD_", "MOUSE_", "LOC_",
-            "UNIFORM_", "MAP_", "FONT_", "GESTURE_", "CAMERA_", "HMD_",
-            "BLEND_",
-        };
-
         using options.parserOptions;
-
         customExpressionHandlers["CLITERAL"] = cliteral_handler;
         customExpressionHandlers["Font"] = font_handler;
         customExpressionHandlers["Camera3D"] = camera3d_handler;
-
-
         ignoredTokens = []string{"RLAPI"};
     }
 
     args_map : bindgen.Enum_Args_Map = aux_data.get_enum_args();
+
+    mkdir_if_not_exist("raylib_bindings");
+    mkdir_if_not_exist("raylib_types");
+    mkdir_if_not_exist("raylib_bridge");
     
     outputFile := "raylib_bindings/raylib_bindings.odin";
     typesFile := "raylib_types/raylib_types.odin";
@@ -52,6 +69,61 @@ main :: proc() {
         fmt.println("wrote", typesFile);
         fmt.println("wrote", bridgeFile);
     }
+}
+
+generate_raygui_bindings :: proc() {
+    options := default_generator_options();
+    options.odin_includes = []string{"../../raylib_types"};
+
+    {
+        using options.parserOptions;
+        ignoredTokens = []string{};
+        customExpressionHandlers["CLITERAL"] = cliteral_handler;
+        customHandlers["RAYGUIDEF"] = rayguidef_handler;
+        customExpressionHandlers["__declspec"] = declspec_handler;
+        ignoredDefines = []string{"RAYGUIDEF", "CLITERAL"};
+    }
+
+    mkdir_if_not_exist("ext/raygui_bindings");
+    mkdir_if_not_exist("ext/raygui_types");
+    mkdir_if_not_exist("ext/raygui_bridge");
+    
+    
+    outputFile := "ext/raygui_bindings/raygui_bindings.odin";
+    typesFile := "ext/raygui_types/raygui_types.odin";
+    bridgeFile := "ext/raygui_bridge/raygui_bridge.odin";
+    args_map : bindgen.Enum_Args_Map;
+
+    ok := bindgen.generate(
+        packageName = "raygui",
+        foreignLibrary = "raygui.lib",
+        outputFile = outputFile,
+        typesFile = typesFile,
+        bridgeFile = bridgeFile,
+        headerFiles = []string{"./ext/raygui/raygui-preprocessed.h"},
+        options = options,
+        enum_args_map = args_map,
+    );
+
+    if ok {
+        fmt.println("wrote", outputFile);
+        fmt.println("wrote", typesFile);
+        fmt.println("wrote", bridgeFile);
+    }
+
+}
+
+main :: proc() {
+    generate_raylib_bindings();
+    generate_raygui_bindings();
+}
+
+declspec_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue
+{
+    bindgen.check_and_eat_token(data, "__declspec");
+    bindgen.eat_line(data);
+
+    return "";
 }
 
 cliteral_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue
@@ -83,6 +155,10 @@ macro_make_version :: proc(data : ^bindgen.ParserData) -> bindgen.LiteralValue {
     return (((major) << 22) | ((minor) << 12) | (patch));
 }
 
+rayguidef_handler :: proc(data: ^bindgen.ParserData) {
+    bindgen.check_and_eat_token(data, "RAYGUIDEF");
+}
+
 color_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
     bindgen.check_and_eat_token(data, "Color"); return "Color";
 }
@@ -102,11 +178,4 @@ _cliteral_handler :: proc(data: ^bindgen.ParserData) {
     bindgen.check_and_eat_token(data, ")");
 }
 
-declspec_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
-    bindgen.check_and_eat_token(data, "__declspec");
-    bindgen.check_and_eat_token(data, "(");
-    bindgen.parse_identifier(data);
-    bindgen.check_and_eat_token(data, ")");
-    return "";
-}
 

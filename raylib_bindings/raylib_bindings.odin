@@ -9,6 +9,8 @@ foreign import "../lib/raylib.lib"
 
 import _c "core:c"
 
+
+
 using import "../raylib_types"
 
 get_function_pointers :: proc(funcs: ^raylib_Funcs) {

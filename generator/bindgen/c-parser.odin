@@ -15,6 +15,7 @@ CustomExpressionHandler :: proc(data : ^ParserData) -> LiteralValue;
 
 ParserOptions :: struct {
     ignoredTokens : []string,
+    ignoredDefines : []string,
 
     // Handlers
     customHandlers : map[string]CustomHandler,
@@ -372,12 +373,26 @@ parse_directive :: proc(data : ^ParserData) {
     }
 }
 
+is_ignored_define :: proc(data: ^ParserData, name: string) -> bool {
+    for ignored_define_name in data.options.ignoredDefines {
+        if name == ignored_define_name {
+            return true;
+        }
+    }
+    return false;
+}
+
 parse_define :: proc(data : ^ParserData) {
     check_and_eat_token(data, "define");
     data.foundFullReturn = false;
 
     node : DefineNode;
     node.name = parse_identifier(data);
+
+    if is_ignored_define(data, node.name) {
+        eat_define_lines(data);
+        return;
+    }
 
     data.defining_node = &node;
 
@@ -587,8 +602,9 @@ parse_variable_or_function_declaration :: proc(data : ^ParserData) {
     }
 
     name := parse_identifier(data);
-
+    
     token = peek_token(data);
+
     if token == "(" {
         enum_args : [dynamic]string;
 
@@ -603,11 +619,43 @@ parse_variable_or_function_declaration :: proc(data : ^ParserData) {
         functionDeclarationNode.name = name;
         return;
     }
+    else if token == "[" {
+        check_and_eat_token(data, "[");
+        for {
+            token = peek_token(data);
+            if token == "]" || token == "EOF" {
+                break;
+            }
+            eat_token(data);
+        }
+        check_and_eat_token(data, "]");
+        check_and_eat_token(data, "=");
+        parse_global_variable_value(data);
+    }
+    else if token == "=" {
+        check_and_eat_token(data, "=");
+        parse_global_variable_value(data);
+    }
 
     // Global variable declaration
     check_and_eat_token(data, ";");
 
     // @todo Expose global variables to generated code?
+}
+
+parse_global_variable_value :: proc(data : ^ParserData) {
+    // TODO: this whole function is wrong and is throwing away the results
+    // of initializing static variables. we're assuming they get the zero
+    // value, but that might not be true. @Kevin
+    token := peek_token(data);
+
+    if token == "{" {
+        check_and_eat_token(data, "{");
+        check_and_eat_token(data, "0");
+        check_and_eat_token(data, "}");
+    } else {
+        eat_token(data);
+    }
 }
 
 parse_function_declaration :: proc(data : ^ParserData, enum_args: ^[dynamic]string) -> ^FunctionDeclarationNode {
