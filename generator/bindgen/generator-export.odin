@@ -54,10 +54,16 @@ export_enums :: proc(data : ^GeneratorData) {
 export_structs :: proc(data : ^GeneratorData) {
     for node in data.nodes.structDefinitions {
         structName := clean_pseudo_type_name(node.name, data.options);
-        fmt.fprint(data.handle, structName, " :: struct #packed {");
-        export_struct_or_union_members(data, node.members);
-        fmt.fprint(data.handle, "};\n");
-        fmt.fprint(data.handle, "\n");
+
+        replacement, found := data.options.typeReplacements[structName];
+        if found {
+            fmt.fprint(data.handle, structName, " :: ", replacement, ";\n");
+        } else {
+            fmt.fprint(data.handle, structName, " :: struct #packed {");
+            export_struct_or_union_members(data, node.members);
+            fmt.fprint(data.handle, "};\n");
+            fmt.fprint(data.handle, "\n");
+        }
     }
 }
 

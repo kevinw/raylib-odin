@@ -6,6 +6,7 @@ package raylib_types
 
 import _c "core:c"
 
+import "core:math"
 RAYLIB_H :: 1;
 PI :: 3.142;
 DEG2RAD :: 0.017;
@@ -455,43 +456,10 @@ AnonymousEnum24 :: enum i32 {
     NPT_3PATCH_HORIZONTAL,
 };
 
-Vector2 :: struct #packed {
-    x : _c.float,
-    y : _c.float,
-};
-
-Vector3 :: struct #packed {
-    x : _c.float,
-    y : _c.float,
-    z : _c.float,
-};
-
-Vector4 :: struct #packed {
-    x : _c.float,
-    y : _c.float,
-    z : _c.float,
-    w : _c.float,
-};
-
-Matrix :: struct #packed {
-    m0 : _c.float,
-    m1 : _c.float,
-    m2 : _c.float,
-    m3 : _c.float,
-    m4 : _c.float,
-    m5 : _c.float,
-    m6 : _c.float,
-    m7 : _c.float,
-    m8 : _c.float,
-    m9 : _c.float,
-    m10 : _c.float,
-    m11 : _c.float,
-    m12 : _c.float,
-    m13 : _c.float,
-    m14 : _c.float,
-    m15 : _c.float,
-};
-
+Vector2 :: math.Vec2;
+Vector3 :: math.Vec3;
+Vector4 :: math.Vec4;
+Matrix :: math.Mat4;
 Color :: struct #packed {
     r : _c.uchar,
     g : _c.uchar,

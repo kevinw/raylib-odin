@@ -8,7 +8,6 @@ package raygui_bindings
 foreign import "../lib/raygui.lib"
 
 import _c "core:c"
-
 using import "../../raylib_types"
 
 

@@ -6,6 +6,7 @@ package raygui_types
 
 import _c "core:c"
 
+import "core:math"
 using import "../../raylib_types"
 RAYGUI_H :: 1;
 RAYGUI_VERSION :: "2.0-dev";

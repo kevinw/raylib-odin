@@ -6,6 +6,8 @@ import "./bindgen"
 // import "core:encoding/json"
 import "./preprocessed/aux_data"
 
+USE_MATH_TYPES :: true;
+
 when os.OS == "windows" {
     import "core:sys/win32"
 
@@ -19,16 +21,26 @@ when os.OS == "windows" {
 default_generator_options :: proc() -> bindgen.GeneratorOptions {
     options : bindgen.GeneratorOptions;
 
+    using options;
+
     // odin default casing
-    options.variableCase = .Snake;
-    options.functionCase = .Snake;
-    options.pseudoTypeCase = .Pascal;
+    variableCase = .Snake;
+    functionCase = .Snake;
+    pseudoTypeCase = .Pascal;
+
+    when USE_MATH_TYPES {
+        typeReplacements["Vector2"] = "math.Vec2";
+        typeReplacements["Vector3"] = "math.Vec3";
+        typeReplacements["Vector4"] = "math.Vec4";
+        typeReplacements["Matrix"] = "math.Mat4";
+    }
 
     return options;
 }
 
 generate_raylib_bindings :: proc() {
     options := default_generator_options();
+    when USE_MATH_TYPES do options.odin_includes = []string { "core:math", };
     options.enumValuePrefixes = {
         "FLAG_", "LOG_", "KEY_", "GAMEPAD_", "MOUSE_", "LOC_",
         "UNIFORM_", "MAP_", "FONT_", "GESTURE_", "CAMERA_", "HMD_",
@@ -50,7 +62,7 @@ generate_raylib_bindings :: proc() {
     mkdir_if_not_exist("raylib_bridge");
     
     outputFile := "raylib_bindings/raylib_bindings.odin";
-    typesFile := "raylib_types/raylib_types.odin";
+    typesFile  := "raylib_types/raylib_types.odin";
     bridgeFile := "raylib_bridge/raylib_bridge.odin";
 
     ok := bindgen.generate(
@@ -73,7 +85,8 @@ generate_raylib_bindings :: proc() {
 
 generate_raygui_bindings :: proc() {
     options := default_generator_options();
-    options.odin_includes = []string{"../../raylib_types"};
+    options.odin_using_includes = []string{ "../../raylib_types", };
+    when USE_MATH_TYPES do options.odin_includes = []string{ "core:math" };
 
     {
         using options.parserOptions;
@@ -88,9 +101,8 @@ generate_raygui_bindings :: proc() {
     mkdir_if_not_exist("ext/raygui_types");
     mkdir_if_not_exist("ext/raygui_bridge");
     
-    
     outputFile := "ext/raygui_bindings/raygui_bindings.odin";
-    typesFile := "ext/raygui_types/raygui_types.odin";
+    typesFile  := "ext/raygui_types/raygui_types.odin";
     bridgeFile := "ext/raygui_bridge/raygui_bridge.odin";
     args_map : bindgen.Enum_Args_Map;
 
@@ -113,9 +125,50 @@ generate_raygui_bindings :: proc() {
 
 }
 
+generate_raymath_bindings :: proc() {
+    options := default_generator_options();
+    options.odin_using_includes = []string{ "../../raylib_types", };
+    {
+        using options.parserOptions;
+        ignoredTokens = []string{};
+        customHandlers["RMDEF"] =  proc(data: ^bindgen.ParserData) {
+            bindgen.check_and_eat_token(data, "RMDEF");
+        };
+        customExpressionHandlers["__declspec"] = declspec_handler;
+        ignoredDefines = []string{"RMDEF",
+            "PI", "DEG2RAD", "RAD2DEG", // these are already provided by raylib.h
+        };
+    }
+
+    mkdir_if_not_exist("ext/raymath_bindings");
+    mkdir_if_not_exist("ext/raymath_types");
+    mkdir_if_not_exist("ext/raymath_bridge");
+    
+    outputFile := "ext/raymath_bindings/raymath_bindings.odin";
+    typesFile  := "ext/raymath_types/raymath_types.odin";
+    bridgeFile := "ext/raymath_bridge/raymath_bridge.odin";
+    args_map : bindgen.Enum_Args_Map;
+
+    if ok := bindgen.generate(
+        packageName = "raymath",
+        foreignLibrary = "raymath.lib",
+        outputFile = outputFile,
+        typesFile = typesFile,
+        bridgeFile = bridgeFile,
+        headerFiles = []string{"./ext/raymath/raymath-preprocessed.h"},
+        options = options,
+        enum_args_map = args_map,
+    ); ok {
+        fmt.println("wrote", outputFile);
+        fmt.println("wrote", typesFile);
+        fmt.println("wrote", bridgeFile);
+    }
+}
+
 main :: proc() {
     generate_raylib_bindings();
     generate_raygui_bindings();
+    generate_raymath_bindings();
 }
 
 declspec_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue

@@ -37,10 +37,17 @@ clean_variable_name :: proc(name : string, options : ^GeneratorOptions) -> strin
 }
 
 clean_pseudo_type_name :: proc(structName : string, options : ^GeneratorOptions) -> string {
-    structName = remove_postfixes(structName, options.pseudoTypePostfixes, options.pseudoTypeTransparentPostfixes);
-    structName = remove_prefixes(structName, options.pseudoTypePrefixes, options.pseudoTypeTransparentPrefixes);
-    structName = change_case(structName, options.pseudoTypeCase);
-    return structName;
+    /*
+    replacement, found := options.typeReplacements[structName];
+    if found {
+        return replacement;
+    } else {
+        */
+        structName = remove_postfixes(structName, options.pseudoTypePostfixes, options.pseudoTypeTransparentPostfixes);
+        structName = remove_prefixes(structName, options.pseudoTypePrefixes, options.pseudoTypeTransparentPrefixes);
+        structName = change_case(structName, options.pseudoTypeCase);
+        return structName;
+    //}
 }
 
 // Clean up the enum name so that it can be used to remove the prefix from enum values.

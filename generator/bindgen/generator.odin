@@ -44,6 +44,8 @@ GeneratorOptions :: struct {
     enumValueNameRemovePostfixes : []string,
 
     odin_includes: []string,
+    odin_using_includes: []string,
+    typeReplacements: map[string]string,
 
     parserOptions : ParserOptions,
 }
@@ -113,6 +115,9 @@ generate :: proc(
         fmt.fprint(data.handle, "\n");
 
         for include in options.odin_includes {
+            fmt.fprintf(data.handle, "import \"%s\"\n", include);
+        }
+        for include in options.odin_using_includes {
             fmt.fprintf(data.handle, "using import \"%s\"\n", include);
         }
 
@@ -140,7 +145,13 @@ generate :: proc(
         defer os.close(data.handle);
 
         builder : = strings.make_builder();
+        /*
+        removed includes from here because they were going unused
         for include in options.odin_includes {
+            fmt.sbprintf(&builder, "import \"%s\"\n", include);
+        }
+        */
+        for include in options.odin_using_includes {
             fmt.sbprintf(&builder, "using import \"%s\"\n", include);
         }
         additional_includes_string := strings.to_string(builder);
@@ -156,7 +167,6 @@ package %s_bindings
 foreign import "../lib/%s"
 
 import _c "core:c"
-
 %s
 
 using import "../%s_types"
