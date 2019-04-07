@@ -378,12 +378,12 @@ AnonymousEnum14 :: enum i32 {
 };
 
 AnonymousEnum15 :: enum i32 {
-    FILTER_POINT = 0,
-    FILTER_BILINEAR,
-    FILTER_TRILINEAR,
-    FILTER_ANISOTROPIC_4X,
-    FILTER_ANISOTROPIC_8X,
-    FILTER_ANISOTROPIC_16X,
+    POINT = 0,
+    BILINEAR,
+    TRILINEAR,
+    ANISOTROPIC_4X,
+    ANISOTROPIC_8X,
+    ANISOTROPIC_16X,
 };
 
 AnonymousEnum16 :: enum i32 {

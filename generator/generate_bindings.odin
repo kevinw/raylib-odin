@@ -44,7 +44,7 @@ generate_raylib_bindings :: proc() {
     options.enumValuePrefixes = {
         "FLAG_", "LOG_", "KEY_", "GAMEPAD_", "MOUSE_", "LOC_",
         "UNIFORM_", "MAP_", "FONT_", "GESTURE_", "CAMERA_", "HMD_",
-        "BLEND_",
+        "BLEND_", "FILTER_",
     };
 
     {
@@ -165,10 +165,48 @@ generate_raymath_bindings :: proc() {
     }
 }
 
+generate_physac_bindings :: proc() {
+    options := default_generator_options();
+    options.odin_using_includes = []string{ "../../raylib_types", };
+    {
+        using options.parserOptions;
+        ignoredTokens = []string{};
+        customHandlers["PHYSACDEF"] =  proc(data: ^bindgen.ParserData) {
+            bindgen.check_and_eat_token(data, "PHYSACDEF");
+        };
+        ignoredDefines = []string{"PHYSACDEF" };
+    }
+
+    mkdir_if_not_exist("ext/physac_bindings");
+    mkdir_if_not_exist("ext/physac_types");
+    mkdir_if_not_exist("ext/physac_bridge");
+    
+    outputFile := "ext/physac_bindings/physac_bindings.odin";
+    typesFile  := "ext/physac_types/physac_types.odin";
+    bridgeFile := "ext/physac_bridge/physac_bridge.odin";
+    args_map : bindgen.Enum_Args_Map;
+
+    if ok := bindgen.generate(
+        packageName = "physac",
+        foreignLibrary = "physac.lib",
+        outputFile = outputFile,
+        typesFile = typesFile,
+        bridgeFile = bridgeFile,
+        headerFiles = []string{"./ext/physac/physac-preprocessed.h"},
+        options = options,
+        enum_args_map = args_map,
+    ); ok {
+        fmt.println("wrote", outputFile);
+        fmt.println("wrote", typesFile);
+        fmt.println("wrote", bridgeFile);
+    }
+}
+
 main :: proc() {
     generate_raylib_bindings();
     generate_raygui_bindings();
     generate_raymath_bindings();
+    generate_physac_bindings();
 }
 
 declspec_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue

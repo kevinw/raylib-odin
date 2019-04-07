@@ -1,5 +1,5 @@
 @setlocal
-@set OUTPUT_FILE=..\..\lib\raymath.lib
+@set OUTPUT_FILE=..\lib\raymath.lib
 @echo.
 @echo Compiling...
 @echo.

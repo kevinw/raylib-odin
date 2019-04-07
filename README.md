@@ -46,10 +46,18 @@ Try editing some of the values in `examples/live_reload_demo/game.odin` and savi
 ### `examples/bunnymark`
 
 ```
-odin run examples\bunnymark\bunnymark.odin
+odin run examples/bunnymark
 ```
 
 ![a screenshot of the bunnymark demo](resources/screenshots/example_bunnymark.png)
+
+### `examples/physac`
+
+```
+odin run examples/physac
+```
+
+![a screenshot of the physac demo](resources/screenshots/physac.png)
 
 ## Modules
 

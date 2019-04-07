@@ -454,6 +454,13 @@ parse_typedef :: proc(data : ^ParserData) {
 
     append(&data.nodes.typedefs, node);
 
+    token := peek_token(data);
+    for peek_token(data) != ";" {
+        check_and_eat_token(data, ",");
+        check_and_eat_token(data, "*");
+        eat_token(data);
+    }
+
     check_and_eat_token(data, ";");
 }
 
