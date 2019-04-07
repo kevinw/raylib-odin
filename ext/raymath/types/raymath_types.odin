@@ -6,7 +6,7 @@ package raymath_types
 
 import _c "core:c"
 
-using import "../../raylib_types"
+using import "../../../raylib/types"
 RAYMATH_H :: 1;
 
 

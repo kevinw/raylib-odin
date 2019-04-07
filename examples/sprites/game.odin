@@ -6,8 +6,7 @@ import "core:os"
 import "core:fmt"
 import serializer "core:encoding/json"
 
-using import "../../raylib_types"
-using import "../../raylib_bridge"
+using import "../../raylib/bridge"
 
 import "../shared/json_ext"
 

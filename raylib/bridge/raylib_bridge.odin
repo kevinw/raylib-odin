@@ -1,7 +1,112 @@
 
 package raylib
 
-using import "../raylib_types"
+using import "../types"
+
+raylib_Funcs :: raylib_Funcs;
+
+// re-export everything from ./types for convienience
+RAYLIB_H :: RAYLIB_H;
+PI :: PI;
+DEG2RAD :: DEG2RAD;
+RAD2DEG :: RAD2DEG;
+MAX_TOUCH_POINTS :: MAX_TOUCH_POINTS;
+MAX_SHADER_LOCATIONS :: MAX_SHADER_LOCATIONS;
+MAX_MATERIAL_MAPS :: MAX_MATERIAL_MAPS;
+LIGHTGRAY := LIGHTGRAY;
+GRAY := GRAY;
+DARKGRAY := DARKGRAY;
+YELLOW := YELLOW;
+GOLD := GOLD;
+ORANGE := ORANGE;
+PINK := PINK;
+RED := RED;
+MAROON := MAROON;
+GREEN := GREEN;
+LIME := LIME;
+DARKGREEN := DARKGREEN;
+SKYBLUE := SKYBLUE;
+BLUE := BLUE;
+DARKBLUE := DARKBLUE;
+PURPLE := PURPLE;
+VIOLET := VIOLET;
+DARKPURPLE := DARKPURPLE;
+BEIGE := BEIGE;
+BROWN := BROWN;
+DARKBROWN := DARKBROWN;
+WHITE := WHITE;
+BLACK := BLACK;
+BLANK := BLANK;
+MAGENTA := MAGENTA;
+RAYWHITE := RAYWHITE;
+SpriteFont :: SpriteFont;
+Camera :: Camera;
+LOC_MAP_DIFFUSE :: LOC_MAP_DIFFUSE;
+LOC_MAP_SPECULAR :: LOC_MAP_SPECULAR;
+MAP_DIFFUSE :: MAP_DIFFUSE;
+MAP_SPECULAR :: MAP_SPECULAR;
+
+Quaternion :: Quaternion;
+Texture :: Texture;
+TextureCubemap :: TextureCubemap;
+RenderTexture :: RenderTexture;
+Music :: Music;
+ConfigFlag :: ConfigFlag;
+TraceLogType :: TraceLogType;
+KeyboardKey :: KeyboardKey;
+AndroidButton :: AndroidButton;
+MouseButton :: MouseButton;
+GamepadNumber :: GamepadNumber;
+GamepadPS3Button :: GamepadPS3Button;
+GamepadPS3Axis :: GamepadPS3Axis;
+GamepadXbox360Button :: GamepadXbox360Button;
+GamepadXbox360Axis :: GamepadXbox360Axis;
+GamepadAndroid :: GamepadAndroid;
+ShaderLocationIndex :: ShaderLocationIndex;
+ShaderUniformDataType :: ShaderUniformDataType;
+TexmapIndex :: TexmapIndex;
+PixelFormat :: PixelFormat;
+TextureFilterMode :: TextureFilterMode;
+CubemapLayoutType :: CubemapLayoutType;
+TextureWrapMode :: TextureWrapMode;
+FontType :: FontType;
+BlendMode :: BlendMode;
+GestureType :: GestureType;
+CameraMode :: CameraMode;
+CameraType :: CameraType;
+VrDeviceType :: VrDeviceType;
+NPatchType :: NPatchType;
+TraceLogCallback :: TraceLogCallback;
+
+Vector2 :: Vector2;
+Vector3 :: Vector3;
+Vector4 :: Vector4;
+Matrix :: Matrix;
+Color :: Color;
+Rectangle :: Rectangle;
+Image :: Image;
+Texture2D :: Texture2D;
+RenderTexture2D :: RenderTexture2D;
+NPatchInfo :: NPatchInfo;
+CharInfo :: CharInfo;
+Font :: Font;
+Camera3D :: Camera3D;
+Camera2D :: Camera2D;
+BoundingBox :: BoundingBox;
+Mesh :: Mesh;
+Shader :: Shader;
+MaterialMap :: MaterialMap;
+Material :: Material;
+Model :: Model;
+Ray :: Ray;
+RayHitInfo :: RayHitInfo;
+Wave :: Wave;
+Sound :: Sound;
+MusicData :: MusicData;
+AudioStream :: AudioStream;
+VrDeviceInfo :: VrDeviceInfo;
+VrStereoConfig :: VrStereoConfig;
+
 
 import _c "core:c"
 

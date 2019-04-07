@@ -2,8 +2,7 @@ package sprite
 
 import "core:fmt"
 
-using import "../../../raylib_types"
-using import "../../../raylib_bridge"
+using import "../../../raylib/bridge"
 
 import "../../shared/game_math"
 

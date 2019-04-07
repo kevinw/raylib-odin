@@ -8,12 +8,21 @@ package raymath_bindings
 foreign import "../lib/raymath.lib"
 
 import _c "core:c"
-using import "../../raylib_types"
+using import "../../raylib/types"
 
 
-using import "../raymath_types"
+import raymath_types "./types"
 
-get_function_pointers :: proc(funcs: ^raymath_Funcs) {
+raymath_Funcs :: raymath_types.raymath_Funcs;
+
+// re-export everything from ./types for convienience
+RAYMATH_H :: raymath_types.RAYMATH_H;
+
+
+Float3 :: raymath_types.Float3;
+Float16 :: raymath_types.Float16;
+
+get_function_pointers :: proc(funcs: ^raymath_types.raymath_Funcs) {
     funcs.clamp = clamp;
     funcs.lerp = lerp;
     funcs.vector2_zero = vector2_zero;

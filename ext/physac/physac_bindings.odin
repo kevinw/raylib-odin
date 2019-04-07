@@ -8,12 +8,36 @@ package physac_bindings
 foreign import "../lib/physac.lib"
 
 import _c "core:c"
-using import "../../raylib_types"
+using import "../../raylib/types"
 
 
-using import "../physac_types"
+import physac_types "./types"
 
-get_function_pointers :: proc(funcs: ^physac_Funcs) {
+physac_Funcs :: physac_types.physac_Funcs;
+
+// re-export everything from ./types for convienience
+PHYSAC_H :: physac_types.PHYSAC_H;
+PHYSAC_MAX_BODIES :: physac_types.PHYSAC_MAX_BODIES;
+PHYSAC_MAX_MANIFOLDS :: physac_types.PHYSAC_MAX_MANIFOLDS;
+PHYSAC_MAX_VERTICES :: physac_types.PHYSAC_MAX_VERTICES;
+PHYSAC_CIRCLE_VERTICES :: physac_types.PHYSAC_CIRCLE_VERTICES;
+PHYSAC_DESIRED_DELTATIME :: physac_types.PHYSAC_DESIRED_DELTATIME;
+PHYSAC_MAX_TIMESTEP :: physac_types.PHYSAC_MAX_TIMESTEP;
+PHYSAC_COLLISION_ITERATIONS :: physac_types.PHYSAC_COLLISION_ITERATIONS;
+PHYSAC_PENETRATION_ALLOWANCE :: physac_types.PHYSAC_PENETRATION_ALLOWANCE;
+PHYSAC_PENETRATION_CORRECTION :: physac_types.PHYSAC_PENETRATION_CORRECTION;
+PHYSAC_PI :: physac_types.PHYSAC_PI;
+PHYSAC_DEG2RAD :: physac_types.PHYSAC_DEG2RAD;
+
+PhysicsBody :: physac_types.PhysicsBody;
+
+PhysicsBodyData :: physac_types.PhysicsBodyData;
+Mat2 :: physac_types.Mat2;
+PolygonData :: physac_types.PolygonData;
+PhysicsShape :: physac_types.PhysicsShape;
+PhysicsManifoldData :: physac_types.PhysicsManifoldData;
+
+get_function_pointers :: proc(funcs: ^physac_types.physac_Funcs) {
     funcs.init_physics = init_physics;
     funcs.is_physics_enabled = is_physics_enabled;
     funcs.set_physics_gravity = set_physics_gravity;

@@ -1,7 +1,6 @@
 package live_reload_demo
 
-using import "../../raylib_types"
-using import "../../raylib_bindings"
+using import "../../raylib"
 
 import "core:fmt"
 import "core:os"
@@ -31,8 +30,8 @@ main :: proc() {
     defer close_audio_device();
 
     // Load the plugin
-    plugin_funcs : raylib_types.raylib_Funcs;
-    raylib_bindings.get_function_pointers(&plugin_funcs);
+    plugin_funcs : raylib_Funcs;
+    raylib.get_function_pointers(&plugin_funcs);
 
     plugin: Plugin;
     if !plugin_load(&plugin, "bin/sprites_game.dll", &plugin_funcs) {

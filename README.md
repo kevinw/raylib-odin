@@ -20,7 +20,7 @@ from [Kevin Watters](https://kev.town)
 To run a simple demo:
 
 ```
-scripts\run_simple_demo
+odin run examples/simple_demo
 ```
 
 You should see this:

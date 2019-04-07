@@ -3,8 +3,7 @@ package bunnymark
 import "core:fmt"
 import "core:strings"
 
-using import "../../raylib_types"
-using import "../../raylib_bindings"
+using import "../../raylib"
 
 MAX_BUNNIES :: 100000;
 

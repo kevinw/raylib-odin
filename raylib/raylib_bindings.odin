@@ -10,9 +10,113 @@ foreign import "../lib/raylib.lib"
 import _c "core:c"
 
 
-using import "../raylib_types"
+import raylib_types "./types"
 
-get_function_pointers :: proc(funcs: ^raylib_Funcs) {
+raylib_Funcs :: raylib_types.raylib_Funcs;
+
+// re-export everything from ./types for convienience
+RAYLIB_H :: raylib_types.RAYLIB_H;
+PI :: raylib_types.PI;
+DEG2RAD :: raylib_types.DEG2RAD;
+RAD2DEG :: raylib_types.RAD2DEG;
+MAX_TOUCH_POINTS :: raylib_types.MAX_TOUCH_POINTS;
+MAX_SHADER_LOCATIONS :: raylib_types.MAX_SHADER_LOCATIONS;
+MAX_MATERIAL_MAPS :: raylib_types.MAX_MATERIAL_MAPS;
+LIGHTGRAY := raylib_types.LIGHTGRAY;
+GRAY := raylib_types.GRAY;
+DARKGRAY := raylib_types.DARKGRAY;
+YELLOW := raylib_types.YELLOW;
+GOLD := raylib_types.GOLD;
+ORANGE := raylib_types.ORANGE;
+PINK := raylib_types.PINK;
+RED := raylib_types.RED;
+MAROON := raylib_types.MAROON;
+GREEN := raylib_types.GREEN;
+LIME := raylib_types.LIME;
+DARKGREEN := raylib_types.DARKGREEN;
+SKYBLUE := raylib_types.SKYBLUE;
+BLUE := raylib_types.BLUE;
+DARKBLUE := raylib_types.DARKBLUE;
+PURPLE := raylib_types.PURPLE;
+VIOLET := raylib_types.VIOLET;
+DARKPURPLE := raylib_types.DARKPURPLE;
+BEIGE := raylib_types.BEIGE;
+BROWN := raylib_types.BROWN;
+DARKBROWN := raylib_types.DARKBROWN;
+WHITE := raylib_types.WHITE;
+BLACK := raylib_types.BLACK;
+BLANK := raylib_types.BLANK;
+MAGENTA := raylib_types.MAGENTA;
+RAYWHITE := raylib_types.RAYWHITE;
+SpriteFont :: raylib_types.SpriteFont;
+Camera :: raylib_types.Camera;
+LOC_MAP_DIFFUSE :: raylib_types.LOC_MAP_DIFFUSE;
+LOC_MAP_SPECULAR :: raylib_types.LOC_MAP_SPECULAR;
+MAP_DIFFUSE :: raylib_types.MAP_DIFFUSE;
+MAP_SPECULAR :: raylib_types.MAP_SPECULAR;
+
+Quaternion :: raylib_types.Quaternion;
+Texture :: raylib_types.Texture;
+TextureCubemap :: raylib_types.TextureCubemap;
+RenderTexture :: raylib_types.RenderTexture;
+Music :: raylib_types.Music;
+ConfigFlag :: raylib_types.ConfigFlag;
+TraceLogType :: raylib_types.TraceLogType;
+KeyboardKey :: raylib_types.KeyboardKey;
+AndroidButton :: raylib_types.AndroidButton;
+MouseButton :: raylib_types.MouseButton;
+GamepadNumber :: raylib_types.GamepadNumber;
+GamepadPS3Button :: raylib_types.GamepadPS3Button;
+GamepadPS3Axis :: raylib_types.GamepadPS3Axis;
+GamepadXbox360Button :: raylib_types.GamepadXbox360Button;
+GamepadXbox360Axis :: raylib_types.GamepadXbox360Axis;
+GamepadAndroid :: raylib_types.GamepadAndroid;
+ShaderLocationIndex :: raylib_types.ShaderLocationIndex;
+ShaderUniformDataType :: raylib_types.ShaderUniformDataType;
+TexmapIndex :: raylib_types.TexmapIndex;
+PixelFormat :: raylib_types.PixelFormat;
+TextureFilterMode :: raylib_types.TextureFilterMode;
+CubemapLayoutType :: raylib_types.CubemapLayoutType;
+TextureWrapMode :: raylib_types.TextureWrapMode;
+FontType :: raylib_types.FontType;
+BlendMode :: raylib_types.BlendMode;
+GestureType :: raylib_types.GestureType;
+CameraMode :: raylib_types.CameraMode;
+CameraType :: raylib_types.CameraType;
+VrDeviceType :: raylib_types.VrDeviceType;
+NPatchType :: raylib_types.NPatchType;
+TraceLogCallback :: raylib_types.TraceLogCallback;
+
+Vector2 :: raylib_types.Vector2;
+Vector3 :: raylib_types.Vector3;
+Vector4 :: raylib_types.Vector4;
+Matrix :: raylib_types.Matrix;
+Color :: raylib_types.Color;
+Rectangle :: raylib_types.Rectangle;
+Image :: raylib_types.Image;
+Texture2D :: raylib_types.Texture2D;
+RenderTexture2D :: raylib_types.RenderTexture2D;
+NPatchInfo :: raylib_types.NPatchInfo;
+CharInfo :: raylib_types.CharInfo;
+Font :: raylib_types.Font;
+Camera3D :: raylib_types.Camera3D;
+Camera2D :: raylib_types.Camera2D;
+BoundingBox :: raylib_types.BoundingBox;
+Mesh :: raylib_types.Mesh;
+Shader :: raylib_types.Shader;
+MaterialMap :: raylib_types.MaterialMap;
+Material :: raylib_types.Material;
+Model :: raylib_types.Model;
+Ray :: raylib_types.Ray;
+RayHitInfo :: raylib_types.RayHitInfo;
+Wave :: raylib_types.Wave;
+Sound :: raylib_types.Sound;
+MusicData :: raylib_types.MusicData;
+AudioStream :: raylib_types.AudioStream;
+VrDeviceInfo :: raylib_types.VrDeviceInfo;
+VrStereoConfig :: raylib_types.VrStereoConfig;
+
+get_function_pointers :: proc(funcs: ^raylib_types.raylib_Funcs) {
     funcs.init_window = init_window;
     funcs.window_should_close = window_should_close;
     funcs.close_window = close_window;

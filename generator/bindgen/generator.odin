@@ -118,7 +118,7 @@ generate :: proc(
             fmt.fprintf(data.handle, "import \"%s\"\n", include);
         }
         for include in options.odin_using_includes {
-            fmt.fprintf(data.handle, "using import \"%s\"\n", include);
+            fmt.fprintf(data.handle, "using import \"../%s\"\n", include);
         }
 
         // Exporting
@@ -169,10 +169,17 @@ foreign import "../lib/%s"
 import _c "core:c"
 %s
 
-using import "../%s_types"
+import %s_types "./types"
 
-get_function_pointers :: proc(funcs: ^%s_Funcs) {
-`, packageName, foreignLibrary, additional_includes_string, packageName, packageName);
+%s_Funcs :: %s_types.%s_Funcs;
+
+`, packageName, foreignLibrary, additional_includes_string, packageName, packageName, packageName, packageName);
+
+        reexport_types(data, packageName);
+
+        fmt.fprintf(data.handle, `
+get_function_pointers :: proc(funcs: ^%s_types.%s_Funcs) {
+`, packageName, packageName);
 
         // assign incoming func pointers to struct
         for node in data.nodes.functionDeclarations {
@@ -206,12 +213,20 @@ get_function_pointers :: proc(funcs: ^%s_Funcs) {
         fmt.fprintf(data.handle, `
 package %s
 
-using import "../%s_types"
+using import "../types"
+
+%s_Funcs :: %s_Funcs;
+
+`, packageName, packageName, packageName);
+
+        reexport_types(data);
+
+        fmt.fprintf(data.handle, `
 
 import _c "core:c"
 
 bridge_init :: proc(funcs: ^%s_Funcs) {
-`, packageName, packageName, packageName);
+`, packageName);
 
         count := 0;
 
@@ -292,5 +307,38 @@ merge_forward_declared_nodes :: proc(nodes : ^$T, headerNodes : ^T) {
         else if !headerNode.forwardDeclared {
             nodes[duplicatedIndex] = headerNode;
         }
+    }
+}
+
+reexport_types :: proc(data: GeneratorData, packageName: string = "") {
+    fmt.fprint(data.handle, "// re-export everything from ./types for convienience\n");
+
+    types_prefix := "";
+    if len(packageName) > 0 {
+        types_prefix = fmt.tprint(packageName, "_types.");
+    }
+
+    // defines
+    for node in data.nodes.defines {
+        defineName := clean_define_name(node.name, data.options);
+        fmt.fprint(data.handle, defineName,
+            node.is_variable ? " := " : " :: ",
+            types_prefix, defineName, ";\n");
+    }
+    fmt.fprint(data.handle, "\n");
+
+    // typedefs
+    for node in data.nodes.typedefs {
+        aliasName := clean_pseudo_type_name(node.name, data.options);
+        sourceType := clean_type(node.sourceType, data.options);
+        if aliasName == sourceType do continue;
+        fmt.fprint(data.handle, aliasName, " :: ", types_prefix, aliasName, ";\n");
+    }
+    fmt.fprint(data.handle, "\n");
+
+    // structs
+    for node in data.nodes.structDefinitions {
+        structName := clean_pseudo_type_name(node.name, data.options);
+        fmt.fprint(data.handle, structName, " :: ", types_prefix, structName, ";\n");
     }
 }

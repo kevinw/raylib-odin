@@ -6,7 +6,7 @@ package physac_types
 
 import _c "core:c"
 
-using import "../../raylib_types"
+using import "../../../raylib/types"
 PHYSAC_H :: 1;
 PHYSAC_MAX_BODIES :: 64;
 PHYSAC_MAX_MANIFOLDS :: 4096;

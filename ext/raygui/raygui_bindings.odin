@@ -8,12 +8,25 @@ package raygui_bindings
 foreign import "../lib/raygui.lib"
 
 import _c "core:c"
-using import "../../raylib_types"
+using import "../../raylib/types"
 
 
-using import "../raygui_types"
+import raygui_types "./types"
 
-get_function_pointers :: proc(funcs: ^raygui_Funcs) {
+raygui_Funcs :: raygui_types.raygui_Funcs;
+
+// re-export everything from ./types for convienience
+RAYGUI_H :: raygui_types.RAYGUI_H;
+RAYGUI_VERSION :: raygui_types.RAYGUI_VERSION;
+RAYGUI_RICONS_SUPPORT :: raygui_types.RAYGUI_RICONS_SUPPORT;
+TEXTEDIT_CURSOR_BLINK_FRAMES :: raygui_types.TEXTEDIT_CURSOR_BLINK_FRAMES;
+NUM_CONTROLS :: raygui_types.NUM_CONTROLS;
+NUM_PROPS_DEFAULT :: raygui_types.NUM_PROPS_DEFAULT;
+NUM_PROPS_EXTENDED :: raygui_types.NUM_PROPS_EXTENDED;
+
+
+
+get_function_pointers :: proc(funcs: ^raygui_types.raygui_Funcs) {
     funcs.gui_list_element = gui_list_element;
     funcs.convert_hs_vto_rgb = convert_hs_vto_rgb;
     funcs.convert_rg_bto_hsv = convert_rg_bto_hsv;

@@ -1,7 +1,32 @@
 
 package physac
 
-using import "../physac_types"
+using import "../types"
+
+physac_Funcs :: physac_Funcs;
+
+// re-export everything from ./types for convienience
+PHYSAC_H :: PHYSAC_H;
+PHYSAC_MAX_BODIES :: PHYSAC_MAX_BODIES;
+PHYSAC_MAX_MANIFOLDS :: PHYSAC_MAX_MANIFOLDS;
+PHYSAC_MAX_VERTICES :: PHYSAC_MAX_VERTICES;
+PHYSAC_CIRCLE_VERTICES :: PHYSAC_CIRCLE_VERTICES;
+PHYSAC_DESIRED_DELTATIME :: PHYSAC_DESIRED_DELTATIME;
+PHYSAC_MAX_TIMESTEP :: PHYSAC_MAX_TIMESTEP;
+PHYSAC_COLLISION_ITERATIONS :: PHYSAC_COLLISION_ITERATIONS;
+PHYSAC_PENETRATION_ALLOWANCE :: PHYSAC_PENETRATION_ALLOWANCE;
+PHYSAC_PENETRATION_CORRECTION :: PHYSAC_PENETRATION_CORRECTION;
+PHYSAC_PI :: PHYSAC_PI;
+PHYSAC_DEG2RAD :: PHYSAC_DEG2RAD;
+
+PhysicsBody :: PhysicsBody;
+
+PhysicsBodyData :: PhysicsBodyData;
+Mat2 :: Mat2;
+PolygonData :: PolygonData;
+PhysicsShape :: PhysicsShape;
+PhysicsManifoldData :: PhysicsManifoldData;
+
 
 import _c "core:c"
 

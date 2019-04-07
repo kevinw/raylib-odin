@@ -57,13 +57,13 @@ generate_raylib_bindings :: proc() {
 
     args_map : bindgen.Enum_Args_Map = aux_data.get_enum_args();
 
-    mkdir_if_not_exist("raylib_bindings");
-    mkdir_if_not_exist("raylib_types");
-    mkdir_if_not_exist("raylib_bridge");
+    mkdir_if_not_exist("raylib");
+    mkdir_if_not_exist("raylib/bridge");
+    mkdir_if_not_exist("raylib/types");
     
-    outputFile := "raylib_bindings/raylib_bindings.odin";
-    typesFile  := "raylib_types/raylib_types.odin";
-    bridgeFile := "raylib_bridge/raylib_bridge.odin";
+    outputFile := "raylib/raylib_bindings.odin";
+    typesFile  := "raylib/types/raylib_types.odin";
+    bridgeFile := "raylib/bridge/raylib_bridge.odin";
 
     ok := bindgen.generate(
         packageName = "raylib",
@@ -85,7 +85,7 @@ generate_raylib_bindings :: proc() {
 
 generate_raygui_bindings :: proc() {
     options := default_generator_options();
-    options.odin_using_includes = []string{ "../../raylib_types", };
+    options.odin_using_includes = []string{ "../../raylib/types", };
     when USE_MATH_TYPES do options.odin_includes = []string{ "core:math" };
 
     {
@@ -97,13 +97,13 @@ generate_raygui_bindings :: proc() {
         ignoredDefines = []string{"RAYGUIDEF", "CLITERAL"};
     }
 
-    mkdir_if_not_exist("ext/raygui_bindings");
-    mkdir_if_not_exist("ext/raygui_types");
-    mkdir_if_not_exist("ext/raygui_bridge");
+    mkdir_if_not_exist("ext/raygui");
+    mkdir_if_not_exist("ext/raygui/types");
+    mkdir_if_not_exist("ext/raygui/bridge");
     
-    outputFile := "ext/raygui_bindings/raygui_bindings.odin";
-    typesFile  := "ext/raygui_types/raygui_types.odin";
-    bridgeFile := "ext/raygui_bridge/raygui_bridge.odin";
+    outputFile := "ext/raygui/raygui_bindings.odin";
+    typesFile  := "ext/raygui/types/raygui_types.odin";
+    bridgeFile := "ext/raygui/bridge/raygui_bridge.odin";
     args_map : bindgen.Enum_Args_Map;
 
     ok := bindgen.generate(
@@ -127,7 +127,7 @@ generate_raygui_bindings :: proc() {
 
 generate_raymath_bindings :: proc() {
     options := default_generator_options();
-    options.odin_using_includes = []string{ "../../raylib_types", };
+    options.odin_using_includes = []string{ "../../raylib/types", };
     {
         using options.parserOptions;
         ignoredTokens = []string{};
@@ -140,13 +140,13 @@ generate_raymath_bindings :: proc() {
         };
     }
 
-    mkdir_if_not_exist("ext/raymath_bindings");
-    mkdir_if_not_exist("ext/raymath_types");
-    mkdir_if_not_exist("ext/raymath_bridge");
+    mkdir_if_not_exist("ext/raymath");
+    mkdir_if_not_exist("ext/raymath/types");
+    mkdir_if_not_exist("ext/raymath/bridge");
     
-    outputFile := "ext/raymath_bindings/raymath_bindings.odin";
-    typesFile  := "ext/raymath_types/raymath_types.odin";
-    bridgeFile := "ext/raymath_bridge/raymath_bridge.odin";
+    outputFile := "ext/raymath/raymath_bindings.odin";
+    typesFile  := "ext/raymath/types/raymath_types.odin";
+    bridgeFile := "ext/raymath/bridge/raymath_bridge.odin";
     args_map : bindgen.Enum_Args_Map;
 
     if ok := bindgen.generate(
@@ -167,7 +167,7 @@ generate_raymath_bindings :: proc() {
 
 generate_physac_bindings :: proc() {
     options := default_generator_options();
-    options.odin_using_includes = []string{ "../../raylib_types", };
+    options.odin_using_includes = []string{ "../../raylib/types", };
     {
         using options.parserOptions;
         ignoredTokens = []string{};
@@ -177,13 +177,13 @@ generate_physac_bindings :: proc() {
         ignoredDefines = []string{"PHYSACDEF" };
     }
 
-    mkdir_if_not_exist("ext/physac_bindings");
-    mkdir_if_not_exist("ext/physac_types");
-    mkdir_if_not_exist("ext/physac_bridge");
+    mkdir_if_not_exist("ext/physac");
+    mkdir_if_not_exist("ext/physac/types");
+    mkdir_if_not_exist("ext/physac/bridge");
     
-    outputFile := "ext/physac_bindings/physac_bindings.odin";
-    typesFile  := "ext/physac_types/physac_types.odin";
-    bridgeFile := "ext/physac_bridge/physac_bridge.odin";
+    outputFile := "ext/physac/physac_bindings.odin";
+    typesFile  := "ext/physac/types/physac_types.odin";
+    bridgeFile := "ext/physac/bridge/physac_bridge.odin";
     args_map : bindgen.Enum_Args_Map;
 
     if ok := bindgen.generate(

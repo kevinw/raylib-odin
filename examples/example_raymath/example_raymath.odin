@@ -1,9 +1,8 @@
 package example_raymath
 
-using import "../../raylib_types"
-using import "../../raylib_bindings"
+using import "../../raylib"
 
-import raymath "../../ext/raymath_bindings"
+import raymath "../../ext/raymath"
 
 Particle :: struct {
     pos: Vector2,

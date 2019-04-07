@@ -2,10 +2,9 @@ package example_physac
 
 import "core:thread"
 
-using import "../../raylib_types"
-using import "../../raylib_bindings"
+using import "../../raylib"
 
-import physac "../../ext/physac_bindings"
+import physac "../../ext/physac"
 
 _physics_loop :: proc(^thread.Thread) -> int {
     physac.physics_loop(nil);
