@@ -51,14 +51,17 @@ odin run examples\bunnymark\bunnymark.odin
 
 ![a screenshot of the bunnymark demo](resources/screenshots/example_bunnymark.png)
 
+## Modules
+
+Bindings for `raygui` and `raymath` are in an alpha state. See `examples/gui` and `examples/example_raymath`.
+
 ## Bindings
 
-To rebuild the bindings to raylib, run `scripts\build_raylib_bindings.bat`.
+To rebuild the bindings to raylib, make sure you have raylib checked out into the directory above raylib-odin, and run `scripts\generate_raylib_bindings.bat`.
 
 ## TODO
 
 - fix up bindgen code so that raylib.h doesn't need to be hand-tweaked
-- figure out what to do with type interop (return math.Vec2, etc?)
 - make everything work on OSX and Linux
 
 ## Acknowledgements
