@@ -691,10 +691,10 @@ raylib_Funcs :: struct {
     clear_background : proc "c" (color : Color),
     begin_drawing : proc "c" (),
     end_drawing : proc "c" (),
-    begin_mode2_d : proc "c" (camera : Camera2D),
-    end_mode2_d : proc "c" (),
-    begin_mode3_d : proc "c" (camera : Camera3D),
-    end_mode3_d : proc "c" (),
+    begin_mode_2d : proc "c" (camera : Camera2D),
+    end_mode_2d : proc "c" (),
+    begin_mode_3d : proc "c" (camera : Camera3D),
+    end_mode_3d : proc "c" (),
     begin_texture_mode : proc "c" (target : RenderTexture2D),
     end_texture_mode : proc "c" (),
     get_mouse_ray : proc "c" (
@@ -1439,12 +1439,12 @@ raylib_Funcs :: struct {
     text_to_lower : proc "c" (text : cstring) -> cstring,
     text_to_pascal : proc "c" (text : cstring) -> cstring,
     text_to_integer : proc "c" (text : cstring) -> _c.int,
-    draw_line3_d : proc "c" (
+    draw_line_3d : proc "c" (
         start_pos : Vector3,
         end_pos : Vector3,
         color : Color
     ),
-    draw_circle3_d : proc "c" (
+    draw_circle_3d : proc "c" (
         center : Vector3,
         radius : _c.float,
         rotation_axis : Vector3,

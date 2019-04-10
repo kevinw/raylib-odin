@@ -225,6 +225,19 @@ split_from_capital :: proc(str : string) -> [dynamic]string {
         }
     }
 
+    is_sep :: inline proc(c: u8) -> bool {
+        return (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
+    }
+
+    is_number :: inline proc(c: u8) -> bool {
+        return c >= '0' && c <= '9';
+    }
+
+    chk :: proc(s: string, n: u8) -> bool {
+        return s == "Vector" && is_number(n);
+    }
+
+
     // We want to handle:
     //      myBrainIsCRAZY  -> my Brain Is Crazy
     //      myCRAZYBrain    -> my CRAZY Brain
@@ -232,22 +245,22 @@ split_from_capital :: proc(str : string) -> [dynamic]string {
 
     // Do split
     for i := 1; i < len(str); i += 1 {
-        if str[i] >= 'A' && str[i] <= 'Z' {
-            // Do not split too much if it seems to be a capitalized word
-            if (lastI == i - 1) && (str[lastI] >= 'A' && str[lastI] <= 'Z') {
-                for ; i + 1 < len(str); i += 1 {
-                    if str[i + 1] < 'A' || str[i + 1] > 'Z' {
-                        break;
-                    }
-                }
-                if (i + 1 == len(str)) && (str[i] >= 'A' && str[i] <= 'Z') {
-                    i += 1;
+        if !is_sep(str[i]) || chk(str[lastI:i], str[i]) do continue;
+
+        // Do not split too much if it seems to be a capitalized word
+        if (lastI == i - 1) && is_sep(str[lastI]) {
+            for ; i + 1 < len(str); i += 1 {
+                if str[i + 1] < 'A' || str[i + 1] > 'Z' {
+                    break;
                 }
             }
-
-            append(&parts, str[lastI:i]);
-            lastI = i;
+            if (i + 1 == len(str)) && is_sep(str[i]) {
+                i += 1;
+            }
         }
+
+        append(&parts, str[lastI:i]);
+        lastI = i;
     }
 
     if lastI != len(str) {

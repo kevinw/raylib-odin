@@ -150,10 +150,10 @@ get_function_pointers :: proc(funcs: ^raylib_types.raylib_Funcs) {
     funcs.clear_background = clear_background;
     funcs.begin_drawing = begin_drawing;
     funcs.end_drawing = end_drawing;
-    funcs.begin_mode2_d = begin_mode2_d;
-    funcs.end_mode2_d = end_mode2_d;
-    funcs.begin_mode3_d = begin_mode3_d;
-    funcs.end_mode3_d = end_mode3_d;
+    funcs.begin_mode_2d = begin_mode_2d;
+    funcs.end_mode_2d = end_mode_2d;
+    funcs.begin_mode_3d = begin_mode_3d;
+    funcs.end_mode_3d = end_mode_3d;
     funcs.begin_texture_mode = begin_texture_mode;
     funcs.end_texture_mode = end_texture_mode;
     funcs.get_mouse_ray = get_mouse_ray;
@@ -368,8 +368,8 @@ get_function_pointers :: proc(funcs: ^raylib_types.raylib_Funcs) {
     funcs.text_to_lower = text_to_lower;
     funcs.text_to_pascal = text_to_pascal;
     funcs.text_to_integer = text_to_integer;
-    funcs.draw_line3_d = draw_line3_d;
-    funcs.draw_circle3_d = draw_circle3_d;
+    funcs.draw_line_3d = draw_line_3d;
+    funcs.draw_circle_3d = draw_circle_3d;
     funcs.draw_cube = draw_cube;
     funcs.draw_cube_v = draw_cube_v;
     funcs.draw_cube_wires = draw_cube_wires;
@@ -619,16 +619,16 @@ foreign raylib {
     end_drawing :: proc() ---;
 
     @(link_name="BeginMode2D")
-    begin_mode2_d :: proc(camera : Camera2D) ---;
+    begin_mode_2d :: proc(camera : Camera2D) ---;
 
     @(link_name="EndMode2D")
-    end_mode2_d :: proc() ---;
+    end_mode_2d :: proc() ---;
 
     @(link_name="BeginMode3D")
-    begin_mode3_d :: proc(camera : Camera3D) ---;
+    begin_mode_3d :: proc(camera : Camera3D) ---;
 
     @(link_name="EndMode3D")
-    end_mode3_d :: proc() ---;
+    end_mode_3d :: proc() ---;
 
     @(link_name="BeginTextureMode")
     begin_texture_mode :: proc(target : RenderTexture2D) ---;
@@ -1803,14 +1803,14 @@ foreign raylib {
     text_to_integer :: proc(text : cstring) -> _c.int ---;
 
     @(link_name="DrawLine3D")
-    draw_line3_d :: proc(
+    draw_line_3d :: proc(
         start_pos : Vector3,
         end_pos : Vector3,
         color : Color
     ) ---;
 
     @(link_name="DrawCircle3D")
-    draw_circle3_d :: proc(
+    draw_circle_3d :: proc(
         center : Vector3,
         radius : _c.float,
         rotation_axis : Vector3,

@@ -147,10 +147,10 @@ bridge_init :: proc(funcs: ^raylib_Funcs) {
     clear_background = funcs.clear_background;
     begin_drawing = funcs.begin_drawing;
     end_drawing = funcs.end_drawing;
-    begin_mode2_d = funcs.begin_mode2_d;
-    end_mode2_d = funcs.end_mode2_d;
-    begin_mode3_d = funcs.begin_mode3_d;
-    end_mode3_d = funcs.end_mode3_d;
+    begin_mode_2d = funcs.begin_mode_2d;
+    end_mode_2d = funcs.end_mode_2d;
+    begin_mode_3d = funcs.begin_mode_3d;
+    end_mode_3d = funcs.end_mode_3d;
     begin_texture_mode = funcs.begin_texture_mode;
     end_texture_mode = funcs.end_texture_mode;
     get_mouse_ray = funcs.get_mouse_ray;
@@ -365,8 +365,8 @@ bridge_init :: proc(funcs: ^raylib_Funcs) {
     text_to_lower = funcs.text_to_lower;
     text_to_pascal = funcs.text_to_pascal;
     text_to_integer = funcs.text_to_integer;
-    draw_line3_d = funcs.draw_line3_d;
-    draw_circle3_d = funcs.draw_circle3_d;
+    draw_line_3d = funcs.draw_line_3d;
+    draw_circle_3d = funcs.draw_circle_3d;
     draw_cube = funcs.draw_cube;
     draw_cube_v = funcs.draw_cube_v;
     draw_cube_wires = funcs.draw_cube_wires;
@@ -549,10 +549,10 @@ disable_cursor : proc "c" ();
 clear_background : proc "c" (color : Color);
 begin_drawing : proc "c" ();
 end_drawing : proc "c" ();
-begin_mode2_d : proc "c" (camera : Camera2D);
-end_mode2_d : proc "c" ();
-begin_mode3_d : proc "c" (camera : Camera3D);
-end_mode3_d : proc "c" ();
+begin_mode_2d : proc "c" (camera : Camera2D);
+end_mode_2d : proc "c" ();
+begin_mode_3d : proc "c" (camera : Camera3D);
+end_mode_3d : proc "c" ();
 begin_texture_mode : proc "c" (target : RenderTexture2D);
 end_texture_mode : proc "c" ();
 get_mouse_ray : proc "c" (
@@ -1297,12 +1297,12 @@ text_to_upper : proc "c" (text : cstring) -> cstring;
 text_to_lower : proc "c" (text : cstring) -> cstring;
 text_to_pascal : proc "c" (text : cstring) -> cstring;
 text_to_integer : proc "c" (text : cstring) -> _c.int;
-draw_line3_d : proc "c" (
+draw_line_3d : proc "c" (
         start_pos : Vector3,
         end_pos : Vector3,
         color : Color
     );
-draw_circle3_d : proc "c" (
+draw_circle_3d : proc "c" (
         center : Vector3,
         radius : _c.float,
         rotation_axis : Vector3,
