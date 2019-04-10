@@ -10,13 +10,38 @@ saturate :: proc(f: f64) -> f64 {
     return f;
 }
 
-repeat :: proc(t, length: f32) -> f32 {
+repeat_scalar :: proc(t, length: f32) -> f32 {
     return clamp(t - math.floor(t / length) * length, 0.0, length);
 }
+
+repeat_vec :: proc(t, length: $T/[$N]$E) -> T {
+    res: T;
+    for i in 0..N-1 do res[i] = clamp(t[i] - math.floor(t[i] / length[i]) * length[i], 0.0, length[i]);
+    return res;
+}
+
+repeat :: proc { repeat_scalar, repeat_vec };
 
 clamp :: proc(val, min_val, max_val: f32) -> f32 {
     return min(max_val, max(min_val, val));
 }
+
+max_vec :: proc(a, b: $T/[$N]$E) -> T {
+    res: T;
+    for i in 0..N-1 do res[i] = max(a[i], b[i]);
+    return res;
+}
+
+min_vec :: proc(a, b: $T/[$N]$E) -> T {
+    res: T;
+    for i in 0..N-1 do res[i] = min(a[i], b[i]);
+    return res;
+}
+
+clamp_vec :: proc(val, min_val, max_val: $R) -> R {
+    return min_vec(max_val, max_vec(min_val, val));
+}
+
 
 unlerp :: proc(ax, a1, a2: f64) -> f64 {
     return (ax - a1) / (a2 - a1);
