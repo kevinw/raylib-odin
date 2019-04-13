@@ -341,4 +341,17 @@ reexport_types :: proc(data: GeneratorData, packageName: string = "") {
         structName := clean_pseudo_type_name(node.name, data.options);
         fmt.fprint(data.handle, structName, " :: ", types_prefix, structName, ";\n");
     }
+
+    // enums
+    for node in data.nodes.enumDefinitions {
+        enumName := clean_pseudo_type_name(node.name, data.options);
+
+        // @Kevin Hack - don't rexport AnonymousEnumX
+        anon := "AnonymousEnum"; 
+        if len(enumName) > len(anon) && enumName[:len(anon)] == anon {
+            continue;
+        }
+
+        fmt.fprint(data.handle, enumName, " :: ", types_prefix, enumName, ";\n");
+    }
 }

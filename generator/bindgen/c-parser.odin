@@ -591,6 +591,26 @@ parse_struct_or_union_members :: proc(data : ^ParserData, structOrUnionMembers :
 
         append(structOrUnionMembers, member);
 
+        original_type := member.type;
+
+        token = peek_token(data);
+        for token == "," {
+            check_and_eat_token(data, ",");
+            token = peek_token(data);
+            if token == "*" {
+                check_and_eat_token(data, "*");
+
+                pointerType : PointerType;
+                pointerType.type = new(Type);
+                pointerType.type^ = original_type; // Copy
+                member.type = pointerType;
+            }
+
+            member.name = parse_identifier(data);
+            append(structOrUnionMembers, member);
+            token = peek_token(data);
+        }
+
         check_and_eat_token(data, ";");
         token = peek_token(data);
     }
@@ -658,7 +678,12 @@ parse_global_variable_value :: proc(data : ^ParserData) {
 
     if token == "{" {
         check_and_eat_token(data, "{");
-        check_and_eat_token(data, "0");
+        
+        token = peek_token(data);
+        for token != "}" {
+            eat_token(data);
+            token = peek_token(data);
+        }
         check_and_eat_token(data, "}");
     } else {
         eat_token(data);

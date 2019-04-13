@@ -26,6 +26,7 @@ Mat2 :: Mat2;
 PolygonData :: PolygonData;
 PhysicsShape :: PhysicsShape;
 PhysicsManifoldData :: PhysicsManifoldData;
+PhysicsShapeType :: PhysicsShapeType;
 
 
 import _c "core:c"

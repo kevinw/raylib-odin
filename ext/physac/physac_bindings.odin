@@ -36,6 +36,7 @@ Mat2 :: physac_types.Mat2;
 PolygonData :: physac_types.PolygonData;
 PhysicsShape :: physac_types.PhysicsShape;
 PhysicsManifoldData :: physac_types.PhysicsManifoldData;
+PhysicsShapeType :: physac_types.PhysicsShapeType;
 
 get_function_pointers :: proc(funcs: ^physac_types.physac_Funcs) {
     funcs.init_physics = init_physics;

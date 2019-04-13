@@ -202,11 +202,54 @@ generate_physac_bindings :: proc() {
     }
 }
 
+generate_chipmunk_bindings :: proc() {
+    options := default_generator_options();
+    options.functionPrefixes = []string { "cp_" };
+    //options.odin_using_includes = []string{ "../../raylib/types", };
+    {
+        using options.parserOptions;
+        //ignoredTokens = []string{};
+        //customHandlers["PHYSACDEF"] =  proc(data: ^bindgen.ParserData) {
+            //bindgen.check_and_eat_token(data, "PHYSACDEF");
+        //};
+        //ignoredDefines = []string{"PHYSACDEF" };
+    }
+
+    options.functionPrefixes = { "cp", };
+    options.pseudoTypePrefixes = { "cp", };
+    options.enumValuePrefixes = { "CP_", "BODY_TYPE_", "SPACE_DEBUG_DRAW_", };
+
+    mkdir_if_not_exist("ext/chipmunk");
+    mkdir_if_not_exist("ext/chipmunk/types");
+    mkdir_if_not_exist("ext/chipmunk/bridge");
+    
+    outputFile := "ext/chipmunk/chipmunk_bindings.odin";
+    typesFile  := "ext/chipmunk/types/chipmunk_types.odin";
+    bridgeFile := "ext/chipmunk/bridge/chipmunk_bridge.odin";
+    args_map : bindgen.Enum_Args_Map;
+
+    if ok := bindgen.generate(
+        packageName = "chipmunk",
+        foreignLibrary = "chipmunk.lib",
+        outputFile = outputFile,
+        typesFile = typesFile,
+        bridgeFile = bridgeFile,
+        headerFiles = []string{"./ext/Chipmunk2D/AmalgatedChipmunk.h"},
+        options = options,
+        enum_args_map = args_map,
+    ); ok {
+        fmt.println("wrote", outputFile);
+        fmt.println("wrote", typesFile);
+        fmt.println("wrote", bridgeFile);
+    }
+}
+
 main :: proc() {
     generate_raylib_bindings();
     generate_raygui_bindings();
     generate_raymath_bindings();
     generate_physac_bindings();
+    generate_chipmunk_bindings();
 }
 
 declspec_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue

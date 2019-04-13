@@ -10,6 +10,7 @@ Sprite :: struct {
     pos: Vector2,
     rotation: f32,
     scale: f32,
+    origin: Vector2,
     tint: Color,
     flip_x: bool,
     flip_y: bool,
@@ -74,9 +75,8 @@ draw_many :: proc(sprites: []Sprite) {
         sprite := &sprites[i];
         using sprite;
 
-        origin := Vector2 { 0, 0 };
         source_rect := current_anim.rects[current_rect_index(sprite)];
-        dest_rect := Rectangle { pos.x, pos.y, source_rect.width, source_rect.height };
+        dest_rect := Rectangle { pos.x, pos.y, source_rect.width * scale, source_rect.height * scale };
 
         scale_x := f32(flip_x ? -1 : 1);
         scale_y := f32(flip_y ? -1 : 1);
