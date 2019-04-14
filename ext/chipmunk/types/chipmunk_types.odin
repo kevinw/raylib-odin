@@ -58,7 +58,16 @@ SpaceDebugDrawSegmentImpl :: #type proc();
 SpaceDebugDrawFatSegmentImpl :: #type proc();
 SpaceDebugDrawPolygonImpl :: #type proc();
 SpaceDebugDrawDotImpl :: #type proc();
-SpaceDebugDrawColorForShapeImpl :: #type proc();
+SpaceDebugDrawColorForShapeImpl :: #type proc "stdcall" (shape: ^Shape, data: ^DataPointer) -> SpaceDebugColor;
+ShapeCacheDataImpl :: #type proc();
+ShapeDestroyImpl :: #type proc();
+ShapePointQueryImpl :: #type proc();
+ShapeSegmentQueryImpl :: #type proc();
+ConstraintPreStepImpl :: #type proc();
+ConstraintApplyCachedImpulseImpl :: #type proc();
+ConstraintApplyImpulseImpl :: #type proc();
+ConstraintGetImpulseImpl :: #type proc();
+SpaceArbiterApplyImpulseFunc :: #type proc();
 
 BodyType :: enum i32 {
     DYNAMIC,
@@ -68,8 +77,23 @@ BodyType :: enum i32 {
 
 SpaceDebugDrawFlags :: enum i32 {
     SHAPES = 1,
-    CONSTRAINTS = 1,
-    COLLISION_POINTS = 1,
+    CONSTRAINTS = 2,
+    COLLISION_POINTS = 4,
+};
+
+ArbiterState :: enum i32 {
+    ARBITER_STATE_FIRST_COLLISION,
+    ARBITER_STATE_NORMAL,
+    ARBITER_STATE_IGNORE,
+    ARBITER_STATE_CACHED,
+    ARBITER_STATE_INVALIDATED,
+};
+
+ShapeType :: enum i32 {
+    CIRCLE_SHAPE,
+    SEGMENT_SHAPE,
+    POLY_SHAPE,
+    NUM_SHAPES,
 };
 
 Vect :: struct #packed {
@@ -93,39 +117,211 @@ Mat2X2 :: struct #packed {
     d : Float,
 };
 
-Array :: struct #packed {};
+Array :: struct #packed {
+    num : _c.int,
+    max : _c.int,
+    arr : ^rawptr,
+};
 
 HashSet :: struct #packed {};
 
-Body :: struct #packed {};
+Body :: struct #packed {
+    velocity_func : BodyVelocityFunc,
+    position_func : BodyPositionFunc,
+    m : Float,
+    m_inv : Float,
+    i : Float,
+    i_inv : Float,
+    cog : Vect,
+    p : Vect,
+    v : Vect,
+    f : Vect,
+    a : Float,
+    w : Float,
+    t : Float,
+    transform : Transform,
+    user_data : DataPointer,
+    v_bias : Vect,
+    w_bias : Float,
+    space : ^Space,
+    shape_list : ^Shape,
+    arbiter_list : ^Arbiter,
+    constraint_list : ^Constraint,
+    sleeping : AnonymousStruct1,
+};
 
-Shape :: struct #packed {};
+Shape :: struct #packed {
+    klass : ^ShapeClass,
+    space : ^Space,
+    body : ^Body,
+    mass_info : ShapeMassInfo,
+    bb : Bb,
+    sensor : Bool,
+    e : Float,
+    u : Float,
+    surface_v : Vect,
+    user_data : DataPointer,
+    type : CollisionType,
+    filter : ShapeFilter,
+    next : ^Shape,
+    prev : ^Shape,
+    hashid : HashValue,
+};
 
-CircleShape :: struct #packed {};
+CircleShape :: struct #packed {
+    shape : Shape,
+    c : Vect,
+    tc : Vect,
+    r : Float,
+};
 
-SegmentShape :: struct #packed {};
+SegmentShape :: struct #packed {
+    shape : Shape,
+    a : Vect,
+    b : Vect,
+    n : Vect,
+    ta : Vect,
+    tb : Vect,
+    tn : Vect,
+    r : Float,
+    a_tangent : Vect,
+    b_tangent : Vect,
+};
 
-PolyShape :: struct #packed {};
+PolyShape :: struct #packed {
+    shape : Shape,
+    r : Float,
+    count : _c.int,
+    planes : ^SplittingPlane,
+    private_planes : [12]SplittingPlane,
+};
 
-Constraint :: struct #packed {};
+Constraint :: struct #packed {
+    klass : ^ConstraintClass,
+    space : ^Space,
+    a : ^Body,
+    b : ^^Body,
+    next_a : ^Constraint,
+    next_b : ^^Constraint,
+    max_force : Float,
+    error_bias : Float,
+    max_bias : Float,
+    collide_bodies : Bool,
+    pre_solve : ConstraintPreSolveFunc,
+    post_solve : ConstraintPostSolveFunc,
+    user_data : DataPointer,
+};
 
-PinJoint :: struct #packed {};
+PinJoint :: struct #packed {
+    constraint : Constraint,
+    anchor_a : Vect,
+    anchor_b : Vect,
+    dist : Float,
+    r1 : Vect,
+    r2 : Vect,
+    n : Vect,
+    n_mass : Float,
+    jn_acc : Float,
+    bias : Float,
+};
 
-SlideJoint :: struct #packed {};
+SlideJoint :: struct #packed {
+    constraint : Constraint,
+    anchor_a : Vect,
+    anchor_b : Vect,
+    min : Float,
+    max : Float,
+    r1 : Vect,
+    r2 : Vect,
+    n : Vect,
+    n_mass : Float,
+    jn_acc : Float,
+    bias : Float,
+};
 
-PivotJoint :: struct #packed {};
+PivotJoint :: struct #packed {
+    constraint : Constraint,
+    anchor_a : Vect,
+    anchor_b : Vect,
+    r1 : Vect,
+    r2 : Vect,
+    k : Mat2X2,
+    j_acc : Vect,
+    bias : Vect,
+};
 
-GrooveJoint :: struct #packed {};
+GrooveJoint :: struct #packed {
+    constraint : Constraint,
+    grv_n : Vect,
+    grv_a : Vect,
+    grv_b : Vect,
+    anchor_b : Vect,
+    grv_tn : Vect,
+    clamp : Float,
+    r1 : Vect,
+    r2 : Vect,
+    k : Mat2X2,
+    j_acc : Vect,
+    bias : Vect,
+};
 
-DampedSpring :: struct #packed {};
+DampedSpring :: struct #packed {
+    constraint : Constraint,
+    anchor_a : Vect,
+    anchor_b : Vect,
+    rest_length : Float,
+    stiffness : Float,
+    damping : Float,
+    spring_force_func : DampedSpringForceFunc,
+    target_vrn : Float,
+    v_coef : Float,
+    r1 : Vect,
+    r2 : Vect,
+    n_mass : Float,
+    n : Vect,
+    j_acc : Float,
+};
 
-DampedRotarySpring :: struct #packed {};
+DampedRotarySpring :: struct #packed {
+    constraint : Constraint,
+    rest_angle : Float,
+    stiffness : Float,
+    damping : Float,
+    spring_torque_func : DampedRotarySpringTorqueFunc,
+    target_wrn : Float,
+    w_coef : Float,
+    i_sum : Float,
+    j_acc : Float,
+};
 
-RotaryLimitJoint :: struct #packed {};
+RotaryLimitJoint :: struct #packed {
+    constraint : Constraint,
+    min : Float,
+    max : Float,
+    i_sum : Float,
+    bias : Float,
+    j_acc : Float,
+};
 
-RatchetJoint :: struct #packed {};
+RatchetJoint :: struct #packed {
+    constraint : Constraint,
+    angle : Float,
+    phase : Float,
+    ratchet : Float,
+    i_sum : Float,
+    bias : Float,
+    j_acc : Float,
+};
 
-GearJoint :: struct #packed {};
+GearJoint :: struct #packed {
+    constraint : Constraint,
+    phase : Float,
+    ratio : Float,
+    ratio_inv : Float,
+    i_sum : Float,
+    bias : Float,
+    j_acc : Float,
+};
 
 SimpleMotorJoint :: struct #packed {};
 
@@ -145,9 +341,62 @@ ContactPointSet :: struct #packed {
     points : [2]AnonymousStruct0,
 };
 
-Arbiter :: struct #packed {};
+Arbiter :: struct #packed {
+    e : Float,
+    u : Float,
+    surface_vr : Vect,
+    data : DataPointer,
+    a : ^Shape,
+    b : ^^Shape,
+    body_a : ^Body,
+    body_b : ^^Body,
+    thread_a : ArbiterThread,
+    thread_b : ArbiterThread,
+    count : _c.int,
+    contacts : ^Contact,
+    n : Vect,
+    handler : ^CollisionHandler,
+    handler_a : ^^CollisionHandler,
+    handler_b : ^^CollisionHandler,
+    swapped : Bool,
+    stamp : Timestamp,
+    state : ArbiterState,
+};
 
-Space :: struct #packed {};
+Space :: struct #packed {
+    iterations : _c.int,
+    gravity : Vect,
+    damping : Float,
+    idle_speed_threshold : Float,
+    sleep_time_threshold : Float,
+    collision_slop : Float,
+    collision_bias : Float,
+    collision_persistence : Timestamp,
+    user_data : DataPointer,
+    stamp : Timestamp,
+    curr_dt : Float,
+    dynamic_bodies : ^Array,
+    static_bodies : ^Array,
+    roused_bodies : ^Array,
+    sleeping_components : ^Array,
+    shape_id_counter : HashValue,
+    static_shapes : ^SpatialIndex,
+    dynamic_shapes : ^SpatialIndex,
+    constraints : ^Array,
+    arbiters : ^Array,
+    contact_buffers_head : ^ContactBufferHeader,
+    cached_arbiters : ^HashSet,
+    pooled_arbiters : ^Array,
+    allocated_buffers : ^Array,
+    locked : _c.uint,
+    uses_wildcards : Bool,
+    collision_handlers : ^HashSet,
+    default_handler : CollisionHandler,
+    skip_post_step : Bool,
+    post_step_callbacks : ^Array,
+    static_body : ^Body,
+    staticbody : Body,
+};
 
 Bb :: struct #packed {
     l : Float,
@@ -209,7 +458,12 @@ ShapeFilter :: struct #packed {
     mask : Bitmask,
 };
 
-SimpleMotor :: struct #packed {};
+SimpleMotor :: struct #packed {
+    constraint : Constraint,
+    rate : Float,
+    i_sum : Float,
+    j_acc : Float,
+};
 
 SpaceDebugColor :: struct #packed {
     r : _c.float,
@@ -226,10 +480,57 @@ SpaceDebugDrawOptions :: struct #packed {
     draw_dot : SpaceDebugDrawDotImpl,
     flags : SpaceDebugDrawFlags,
     shape_outline_color : SpaceDebugColor,
+    pad: u32,
     color_for_shape : SpaceDebugDrawColorForShapeImpl,
     constraint_color : SpaceDebugColor,
     collision_point_color : SpaceDebugColor,
     data : DataPointer,
+};
+
+AnonymousStruct1 :: struct #packed {
+    root : ^Body,
+    next : ^Body,
+    idle_time : Float,
+};
+
+ArbiterThread :: struct #packed {};
+
+Contact :: struct #packed {};
+
+CollisionInfo :: struct #packed {
+    a : ^Shape,
+    b : ^^Shape,
+    id : CollisionId,
+    n : Vect,
+    count : _c.int,
+    arr : ^Contact,
+};
+
+ShapeMassInfo :: struct #packed {};
+
+ShapeClass :: struct #packed {
+    type : ShapeType,
+    cache_data : ShapeCacheDataImpl,
+    destroy : ShapeDestroyImpl,
+    point_query : ShapePointQueryImpl,
+    segment_query : ShapeSegmentQueryImpl,
+};
+
+SplittingPlane :: struct #packed {};
+
+ConstraintClass :: struct #packed {
+    pre_step : ConstraintPreStepImpl,
+    apply_cached_impulse : ConstraintApplyCachedImpulseImpl,
+    apply_impulse : ConstraintApplyImpulseImpl,
+    get_impulse : ConstraintGetImpulseImpl,
+};
+
+ContactBufferHeader :: struct #packed {};
+
+PostStepCallback :: struct #packed {
+    func : PostStepFunc,
+    key : rawptr,
+    data : rawptr,
 };
 
 chipmunk_Funcs :: struct {

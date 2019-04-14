@@ -59,6 +59,15 @@ SpaceDebugDrawFatSegmentImpl :: SpaceDebugDrawFatSegmentImpl;
 SpaceDebugDrawPolygonImpl :: SpaceDebugDrawPolygonImpl;
 SpaceDebugDrawDotImpl :: SpaceDebugDrawDotImpl;
 SpaceDebugDrawColorForShapeImpl :: SpaceDebugDrawColorForShapeImpl;
+ShapeCacheDataImpl :: ShapeCacheDataImpl;
+ShapeDestroyImpl :: ShapeDestroyImpl;
+ShapePointQueryImpl :: ShapePointQueryImpl;
+ShapeSegmentQueryImpl :: ShapeSegmentQueryImpl;
+ConstraintPreStepImpl :: ConstraintPreStepImpl;
+ConstraintApplyCachedImpulseImpl :: ConstraintApplyCachedImpulseImpl;
+ConstraintApplyImpulseImpl :: ConstraintApplyImpulseImpl;
+ConstraintGetImpulseImpl :: ConstraintGetImpulseImpl;
+SpaceArbiterApplyImpulseFunc :: SpaceArbiterApplyImpulseFunc;
 
 Vect :: Vect;
 Transform :: Transform;
@@ -98,8 +107,20 @@ ShapeFilter :: ShapeFilter;
 SimpleMotor :: SimpleMotor;
 SpaceDebugColor :: SpaceDebugColor;
 SpaceDebugDrawOptions :: SpaceDebugDrawOptions;
+AnonymousStruct1 :: AnonymousStruct1;
+ArbiterThread :: ArbiterThread;
+Contact :: Contact;
+CollisionInfo :: CollisionInfo;
+ShapeMassInfo :: ShapeMassInfo;
+ShapeClass :: ShapeClass;
+SplittingPlane :: SplittingPlane;
+ConstraintClass :: ConstraintClass;
+ContactBufferHeader :: ContactBufferHeader;
+PostStepCallback :: PostStepCallback;
 BodyType :: BodyType;
 SpaceDebugDrawFlags :: SpaceDebugDrawFlags;
+ArbiterState :: ArbiterState;
+ShapeType :: ShapeType;
 
 
 import _c "core:c"

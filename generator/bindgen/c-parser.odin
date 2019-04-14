@@ -517,17 +517,29 @@ parse_enum_members :: proc(data : ^ParserData, members : ^[dynamic]EnumMember) {
             member.value = nextMemberValue;
         }
 
-        data.knownedLiterals[member.name] = member.value;
-        nextMemberValue += 1;
-
         // Eat until end, as this might be a complex expression that we couldn't understand
         if token != "," && token != "}" {
-            print_warning("Parser cannot understand fully the expression of enum member ", member.name, ".");
+            start := data.offset-cast(u32)len(token);
             for token != "," && token != "}" {
                 eat_token(data);
                 token = peek_token(data);
             }
+            end := data.offset;
+            unknown := extract_string(data, start, end);
+            if len(unknown) > 3 && unknown[:3] == "1<<" {
+                bit_target := cast(u32)strconv.atoi(unknown[3:]);
+                value:i64 = 1 << bit_target;
+                member.value = value;
+                fmt.println("parsed value", value, "for", member.name);
+            } else {
+                print_warning("Parser cannot understand fully the expression of enum member ", member.name, ".");
+            }
+
         }
+
+        data.knownedLiterals[member.name] = member.value;
+        nextMemberValue += 1;
+
         if token == "," {
             check_and_eat_token(data, ",");
             token = peek_token(data);

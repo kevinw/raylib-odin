@@ -68,6 +68,15 @@ SpaceDebugDrawFatSegmentImpl :: chipmunk_types.SpaceDebugDrawFatSegmentImpl;
 SpaceDebugDrawPolygonImpl :: chipmunk_types.SpaceDebugDrawPolygonImpl;
 SpaceDebugDrawDotImpl :: chipmunk_types.SpaceDebugDrawDotImpl;
 SpaceDebugDrawColorForShapeImpl :: chipmunk_types.SpaceDebugDrawColorForShapeImpl;
+ShapeCacheDataImpl :: chipmunk_types.ShapeCacheDataImpl;
+ShapeDestroyImpl :: chipmunk_types.ShapeDestroyImpl;
+ShapePointQueryImpl :: chipmunk_types.ShapePointQueryImpl;
+ShapeSegmentQueryImpl :: chipmunk_types.ShapeSegmentQueryImpl;
+ConstraintPreStepImpl :: chipmunk_types.ConstraintPreStepImpl;
+ConstraintApplyCachedImpulseImpl :: chipmunk_types.ConstraintApplyCachedImpulseImpl;
+ConstraintApplyImpulseImpl :: chipmunk_types.ConstraintApplyImpulseImpl;
+ConstraintGetImpulseImpl :: chipmunk_types.ConstraintGetImpulseImpl;
+SpaceArbiterApplyImpulseFunc :: chipmunk_types.SpaceArbiterApplyImpulseFunc;
 
 Vect :: chipmunk_types.Vect;
 Transform :: chipmunk_types.Transform;
@@ -107,8 +116,20 @@ ShapeFilter :: chipmunk_types.ShapeFilter;
 SimpleMotor :: chipmunk_types.SimpleMotor;
 SpaceDebugColor :: chipmunk_types.SpaceDebugColor;
 SpaceDebugDrawOptions :: chipmunk_types.SpaceDebugDrawOptions;
+AnonymousStruct1 :: chipmunk_types.AnonymousStruct1;
+ArbiterThread :: chipmunk_types.ArbiterThread;
+Contact :: chipmunk_types.Contact;
+CollisionInfo :: chipmunk_types.CollisionInfo;
+ShapeMassInfo :: chipmunk_types.ShapeMassInfo;
+ShapeClass :: chipmunk_types.ShapeClass;
+SplittingPlane :: chipmunk_types.SplittingPlane;
+ConstraintClass :: chipmunk_types.ConstraintClass;
+ContactBufferHeader :: chipmunk_types.ContactBufferHeader;
+PostStepCallback :: chipmunk_types.PostStepCallback;
 BodyType :: chipmunk_types.BodyType;
 SpaceDebugDrawFlags :: chipmunk_types.SpaceDebugDrawFlags;
+ArbiterState :: chipmunk_types.ArbiterState;
+ShapeType :: chipmunk_types.ShapeType;
 
 get_function_pointers :: proc(funcs: ^chipmunk_types.chipmunk_Funcs) {
     funcs.message = message;
