@@ -30,11 +30,25 @@ Anim_destroy :: proc(using anim: ^Anim) {
     delete(rects);
 }
 
+Sprite_destroy :: proc(using spr: ^Sprite) {
+    for _, i in animations do Anim_destroy(&animations[i]);
+    delete(animations);
+}
+
 Rectangle_scale :: proc(rec: Rectangle, xscale, yscale: f32) -> Rectangle { 
     return Rectangle {rec.x, rec.y, rec.width*xscale, rec.height*yscale};
 }
 
-destroy :: proc(using sprite: ^Sprite) {
+destroy :: proc(using spr: ^Sprite) {
+    Sprite_destroy(spr);
+}
+
+destroy_many :: proc(sprites: []Sprite) {
+    for _, i  in sprites {
+        destroy(&sprites[i]);
+    }
+
+    delete(sprites);
 }
 
 update_many :: proc(sprites: []Sprite, delta_time: f32) {
@@ -45,9 +59,9 @@ update_many :: proc(sprites: []Sprite, delta_time: f32) {
     }
 }
 
-rects_from_horizontal_texture :: proc(width: f32, height: f32, num_frames: uint, allocator := context.allocator) -> []Rectangle {
+rects_from_horizontal_texture :: proc(width: f32, height: f32, num_frames: uint) -> []Rectangle {
 
-    rects := make([]Rectangle, num_frames, allocator);
+    rects := make([]Rectangle, num_frames);
 
     x :f32 = 0.0;
     w := width / cast(f32)num_frames;

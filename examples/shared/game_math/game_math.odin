@@ -26,6 +26,35 @@ clamp :: proc(val, min_val, max_val: f32) -> f32 {
     return min(max_val, max(min_val, val));
 }
 
+is_nonzero :: inline proc(v: $T/[$N]$E) -> bool {
+    for i in 0..N-1 {
+        if v[i] > 0 || v[i] < 0 {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+add_to :: inline proc(a: ^$T/[$N]$E, b: T) {
+    for i in 0..N-1 do a[i] = a[i] + b[i];
+}
+
+
+scale_vec :: proc(a, b: $T/[$N]$E) -> T {
+    res: T;
+    for i in 0..N-1 do res[i] = a[i] * b[i];
+    return res;
+}
+
+scale_scalar :: proc(a: $T/[$N]$E, scalar: f32) -> T {
+    res: T;
+    for i in 0..N-1 do res[i] = a[i] * scalar;
+    return res;
+}
+
+scale :: proc { scale_vec, scale_scalar };
+
 max_vec :: proc(a, b: $T/[$N]$E) -> T {
     res: T;
     for i in 0..N-1 do res[i] = max(a[i], b[i]);
