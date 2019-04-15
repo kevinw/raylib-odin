@@ -1,4 +1,5 @@
 *.dll
+*.exp
 *.pdb
 *.obj
 *.exe

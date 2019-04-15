@@ -1,3 +1,11 @@
+static inline functions in header files become unresolved symbols since they aren't actually exported as functions. 
+what is the solution? a set of replacement functions in odin? 
+
+C:\Users\Kevin\src\raylib-odin>odin run examples\chipmunk_walker
+chipmunk_walker.obj : error LNK2019: unresolved external symbol cpShapeFilterNew referenced in function example_chipmunk.make_leg
+C:\Users\Kevin\src\raylib-odin\chipmunk_walker.exe : fatal error LNK1120: 1 unresolved externals
+
 2019-03-27 try getting a basic version of serialization working
 2019-03-27 fixup enums so that you don't have "AnonymousEnum19" et al
 2019-03-27 check for leaks on plugin load
+

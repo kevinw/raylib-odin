@@ -15,6 +15,8 @@ cpv :: proc(a, b: $T) -> cp.Vect { return cp.Vect{cast(f64)a,cast(f64)b}; }
 NO_GROUP :: 0;
 NOT_GRABBABLE_FILTER := cp.ShapeFilter {NO_GROUP, ~GRABBABLE_MASK_BIT, ~GRABBABLE_MASK_BIT};
 
+ALL_CATEGORIES :: ~u32(0);
+
 //cpShapeFilter NOT_GRABBABLE_FILTER = {CP_NO_GROUP, ~GRABBABLE_MASK_BIT, ~GRABBABLE_MASK_BIT};
 
 CollisionTypes :: enum {
