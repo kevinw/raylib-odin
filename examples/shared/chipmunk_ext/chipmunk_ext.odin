@@ -8,7 +8,10 @@ import "core:fmt"
 import "core:mem"
 
 import cp "../../../ext/chipmunk"
-using import "../../../raylib"
+import "../../../raylib"
+
+Vec2 :: [2]f32;
+//Vector2 :: Vec2;
 
 cpv :: proc(a, b: $T) -> cp.Vect { return cp.Vect{cast(f64)a,cast(f64)b}; }
 
@@ -34,16 +37,16 @@ One_Way_Platform :: struct {
 platform_instance : One_Way_Platform;
 
 
-to_color :: inline proc(c: $C) -> Color {
-    return Color {
+to_color :: inline proc(c: $C) -> raylib.Color {
+    return raylib.Color {
         cast(u8)(c.r * 255),
         cast(u8)(c.g * 255),
         cast(u8)(c.b * 255),
         cast(u8)(c.a * 255),
     };
 }
-to_vec2 :: inline proc(v: $V) -> math.Vec2 {
-    return math.Vec2 { cast(f32)v.x, cast(f32)v.y };
+to_vec2 :: inline proc(v: $V) -> Vec2 {
+    return Vec2 { cast(f32)v.x, cast(f32)v.y };
 }
 
 free_space_children :: proc(space: ^cp.Space) {
@@ -69,21 +72,21 @@ free_space_children :: proc(space: ^cp.Space) {
 }
 
 _draw_circle :: proc "c" (p: cp.Vect, a: cp.Float, outline, fill: cp.SpaceDebugColor, data: cp.DataPointer) {
-    draw_circle_v(to_vec2(p), cast(f32)a, to_color(fill));
+    raylib.draw_circle_v(to_vec2(p), cast(f32)a, to_color(fill));
 }
 
 _draw_segment :: proc "c" (a, b: cp.Vect, color: cp.SpaceDebugColor, data: cp.DataPointer) {
-    draw_line_v(to_vec2(a), to_vec2(b), to_color(color));
+    raylib.draw_line_v(to_vec2(a), to_vec2(b), to_color(color));
 }
 
 _draw_fat_segment :: proc "c" (a, b: cp.Vect, r: cp.Float, outline, fill: cp.SpaceDebugColor, data: cp.DataPointer) {
-    draw_line_ex(to_vec2(a), to_vec2(b), cast(f32)r, to_color(fill));
+    raylib.draw_line_ex(to_vec2(a), to_vec2(b), cast(f32)r, to_color(fill));
 }
 
 _draw_polygon :: proc "c" (count: i32, verts: ^cp.Vect, r: cp.Float, outline, fill: cp.SpaceDebugColor, data: cp.DataPointer) {
     assert(count > 0 && count < 200000);
 
-    points := make([]Vector2, count + 1, context.temp_allocator);
+    points := make([]Vec2, count + 1, context.temp_allocator);
 
     verts_slice := mem.slice_ptr(verts, cast(int)count);
 
@@ -91,12 +94,12 @@ _draw_polygon :: proc "c" (count: i32, verts: ^cp.Vect, r: cp.Float, outline, fi
 
     points[count] = to_vec2(verts_slice[0]); // wrap back around
 
-    draw_poly_ex(&points[0], count+1, to_color(fill));
-    draw_poly_ex_lines(&points[0], count+1, to_color(outline));
+    raylib.draw_poly_ex(&points[0], count+1, to_color(fill));
+    raylib.draw_poly_ex_lines(&points[0], count+1, to_color(outline));
 }
 
 _draw_dot :: proc "c" (size: cp.Float, pos: cp.Vect, color: cp.SpaceDebugColor, data: cp.DataPointer) {
-    draw_pixel_v(to_vec2(pos), to_color(color));
+    raylib.draw_pixel_v(to_vec2(pos), to_color(color));
 }
 
 LAColor :: inline proc(l, a: f32) -> cp.SpaceDebugColor do return cp.SpaceDebugColor {l, l, l, a};

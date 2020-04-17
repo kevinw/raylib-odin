@@ -9,6 +9,12 @@ using import "../../raylib/bridge"
 
 import "../shared/json_ext"
 
+//My definitions to fix
+Vec2::[2]f32;
+vector_length :: proc(v : Vec2) -> f32 {
+    return math.sqrt(v.x * v.x + v.y * v.y);
+}
+
 // RAYLIB_EXTRA
 unload :: proc {
     unload_texture,
@@ -103,11 +109,11 @@ on_unload :: proc() {
         os.write_entire_file(state_json_path, state_bytes);
     } else {
         s := "";
-        switch err {
+        #partial switch err {
             case .Unsupported_Type: s = "Unsupported_Type";
             case: s = "TODO";
         }
-        fmt.println_err("error serializing state to bytes: ", s);
+        fmt.eprintln("error serializing state to bytes: ", s);
     }
 
     debug_console.destroy(&console);
@@ -151,7 +157,7 @@ update_and_draw :: proc() -> plugin.Request {
         // click to move the player as well
         if is_mouse_button_down(.LEFT_BUTTON) {
             mouse_pos := get_mouse_position();
-            to_pos := math.length(math.Vec2 { mouse_pos.x - position.x, mouse_pos.y - position.y });
+            to_pos := vector_length(Vec2 { mouse_pos.x - position.x, mouse_pos.y - position.y });
             if to_pos > 20 {
                 mouse_pos.x -= f32(width_of_one_frame) * .5;
                 mouse_pos.y -= f32(scarfy.height) * .5;

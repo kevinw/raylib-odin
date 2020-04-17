@@ -51,7 +51,7 @@ main :: proc() {
     reload_timer := RELOAD_INTERVAL_MS;
     for !window_should_close() {
         force_reload := false;
-        switch plugin.update_and_draw_proc() {
+        #partial switch  plugin.update_and_draw_proc() {
             case .Reload: force_reload = true;
             case .Quit: return;
         }

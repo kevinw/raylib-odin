@@ -2,6 +2,7 @@ package plugin
 
 import "core:os"
 import "core:fmt"
+import "core:strings"
 
 Request :: enum {
     None,
@@ -12,12 +13,14 @@ Request :: enum {
 when os.OS == "windows" {
     import "core:sys/win32"
 
-    _odin_to_wchar_string :: proc(str : string) -> win32.Wstring {
+    _odin_to_wchar_string :: proc(_str : string) -> win32.Wstring {
+        str : string;
+        str = _str;
         olen := i32(len(str) * size_of(byte));
-        wlen := win32.multi_byte_to_wide_char(win32.CP_UTF8, 0, cstring(&str[0]), olen, nil, 0);
+        wlen := win32.multi_byte_to_wide_char(win32.CP_UTF8, 0, strings.clone_to_cstring(str), olen, nil, 0);
         buf := make([]u16, int(wlen * size_of(u16) + 1));
         ptr := win32.Wstring(&buf[0]);
-        win32.multi_byte_to_wide_char(win32.CP_UTF8, 0, cstring(&str[0]), olen, ptr, wlen);
+        win32.multi_byte_to_wide_char(win32.CP_UTF8, 0, strings.clone_to_cstring(str), olen, ptr, wlen);
         return ptr;
     }
 
@@ -72,7 +75,7 @@ plugin_load :: proc(plugin: ^Plugin, name: string, userdata: rawptr) -> bool {
     // copy dll to temp location
     if !_copy_file(name, temp_path, true) {
         fmt.println("ERR IN COPY FILE");
-        fmt.println_err("could not copy", name, "to", temp_path);
+        fmt.eprintln("could not copy", name, "to", temp_path);
         return false;
     }
 
@@ -84,26 +87,26 @@ plugin_load :: proc(plugin: ^Plugin, name: string, userdata: rawptr) -> bool {
     new_dll := win32.load_library_a(temp_path);
     if new_dll == nil {
         fmt.println("ERR IN LOAD_LIBRARY");
-        fmt.println_err("could not load library", name);
+        fmt.eprintln("could not load library", name);
         return false;
     }
 
     // load functions
     on_load_proc : On_Load_Proc = cast(On_Load_Proc)win32.get_proc_address(new_dll, "on_load");
     if on_load_proc == nil {
-        fmt.println_err("error: could not load on_load proc");
+        fmt.eprintln("error: could not load on_load proc");
         return false;
     } 
 
     on_unload_proc : On_Unload_Proc = cast(On_Unload_Proc)win32.get_proc_address(new_dll, "on_unload");
     if on_unload_proc == nil {
-        fmt.println_err("error: could not load on_unload proc");
+        fmt.eprintln("error: could not load on_unload proc");
         return false;
     } 
 
     update_and_draw_proc : Update_And_Draw_Proc = cast(Update_And_Draw_Proc)win32.get_proc_address(new_dll, "update_and_draw");
     if update_and_draw_proc == nil {
-        fmt.println_err("error: could not load update_and_draw proc");
+        fmt.eprintln("error: could not load update_and_draw proc");
         return false;
     } 
 
@@ -111,7 +114,7 @@ plugin_load :: proc(plugin: ^Plugin, name: string, userdata: rawptr) -> bool {
         ok, file_time := get_file_time(name);
         if !ok {
             fmt.println("error getting write time");
-            fmt.println_err("could not read DLL write time:", temp_path);
+            fmt.eprintln("could not read DLL write time:", temp_path);
             return false;
         }
         plugin.last_write_time = file_time;
@@ -140,7 +143,7 @@ plugin_unload :: proc(plugin: ^Plugin) {
 plugin_maybe_reload :: proc(plugin: ^Plugin, userdata: rawptr, force_reload: bool = false) {
     ok, file_time := get_file_time(plugin.path_on_disk);
     if !ok {
-        //fmt.println_err("could not get file time of plugin:", plugin.path_on_disk);
+        //fmt.eprintln("could not get file time of plugin:", plugin.path_on_disk);
         return;
     }
 

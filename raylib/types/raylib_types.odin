@@ -456,10 +456,19 @@ AnonymousEnum24 :: enum i32 {
     NPT_3PATCH_HORIZONTAL,
 };
 
-Vector2 :: math.Vec2;
-Vector3 :: math.Vec3;
-Vector4 :: math.Vec4;
-Matrix :: math.Mat4;
+//math.Vec* and math.Mat* are deprecated
+//Vector2 :: math.Vec2;
+//Vector3 :: math.Vec3;
+//Vector4 :: math.Vec4;
+//Matrix :: math.Mat4;
+
+Vector2 :: [2]f32;
+Vector3 :: [3]f32;
+Vector4 :: [4]f32;
+Matrix  :: [4][4]f32;
+
+
+
 Color :: struct #packed {
     r : _c.uchar,
     g : _c.uchar,

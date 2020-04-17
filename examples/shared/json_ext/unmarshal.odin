@@ -17,9 +17,9 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
     type_info := type_info_base(type_info_of(data.id));
     type_info  = type_info_base(type_info); // @todo: dirty fucking hack, won't hold up
 
-    switch v in value.value {
+    #partial switch v in value.value {
     case Object:
-        switch variant in type_info.variant {
+        #partial switch variant in type_info.variant {
         case Type_Info_Struct:
             for field, i in variant.names {
                 // @todo: stricter type checking and by-order instead of by-name as an option
@@ -31,19 +31,19 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
         
         case Type_Info_Map:
             // @todo: implement. ask bill about this, maps are a daunting prospect because they're fairly opaque
-            fmt.println_err("TODO: Type_Info_Map not implemented yet");
+            fmt.eprintln("TODO: Type_Info_Map not implemented yet");
             return false;
 
         case:
-            fmt.println_err("JSON error: unhandled type_info.variant", variant);
+            fmt.eprintln("JSON error: unhandled type_info.variant", variant);
             return false;
         }
 
     case Array:
-        switch variant in type_info.variant {
+        #partial switch variant in type_info.variant {
         case Type_Info_Array:
             if len(v) > variant.count {
-                fmt.println_err("len of array wrong");
+                fmt.eprintln("len of array wrong");
                 return false; // @error
             }
 
@@ -58,7 +58,7 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
             array := (^mem.Raw_Slice)(data.data);
 
             if len(v) > array.len {
-                fmt.println_err("slice length wrong");
+                fmt.eprintln("slice length wrong");
                 return false; // @error
             }
             array.len = len(v);
@@ -94,12 +94,12 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
             return true;
 
         case:
-            fmt.println_err("unhandled variant for Array:", variant);
+            fmt.eprintln("unhandled variant for Array:", variant);
             return false; // @error
         }
 
     case String:
-        switch variant in type_info.variant {
+        #partial switch variant in type_info.variant {
         case Type_Info_String:
             tmp := string(v);
             mem.copy(data.data, &tmp, size_of(string));
@@ -109,7 +109,7 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
         case Type_Info_Enum:
             for name, i in variant.names {
                 if name == string(v) {
-                    #complete switch val in &variant.values[i] {
+                    switch val in &variant.values[i] {
                     case rune:    mem.copy(data.data, val, size_of(val^));
                     case i8:      mem.copy(data.data, val, size_of(val^));
                     case i16:     mem.copy(data.data, val, size_of(val^));
@@ -128,12 +128,12 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
                 }
             }
         case:
-            fmt.println_err("unhandled String variant", variant);
+            fmt.eprintln("unhandled String variant", variant);
             return false;
         }
 
     case Integer:
-        switch variant in type_info.variant {
+        #partial switch variant in type_info.variant {
         case Type_Info_Integer:
             switch type_info.size {
             case 8:
@@ -153,7 +153,7 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
                 mem.copy(data.data, &tmp, type_info.size);
 
             case:
-                fmt.println_err("unhandled integer size", type_info.size);
+                fmt.eprintln("unhandled integer size", type_info.size);
                 return false; // @error
             }
 
@@ -163,7 +163,7 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
             return unmarshal(any{data.data, variant.base.id}, value, spec);
 
         case:
-            fmt.println_err("Unhandled Integer variant", variant);
+            fmt.eprintln("Unhandled Integer variant", variant);
             return false;
         }
 
@@ -179,14 +179,14 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
                 mem.copy(data.data, &tmp, type_info.size);
 
             case:
-                fmt.println_err("Unhandled Float type_info.size", type_info.size);
+                fmt.eprintln("Unhandled Float type_info.size", type_info.size);
                 return false; // @error
             }
 
             return true;
         }
 
-        fmt.println_err("expected a float in the struct");
+        fmt.eprintln("expected a float in the struct");
         return false; // @error
 
     case Boolean:
@@ -197,7 +197,7 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
             return true;
         }
 
-        fmt.println_err("expected a boolean in the struct");
+        fmt.eprintln("expected a boolean in the struct");
         return false; // @error
 
     case Null:
@@ -205,7 +205,7 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
         return true;
     
     case:
-        fmt.println_err("unhandled value type", v);
+        fmt.eprintln("unhandled value type", v);
         return false; // @error
     }
 
@@ -227,7 +227,7 @@ parse_file :: inline proc(path: string, spec := Specification.JSON) -> (value: V
         return;
     }
 
-    fmt.println_err("could not read_entire_file", path);
+    fmt.eprintln("could not read_entire_file", path);
     value = Value {};
     ok = false;
     return;
