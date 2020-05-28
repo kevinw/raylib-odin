@@ -36,7 +36,7 @@ main :: proc() {
 
     bunnies_count := 0;
 
-    raylib.set_target_fps(60);
+    raylib.set_target_fps(120);
 
     for !raylib.window_should_close() {
         if raylib.is_mouse_button_down(.LEFT_BUTTON) {
