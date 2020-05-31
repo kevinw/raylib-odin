@@ -72,7 +72,7 @@ generate_raylib_bindings :: proc() {
         typesFile = typesFile,
         bridgeFile = bridgeFile,
         headerFiles = []string{"./generator/preprocessed/raylib.h"},
-        options = options,
+        options_= options,
         enum_args_map = args_map,
     );
 
@@ -113,7 +113,7 @@ generate_raygui_bindings :: proc() {
         typesFile = typesFile,
         bridgeFile = bridgeFile,
         headerFiles = []string{"./ext/raygui/raygui-preprocessed.h"},
-        options = options,
+        options_ = options,
         enum_args_map = args_map,
     );
 
@@ -156,7 +156,7 @@ generate_raymath_bindings :: proc() {
         typesFile = typesFile,
         bridgeFile = bridgeFile,
         headerFiles = []string{"./ext/raymath/raymath-preprocessed.h"},
-        options = options,
+        options_ = options,
         enum_args_map = args_map,
     ); ok {
         fmt.println("wrote", outputFile);
@@ -193,7 +193,7 @@ generate_physac_bindings :: proc() {
         typesFile = typesFile,
         bridgeFile = bridgeFile,
         headerFiles = []string{"./ext/physac/physac-preprocessed.h"},
-        options = options,
+        options_ = options,
         enum_args_map = args_map,
     ); ok {
         fmt.println("wrote", outputFile);
@@ -235,7 +235,7 @@ generate_chipmunk_bindings :: proc() {
         typesFile = typesFile,
         bridgeFile = bridgeFile,
         headerFiles = []string{"./ext/Chipmunk2D/AmalgatedChipmunk.h"},
-        options = options,
+        options_ = options,
         enum_args_map = args_map,
     ); ok {
         fmt.println("wrote", outputFile);

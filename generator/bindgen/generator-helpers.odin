@@ -21,7 +21,8 @@ WordCase :: enum {
 }
 
 // Change a character to a capital.
-to_uppercase :: proc(c : rune) -> rune {
+to_uppercase :: proc(c_: rune) -> rune {
+    c := c_;
     if c >= 'a' && c <= 'z' {
         c = c - 'a' + 'A';
     }
@@ -29,7 +30,8 @@ to_uppercase :: proc(c : rune) -> rune {
 }
 
 // Change a character to lowercase.
-to_lowercase :: proc(c : rune) -> rune {
+to_lowercase :: proc(c_: rune) -> rune {
+    c := c_;
     if c >= 'A' && c <= 'Z' {
         c = c - 'A' + 'a';
     }
@@ -272,7 +274,8 @@ split_from_capital :: proc(str : string) -> [dynamic]string {
 
 // Check if str if prefixed with any of the provided strings,
 // even combinaisons of those, and remove them.
-remove_prefixes :: proc(str : string, prefixes : []string, transparentPrefixes : []string = nil) -> string {
+remove_prefixes :: proc(str_: string, prefixes : []string, transparentPrefixes : []string = nil) -> string {
+    str := str_;
     transparentStr := "";
 
     found := true;
@@ -317,10 +320,11 @@ remove_prefixes :: proc(str : string, prefixes : []string, transparentPrefixes :
 // Check if str if postfixes with any of the provided strings,
 // even combinaisons of those, and remove them.
 remove_postfixes_with_removed :: proc(
-    str : string,
+    str_: string,
     postfixes : []string,
     transparentPostfixes : []string = nil
 ) -> (string, [dynamic]string) {
+    str := str_;
     removedPostfixes : [dynamic]string;
     transparentStr := "";
 
@@ -365,10 +369,11 @@ remove_postfixes_with_removed :: proc(
 }
 
 remove_postfixes :: proc(
-    str : string,
+    str_: string,
     postfixes : []string,
     transparentPostfixes : []string = nil
 ) -> string {
+    str := str_;
     removedPostfixes : [dynamic]string;
     str, removedPostfixes = remove_postfixes_with_removed(str, postfixes, transparentPostfixes);
     return str;

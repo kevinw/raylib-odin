@@ -154,7 +154,9 @@ evaluate_parentheses :: proc(data : ^ParserData) -> (value : LiteralValue, ok : 
     return;
 }
 
-evaluate_number_literal :: proc(data : ^ParserData) -> (value : LiteralValue) {
+evaluate_number_literal :: proc(data : ^ParserData) -> (value_: LiteralValue) {
+    value := value_;
+
     token := parse_any(data);
 
     // Check if any point or scientific notation in number
@@ -170,11 +172,11 @@ evaluate_number_literal :: proc(data : ^ParserData) -> (value : LiteralValue) {
 
     // Floating point
     if !isHexadecimal && (foundPointOrExp || token[len(token)-1] == 'f') {
-        value = strconv.parse_f64(token);
+        value, _ = strconv.parse_f64(token);
     }
     // Integer
     else {
-        value = strconv.parse_i64(token);
+        value, _ = strconv.parse_i64(token);
     }
 
     return value;

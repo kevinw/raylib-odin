@@ -68,9 +68,11 @@ generate :: proc(
     typesFile : string,
     bridgeFile : string,
     headerFiles : []string,
-    options : GeneratorOptions,
+    options_: GeneratorOptions,
     enum_args_map : Enum_Args_Map,
 ) -> bool {
+    options := options_;
+
     data : GeneratorData;
     data.options = &options;
 
@@ -80,7 +82,7 @@ generate :: proc(
     for headerFile in headerFiles {
         bytes, ok := os.read_entire_file(headerFile);
         if !ok {
-            fmt.print_err("[bindgen] Unable to read file ", headerFile, "\n");
+            fmt.eprint("[bindgen] Unable to read file ", headerFile, "\n");
             return false;
         }
 
@@ -99,7 +101,7 @@ generate :: proc(
         errno : os.Errno;
         data.handle, errno = os.open(typesFile, os.O_WRONLY | os.O_CREATE | os.O_TRUNC);
         if errno != 0 {
-            fmt.print_err("[bindgen] Unable to write to output file ", typesFile, " (", errno ,")\n");
+            fmt.eprint("[bindgen] Unable to write to output file ", typesFile, " (", errno ,")\n");
             return false;
         }
         defer os.close(data.handle);
@@ -139,7 +141,7 @@ generate :: proc(
         errno : os.Errno;
         data.handle, errno = os.open(outputFile, os.O_WRONLY | os.O_CREATE | os.O_TRUNC);
         if errno != 0 {
-            fmt.print_err("[bindgen] Unable to write to output file ", outputFile, " (", errno ,")\n");
+            fmt.eprint("[bindgen] Unable to write to output file ", outputFile, " (", errno ,")\n");
             return false;
         }
         defer os.close(data.handle);
@@ -205,7 +207,7 @@ get_function_pointers :: proc(funcs: ^%s_types.%s_Funcs) {
         errno : os.Errno;
         data.handle, errno = os.open(bridgeFile, os.O_WRONLY | os.O_CREATE | os.O_TRUNC);
         if errno != 0 {
-            fmt.print_err("[bindgen] Unable to write to output file ", bridgeFile, " (", errno ,")\n");
+            fmt.eprint("[bindgen] Unable to write to output file ", bridgeFile, " (", errno ,")\n");
             return false;
         }
         defer os.close(data.handle);

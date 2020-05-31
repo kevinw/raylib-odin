@@ -3,7 +3,9 @@ package bindgen
 import "core:fmt"
 
 // Prevent keywords clashes and other tricky cases
-clean_identifier :: proc(name : string) -> string {
+clean_identifier :: proc(name_: string) -> string {
+    name := name_;
+
     if name == "" {
         return name;
     }
@@ -31,12 +33,13 @@ clean_identifier :: proc(name : string) -> string {
     return name;
 }
 
-clean_variable_name :: proc(name : string, options : ^GeneratorOptions) -> string {
-    name = change_case(name, options.variableCase);
+clean_variable_name :: proc(name_: string, options : ^GeneratorOptions) -> string {
+    name := change_case(name_, options.variableCase);
     return clean_identifier(name);
 }
 
-clean_pseudo_type_name :: proc(structName : string, options : ^GeneratorOptions) -> string {
+clean_pseudo_type_name :: proc(structName_: string, options : ^GeneratorOptions) -> string {
+    structName := structName_;
     /*
     replacement, found := options.typeReplacements[structName];
     if found {
@@ -51,7 +54,9 @@ clean_pseudo_type_name :: proc(structName : string, options : ^GeneratorOptions)
 }
 
 // Clean up the enum name so that it can be used to remove the prefix from enum values.
-clean_enum_name_for_prefix_removal :: proc(enumName : string, options : ^GeneratorOptions) -> (string, [dynamic]string) {
+clean_enum_name_for_prefix_removal :: proc(enumName_: string, options : ^GeneratorOptions) -> (string, [dynamic]string) {
+    enumName := enumName_;
+
     if !options.enumValueNameRemove {
         return enumName, nil;
     }
@@ -63,7 +68,8 @@ clean_enum_name_for_prefix_removal :: proc(enumName : string, options : ^Generat
     return enumName, removedPostfixes;
 }
 
-clean_enum_value_name :: proc(valueName : string, enumName : string, postfixes : []string, options : ^GeneratorOptions) -> string {
+clean_enum_value_name :: proc(valueName_: string, enumName : string, postfixes : []string, options : ^GeneratorOptions) -> string {
+    valueName := valueName_;
     valueName = remove_prefixes(valueName, options.enumValuePrefixes, options.enumValueTransparentPrefixes);
     valueName = remove_postfixes(valueName, postfixes, options.enumValueTransparentPostfixes);
     valueName = change_case(valueName, options.enumValueCase);
@@ -75,14 +81,16 @@ clean_enum_value_name :: proc(valueName : string, enumName : string, postfixes :
     return clean_identifier(valueName);
 }
 
-clean_function_name :: proc(functionName : string, options : ^GeneratorOptions) -> string {
+clean_function_name :: proc(functionName_: string, options : ^GeneratorOptions) -> string {
+    functionName := functionName_;
     functionName = remove_prefixes(functionName, options.functionPrefixes, options.functionTransparentPrefixes);
     functionName = remove_postfixes(functionName, options.definePostfixes, options.defineTransparentPostfixes);
     functionName = change_case(functionName, options.functionCase);
     return functionName;
 }
 
-clean_define_name :: proc(defineName : string, options : ^GeneratorOptions) -> string {
+clean_define_name :: proc(defineName_: string, options : ^GeneratorOptions) -> string {
+    defineName := defineName_;
     defineName = remove_prefixes(defineName, options.definePrefixes, options.defineTransparentPrefixes);
     defineName = remove_postfixes(defineName, options.definePostfixes, options.defineTransparentPostfixes);
     defineName = change_case(defineName, options.defineCase);
