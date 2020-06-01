@@ -99,8 +99,8 @@ bridge_init :: proc(funcs: ^raymath_Funcs) {
     quaternion_transform = funcs.quaternion_transform;
 }
 
-bridge_deinit :: proc() {
-}
+bridge_deinit :: proc() %!(BAD ARGUMENT NUMBER 
+)%!(MISSING ARGUMENT)
 
 clamp : proc "c" (
         value : _c.float,

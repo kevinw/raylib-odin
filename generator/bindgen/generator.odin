@@ -180,7 +180,7 @@ import %s_types "./types"
         reexport_types(data, packageName);
 
         fmt.fprintf(data.handle, `
-get_function_pointers :: proc(funcs: ^%s_types.%s_Funcs) {
+get_function_pointers :: proc(funcs: ^%s_types.%s_Funcs) {{
 `, packageName, packageName);
 
         // assign incoming func pointers to struct
@@ -227,7 +227,7 @@ using import "../types"
 
 import _c "core:c"
 
-bridge_init :: proc(funcs: ^%s_Funcs) {
+bridge_init :: proc(funcs: ^%s_Funcs) {{
 `, packageName);
 
         count := 0;

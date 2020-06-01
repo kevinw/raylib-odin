@@ -500,8 +500,8 @@ bridge_init :: proc(funcs: ^raylib_Funcs) {
     set_audio_stream_pitch = funcs.set_audio_stream_pitch;
 }
 
-bridge_deinit :: proc() {
-}
+bridge_deinit :: proc() %!(BAD ARGUMENT NUMBER 
+)%!(MISSING ARGUMENT)
 
 init_window : proc "c" (
         width : _c.int,

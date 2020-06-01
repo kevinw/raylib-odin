@@ -29,10 +29,10 @@ default_generator_options :: proc() -> bindgen.GeneratorOptions {
     pseudoTypeCase = .Pascal;
 
     when USE_MATH_TYPES {
-        typeReplacements["Vector2"] = "math.Vec2";
-        typeReplacements["Vector3"] = "math.Vec3";
-        typeReplacements["Vector4"] = "math.Vec4";
-        typeReplacements["Matrix"] = "math.Mat4";
+        typeReplacements["Vector2"] = "linalg.Vector2";
+        typeReplacements["Vector3"] = "linalg.Vector3";
+        typeReplacements["Vector4"] = "linalg.Vector4";
+        typeReplacements["Matrix"] = "linalg.Matrix4";
     }
 
     return options;
@@ -40,7 +40,9 @@ default_generator_options :: proc() -> bindgen.GeneratorOptions {
 
 generate_raylib_bindings :: proc() {
     options := default_generator_options();
-    when USE_MATH_TYPES do options.odin_includes = []string { "core:math", };
+    when USE_MATH_TYPES do options.odin_includes = []string {
+        "core:math/linalg",
+    };
     options.enumValuePrefixes = {
         "FLAG_", "LOG_", "KEY_", "GAMEPAD_", "MOUSE_", "LOC_",
         "UNIFORM_", "MAP_", "FONT_", "GESTURE_", "CAMERA_", "HMD_",
@@ -86,7 +88,9 @@ generate_raylib_bindings :: proc() {
 generate_raygui_bindings :: proc() {
     options := default_generator_options();
     options.odin_using_includes = []string{ "../../raylib/types", };
-    when USE_MATH_TYPES do options.odin_includes = []string{ "core:math" };
+    when USE_MATH_TYPES do options.odin_includes = []string{
+        "core:math/linalg"
+    };
 
     {
         using options.parserOptions;
@@ -273,7 +277,7 @@ cliteral_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue
     a := bindgen.evaluate_i64(data);
     bindgen.check_and_eat_token(data, "}");
     data.defining_node.is_variable = true;
-    return fmt.tprintf("Color { %d, %d, %d, %d }", r, g, b, a);
+    return fmt.tprintf("Color {{ %d, %d, %d, %d }}", r, g, b, a);
 }
 
 macro_make_version :: proc(data : ^bindgen.ParserData) -> bindgen.LiteralValue {
@@ -306,7 +310,6 @@ camera3d_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
 }
 
 _cliteral_handler :: proc(data: ^bindgen.ParserData) {
-    fmt.println("HERE");
     bindgen.check_and_eat_token(data, "(");
     bindgen.parse_identifier(data);
     bindgen.check_and_eat_token(data, ")");

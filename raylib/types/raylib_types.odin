@@ -6,7 +6,7 @@ package raylib_types
 
 import _c "core:c"
 
-import "core:math"
+import "core:math/linalg"
 RAYLIB_H :: 1;
 PI :: 3.142;
 DEG2RAD :: 0.017;
@@ -456,10 +456,10 @@ AnonymousEnum24 :: enum i32 {
     NPT_3PATCH_HORIZONTAL,
 };
 
-Vector2 :: math.Vec2;
-Vector3 :: math.Vec3;
-Vector4 :: math.Vec4;
-Matrix :: math.Mat4;
+Vector2 :: linalg.Vector2;
+Vector3 :: linalg.Vector3;
+Vector4 :: linalg.Vector4;
+Matrix :: linalg.Matrix4;
 Color :: struct #packed {
     r : _c.uchar,
     g : _c.uchar,

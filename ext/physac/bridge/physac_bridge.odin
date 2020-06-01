@@ -56,8 +56,8 @@ bridge_init :: proc(funcs: ^physac_Funcs) {
     physics_loop = funcs.physics_loop;
 }
 
-bridge_deinit :: proc() {
-}
+bridge_deinit :: proc() %!(BAD ARGUMENT NUMBER 
+)%!(MISSING ARGUMENT)
 
 init_physics : proc "c" ();
 is_physics_enabled : proc "c" () -> bool;

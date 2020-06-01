@@ -81,8 +81,8 @@ bridge_init :: proc(funcs: ^raygui_Funcs) {
     gui_icon_text = funcs.gui_icon_text;
 }
 
-bridge_deinit :: proc() {
-}
+bridge_deinit :: proc() %!(BAD ARGUMENT NUMBER 
+)%!(MISSING ARGUMENT)
 
 gui_list_element : proc "c" (
         bounds : Rectangle,

@@ -1,9 +1,11 @@
 package demo
 
-using import "../../raylib"
+import "../../raylib"
 
 main :: proc()
 {
+    using raylib;
+
     // Initialization
     //--------------------------------------------------------------------------------------
     screenWidth :i32 = 800;
