@@ -7,7 +7,7 @@ package raygui_types
 import _c "core:c"
 
 import "core:math/linalg"
-using import "../../../raylib/types"
+import "../../../raylib/types"
 RAYGUI_H :: 1;
 RAYGUI_VERSION :: "2.0-dev";
 RAYGUI_RICONS_SUPPORT :: 1;

@@ -1,12 +1,13 @@
 package live_reload_demo
 
-using import "core:runtime"
+import "core:runtime"
 import "core:math"
 import "core:os"
 import "core:fmt"
+import "core:math/linalg"
 import serializer "core:encoding/json"
 
-using import "../../raylib/bridge"
+import "../../raylib/bridge"
 
 import "../shared/json_ext"
 
@@ -14,13 +15,13 @@ import "../shared/sprite"
 
 // RAYLIB_EXTRA
 unload :: proc {
-    unload_texture,
-    unload_sound
+    raylib.unload_texture,
+    raylib.unload_sound
 };
 
 //import "../shared/game_math"
 import "../shared/plugin"
-using import "../shared/debug_console"
+import "../shared/debug_console"
 
 state_json_dir :: "temp";
 state_json_path :: "temp/state.json";
@@ -39,7 +40,7 @@ when os.OS == "windows" {
 State :: struct {
     currentFrame : int,
     framesCounter : int,
-    position : Vector2,
+    position : linalg.Vector2,
 }
 
 

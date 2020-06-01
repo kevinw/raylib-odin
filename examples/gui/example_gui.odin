@@ -2,7 +2,7 @@ package example_gui
 
 import "core:fmt"
 
-using import "../../raylib"
+import "../../raylib"
 
 import raygui "../../ext/raygui"
 

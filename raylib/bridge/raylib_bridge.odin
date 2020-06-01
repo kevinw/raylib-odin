@@ -1,7 +1,7 @@
 
 package raylib
 
-using import "../types"
+import "../types"
 
 raylib_Funcs :: raylib_Funcs;
 
@@ -500,8 +500,8 @@ bridge_init :: proc(funcs: ^raylib_Funcs) {
     set_audio_stream_pitch = funcs.set_audio_stream_pitch;
 }
 
-bridge_deinit :: proc() %!(BAD ARGUMENT NUMBER 
-)%!(MISSING ARGUMENT)
+bridge_deinit :: proc() {
+}
 
 init_window : proc "c" (
         width : _c.int,

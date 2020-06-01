@@ -5,7 +5,7 @@ import "core:fmt"
 
 import "../game_math"
 
-using import "../../../raylib/bridge"
+import "../../../raylib/bridge"
 
 Console_Entry :: struct {
     message: cstring,

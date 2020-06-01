@@ -1,13 +1,13 @@
 package example_chipmunk
 
-using import "../../raylib"
+import "../../raylib"
 
 import cp "../../ext/chipmunk"
 import "core:math"
 import "core:fmt"
 import "core:math/rand"
 
-using import "../shared/chipmunk_ext"
+import "../shared/chipmunk_ext"
 
 NUM_VERTS :: 5;
 

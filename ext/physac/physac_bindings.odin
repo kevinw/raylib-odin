@@ -8,7 +8,7 @@ package physac_bindings
 foreign import "../lib/physac.lib"
 
 import _c "core:c"
-using import "../../raylib/types"
+import "../../raylib/types"
 
 
 import physac_types "./types"

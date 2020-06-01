@@ -1,11 +1,11 @@
 package live_reload_demo
 
-using import "../../raylib"
+import "../../raylib"
 
 import "core:fmt"
 import "core:os"
 
-using import "../shared/plugin"
+import "../shared/plugin"
 
 when os.OS == "windows" do import "../shared/reloader_thread"
 
@@ -13,6 +13,8 @@ screenWidth :i32 = 800;
 screenHeight :i32 = 450;
 
 main :: proc() {
+    using raylib;
+
     // Create the window
     set_config_flags(
         // TODO: bindings could remove FLAG_ and the like from enums

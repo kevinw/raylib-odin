@@ -2,7 +2,7 @@ package example_physac
 
 import "core:thread"
 
-using import "../../raylib"
+import "../../raylib"
 
 import physac "../../ext/physac"
 

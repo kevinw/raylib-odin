@@ -1,7 +1,7 @@
 
 package raygui
 
-using import "../types"
+import "../types"
 
 raygui_Funcs :: raygui_Funcs;
 
@@ -81,8 +81,8 @@ bridge_init :: proc(funcs: ^raygui_Funcs) {
     gui_icon_text = funcs.gui_icon_text;
 }
 
-bridge_deinit :: proc() %!(BAD ARGUMENT NUMBER 
-)%!(MISSING ARGUMENT)
+bridge_deinit :: proc() {
+}
 
 gui_list_element : proc "c" (
         bounds : Rectangle,

@@ -1,11 +1,11 @@
 package live_reload_demo
 
-using import "core:runtime"
+import "core:runtime"
 import "core:math"
 import "core:os"
 import "core:fmt"
 import serializer "core:encoding/json"
-using import "../../raylib/bridge"
+import "../../raylib/bridge"
 
 import "../shared/json_ext"
 
@@ -17,7 +17,7 @@ unload :: proc {
 
 import "../shared/game_math"
 import "../shared/plugin"
-using import "../shared/debug_console"
+import "../shared/debug_console"
 
 state_json_dir :: "temp";
 state_json_path :: "temp/state.json";
@@ -40,7 +40,6 @@ State :: struct {
     cat_position: Vector2,
     cat_velocity: f32,
 }
-
 
 Transient_State :: struct {
     bg : Texture,

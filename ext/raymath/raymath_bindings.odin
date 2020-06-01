@@ -8,7 +8,7 @@ package raymath_bindings
 foreign import "../lib/raymath.lib"
 
 import _c "core:c"
-using import "../../raylib/types"
+import "../../raylib/types"
 
 
 import raymath_types "./types"

@@ -2,15 +2,17 @@ package sprite
 
 import "core:fmt"
 
-using import "../../../raylib/bridge"
+import "../../../raylib/bridge"
 
 import "../../shared/game_math"
 
+import "core:math/linalg"
+
 Sprite :: struct {
-    pos: Vector2,
+    pos: linalg.Vector2,
     rotation: f32,
     scale: f32,
-    origin: Vector2,
+    origin: linalg.Vector2,
     tint: Color,
     flip_x: bool,
     flip_y: bool,
@@ -20,8 +22,8 @@ Sprite :: struct {
 
 Anim :: struct {
     name: string,
-    texture: Texture,
-    rects: []Rectangle,
+    texture: raylib.Texture,
+    rects: []raylib.Rectangle,
     fps: f32,
     current_time: f32,
 }

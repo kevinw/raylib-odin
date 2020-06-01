@@ -8,7 +8,7 @@ import "core:fmt"
 import "core:mem"
 
 import cp "../../../ext/chipmunk"
-using import "../../../raylib"
+import "../../../raylib"
 
 cpv :: proc(a, b: $T) -> cp.Vect { return cp.Vect{cast(f64)a,cast(f64)b}; }
 

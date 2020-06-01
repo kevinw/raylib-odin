@@ -120,7 +120,7 @@ generate :: proc(
             fmt.fprintf(data.handle, "import \"%s\"\n", include);
         }
         for include in options.odin_using_includes {
-            fmt.fprintf(data.handle, "using import \"../%s\"\n", include);
+            fmt.fprintf(data.handle, "import \"../%s\"\n", include);
         }
 
         // Exporting
@@ -154,7 +154,7 @@ generate :: proc(
         }
         */
         for include in options.odin_using_includes {
-            fmt.sbprintf(&builder, "using import \"%s\"\n", include);
+            fmt.sbprintf(&builder, "import \"%s\"\n", include);
         }
         additional_includes_string := strings.to_string(builder);
 
@@ -215,7 +215,7 @@ get_function_pointers :: proc(funcs: ^%s_types.%s_Funcs) {{
         fmt.fprintf(data.handle, `
 package %s
 
-using import "../types"
+import "../types"
 
 %s_Funcs :: %s_Funcs;
 
@@ -245,8 +245,8 @@ bridge_init :: proc(funcs: ^%s_Funcs) {{
 
         fmt.fprintf(data.handle, `}
 
-bridge_deinit :: proc() {
-}
+bridge_deinit :: proc() {{
+}}
 
 `);
         export_functions(&data, Export_Functions_Mode.Plugin_Pointers);

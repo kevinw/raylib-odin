@@ -1,7 +1,7 @@
 package json_ext
 
-using import "core:encoding/json"
-using import "core:runtime"
+import "core:encoding/json"
+import "core:runtime"
 import "core:mem"
 import "core:os"
 import "core:fmt"
@@ -109,7 +109,7 @@ unmarshal_value_to_any :: proc(data: any, value: Value, spec := Specification.JS
         case Type_Info_Enum:
             for name, i in variant.names {
                 if name == string(v) {
-                    #complete switch val in &variant.values[i] {
+                    switch val in &variant.values[i] {
                     case rune:    mem.copy(data.data, val, size_of(val^));
                     case i8:      mem.copy(data.data, val, size_of(val^));
                     case i16:     mem.copy(data.data, val, size_of(val^));

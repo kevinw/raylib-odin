@@ -1,11 +1,11 @@
 package live_reload_demo
 
-using import "../../raylib"
+import "../../raylib"
 
 import "core:fmt"
 import "core:os"
 
-using import "../shared/plugin"
+import "../shared/plugin"
 
 when os.OS == "windows" do import "../shared/reloader_thread"
 

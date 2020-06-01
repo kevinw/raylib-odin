@@ -1,6 +1,6 @@
 package example_raymath
 
-using import "../../raylib"
+import "../../raylib"
 
 import raymath "../../ext/raymath"
 

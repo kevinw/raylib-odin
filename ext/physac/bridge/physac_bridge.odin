@@ -1,7 +1,7 @@
 
 package physac
 
-using import "../types"
+import "../types"
 
 physac_Funcs :: physac_Funcs;
 
@@ -56,8 +56,8 @@ bridge_init :: proc(funcs: ^physac_Funcs) {
     physics_loop = funcs.physics_loop;
 }
 
-bridge_deinit :: proc() %!(BAD ARGUMENT NUMBER 
-)%!(MISSING ARGUMENT)
+bridge_deinit :: proc() {
+}
 
 init_physics : proc "c" ();
 is_physics_enabled : proc "c" () -> bool;
