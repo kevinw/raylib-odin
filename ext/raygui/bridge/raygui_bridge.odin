@@ -1,18 +1,18 @@
 
 package raygui
 
-import "../types"
+import raylib_types "../types"
 
-raygui_Funcs :: raygui_Funcs;
+raygui_Funcs :: raylib_types.raygui_Funcs;
 
 // re-export everything from ./types for convienience
-RAYGUI_H :: RAYGUI_H;
-RAYGUI_VERSION :: RAYGUI_VERSION;
-RAYGUI_RICONS_SUPPORT :: RAYGUI_RICONS_SUPPORT;
-TEXTEDIT_CURSOR_BLINK_FRAMES :: TEXTEDIT_CURSOR_BLINK_FRAMES;
-NUM_CONTROLS :: NUM_CONTROLS;
-NUM_PROPS_DEFAULT :: NUM_PROPS_DEFAULT;
-NUM_PROPS_EXTENDED :: NUM_PROPS_EXTENDED;
+RAYGUI_H :: raylib_types.RAYGUI_H;
+RAYGUI_VERSION :: raylib_types.RAYGUI_VERSION;
+RAYGUI_RICONS_SUPPORT :: raylib_types.RAYGUI_RICONS_SUPPORT;
+TEXTEDIT_CURSOR_BLINK_FRAMES :: raylib_types.TEXTEDIT_CURSOR_BLINK_FRAMES;
+NUM_CONTROLS :: raylib_types.NUM_CONTROLS;
+NUM_PROPS_DEFAULT :: raylib_types.NUM_PROPS_DEFAULT;
+NUM_PROPS_EXTENDED :: raylib_types.NUM_PROPS_EXTENDED;
 
 
 

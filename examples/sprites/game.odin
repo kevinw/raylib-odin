@@ -1,13 +1,11 @@
 package live_reload_demo
 
-import "core:runtime"
-import "core:math"
 import "core:os"
 import "core:fmt"
 import "core:math/linalg"
 import serializer "core:encoding/json"
 
-import "../../raylib/bridge"
+import rl "../../raylib/bridge"
 
 import "../shared/json_ext"
 
@@ -15,8 +13,8 @@ import "../shared/sprite"
 
 // RAYLIB_EXTRA
 unload :: proc {
-    raylib.unload_texture,
-    raylib.unload_sound
+    rl.unload_texture,
+    rl.unload_sound
 };
 
 //import "../shared/game_math"
@@ -45,11 +43,11 @@ State :: struct {
 
 
 Transient_State :: struct {
-    bg : Texture,
+    bg : rl.Texture,
     num_frames : int,
-    bg2 : Texture,
-    scarfy : Texture,
-    console: Debug_Console,
+    bg2 : rl.Texture,
+    scarfy : rl.Texture,
+    console: debug_console.Debug_Console,
 
     sprs : []sprite.Sprite,
 }
@@ -58,7 +56,9 @@ state : State;
 transient_state : Transient_State;
 
 @(export)
-on_load :: proc(funcs: ^raylib_Funcs) {
+on_load :: proc(funcs: ^rl.raylib_Funcs) {
+    using rl;
+
     bridge_init(funcs);
 
     using transient_state;
@@ -122,6 +122,8 @@ on_load :: proc(funcs: ^raylib_Funcs) {
 
 @(export)
 on_unload :: proc() {
+    using rl;
+
     bridge_deinit();
 
     using state;
@@ -132,11 +134,11 @@ on_unload :: proc() {
         os.write_entire_file(state_json_path, state_bytes);
     } else {
         s := "";
-        switch err {
+        #partial switch err {
             case .Unsupported_Type: s = "Unsupported_Type";
             case: s = "TODO";
         }
-        fmt.println_err("error serializing state to bytes: ", s);
+        fmt.eprintln("error serializing state to bytes: ", s);
     }
 
     debug_console.destroy(&console);
@@ -149,6 +151,7 @@ on_unload :: proc() {
 update_and_draw :: proc() -> plugin.Request {
     using state;
     using transient_state;
+    using rl;
 
     request := plugin.Request.None;
 
@@ -183,7 +186,7 @@ update_and_draw :: proc() -> plugin.Request {
         // click to move the player as well
         if is_mouse_button_down(.LEFT_BUTTON) {
             mouse_pos := get_mouse_position();
-            to_pos := math.length(math.Vec2 { mouse_pos.x - position.x, mouse_pos.y - position.y });
+            to_pos := linalg.length(linalg.Vector2 { mouse_pos.x - position.x, mouse_pos.y - position.y });
             if to_pos > 20 {
                 mouse_pos.x -= f32(width_of_one_frame) * .5;
                 mouse_pos.y -= f32(spr_rect.height) * .5;

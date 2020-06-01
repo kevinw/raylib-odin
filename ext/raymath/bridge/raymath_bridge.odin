@@ -1,16 +1,16 @@
 
 package raymath
 
-import "../types"
+import raylib_types "../types"
 
-raymath_Funcs :: raymath_Funcs;
+raymath_Funcs :: raylib_types.raymath_Funcs;
 
 // re-export everything from ./types for convienience
-RAYMATH_H :: RAYMATH_H;
+RAYMATH_H :: raylib_types.RAYMATH_H;
 
 
-Float3 :: Float3;
-Float16 :: Float16;
+Float3 :: raylib_types.Float3;
+Float16 :: raylib_types.Float16;
 
 
 import _c "core:c"

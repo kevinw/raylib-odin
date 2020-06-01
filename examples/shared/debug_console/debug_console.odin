@@ -5,7 +5,7 @@ import "core:fmt"
 
 import "../game_math"
 
-import "../../../raylib/bridge"
+import rl "../../../raylib/bridge"
 
 Console_Entry :: struct {
     message: cstring,
@@ -24,7 +24,7 @@ destroy :: proc(debug_console: ^Debug_Console) {
 
 log :: proc(using debug_console: ^Debug_Console, format_args: ..any) {
     entry := Console_Entry {};
-    entry.time = get_time();
+    entry.time = rl.get_time();
     entry.message = strings.clone_to_cstring(fmt.tprint(..format_args));
 
     append(&entries, entry);
@@ -37,13 +37,13 @@ update_and_draw :: proc(using debug_console: ^Debug_Console) {
 
     new_entries: [dynamic]Console_Entry;
 
-    now := get_time();
+    now := rl.get_time();
 
     y:i32 = 10;
     x:i32 = 10;
 
-    color := WHITE;
-    shadow_color := BLACK;
+    color := rl.WHITE;
+    shadow_color := rl.BLACK;
 
     time_visible :: 2.0;
 
@@ -61,8 +61,8 @@ update_and_draw :: proc(using debug_console: ^Debug_Console) {
         alpha := alpha_for_time(elapsed);
         shadow_color.a = alpha;
         color.a = alpha;
-        draw_text(entry.message, x+1, y+1, font_size, shadow_color);
-        draw_text(entry.message, x, y, font_size, color);
+        rl.draw_text(entry.message, x+1, y+1, font_size, shadow_color);
+        rl.draw_text(entry.message, x, y, font_size, color);
         y += i32(f32(font_size) * 1.2);
 
         append(&new_entries, entry);

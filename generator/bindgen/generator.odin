@@ -215,13 +215,13 @@ get_function_pointers :: proc(funcs: ^%s_types.%s_Funcs) {{
         fmt.fprintf(data.handle, `
 package %s
 
-import "../types"
+import raylib_types "../types"
 
-%s_Funcs :: %s_Funcs;
+%s_Funcs :: raylib_types.%s_Funcs;
 
 `, packageName, packageName, packageName);
 
-        reexport_types(data);
+        reexport_types(data, "raylib");
 
         fmt.fprintf(data.handle, `
 

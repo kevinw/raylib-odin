@@ -1,32 +1,32 @@
 
 package physac
 
-import "../types"
+import raylib_types "../types"
 
-physac_Funcs :: physac_Funcs;
+physac_Funcs :: raylib_types.physac_Funcs;
 
 // re-export everything from ./types for convienience
-PHYSAC_H :: PHYSAC_H;
-PHYSAC_MAX_BODIES :: PHYSAC_MAX_BODIES;
-PHYSAC_MAX_MANIFOLDS :: PHYSAC_MAX_MANIFOLDS;
-PHYSAC_MAX_VERTICES :: PHYSAC_MAX_VERTICES;
-PHYSAC_CIRCLE_VERTICES :: PHYSAC_CIRCLE_VERTICES;
-PHYSAC_DESIRED_DELTATIME :: PHYSAC_DESIRED_DELTATIME;
-PHYSAC_MAX_TIMESTEP :: PHYSAC_MAX_TIMESTEP;
-PHYSAC_COLLISION_ITERATIONS :: PHYSAC_COLLISION_ITERATIONS;
-PHYSAC_PENETRATION_ALLOWANCE :: PHYSAC_PENETRATION_ALLOWANCE;
-PHYSAC_PENETRATION_CORRECTION :: PHYSAC_PENETRATION_CORRECTION;
-PHYSAC_PI :: PHYSAC_PI;
-PHYSAC_DEG2RAD :: PHYSAC_DEG2RAD;
+PHYSAC_H :: raylib_types.PHYSAC_H;
+PHYSAC_MAX_BODIES :: raylib_types.PHYSAC_MAX_BODIES;
+PHYSAC_MAX_MANIFOLDS :: raylib_types.PHYSAC_MAX_MANIFOLDS;
+PHYSAC_MAX_VERTICES :: raylib_types.PHYSAC_MAX_VERTICES;
+PHYSAC_CIRCLE_VERTICES :: raylib_types.PHYSAC_CIRCLE_VERTICES;
+PHYSAC_DESIRED_DELTATIME :: raylib_types.PHYSAC_DESIRED_DELTATIME;
+PHYSAC_MAX_TIMESTEP :: raylib_types.PHYSAC_MAX_TIMESTEP;
+PHYSAC_COLLISION_ITERATIONS :: raylib_types.PHYSAC_COLLISION_ITERATIONS;
+PHYSAC_PENETRATION_ALLOWANCE :: raylib_types.PHYSAC_PENETRATION_ALLOWANCE;
+PHYSAC_PENETRATION_CORRECTION :: raylib_types.PHYSAC_PENETRATION_CORRECTION;
+PHYSAC_PI :: raylib_types.PHYSAC_PI;
+PHYSAC_DEG2RAD :: raylib_types.PHYSAC_DEG2RAD;
 
-PhysicsBody :: PhysicsBody;
+PhysicsBody :: raylib_types.PhysicsBody;
 
-PhysicsBodyData :: PhysicsBodyData;
-Mat2 :: Mat2;
-PolygonData :: PolygonData;
-PhysicsShape :: PhysicsShape;
-PhysicsManifoldData :: PhysicsManifoldData;
-PhysicsShapeType :: PhysicsShapeType;
+PhysicsBodyData :: raylib_types.PhysicsBodyData;
+Mat2 :: raylib_types.Mat2;
+PolygonData :: raylib_types.PolygonData;
+PhysicsShape :: raylib_types.PhysicsShape;
+PhysicsManifoldData :: raylib_types.PhysicsManifoldData;
+PhysicsShapeType :: raylib_types.PhysicsShapeType;
 
 
 import _c "core:c"

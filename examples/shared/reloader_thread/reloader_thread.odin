@@ -13,12 +13,12 @@ compile_game_dll :: proc() -> bool {
     process_information: win32.Process_Information;
 
     if ok := win32.create_process_a(nil, _recompile_script, nil, nil, false, 0, nil,  nil, &startup_info, &process_information); !ok {
-        fmt.println_err("could not invoke build script");
+        fmt.eprintln("could not invoke build script");
         return false;
     }
 
     if win32.WAIT_OBJECT_0 != win32.wait_for_single_object(process_information.process, win32.INFINITE) {
-        fmt.println_err("ERROR invoking build batch file");
+        fmt.eprintln("ERROR invoking build batch file");
         return false;
     }
 
@@ -36,7 +36,7 @@ watcher_thread_proc :: proc(^thread.Thread) -> int {
 
     handle := win32.find_first_change_notification_a(_directory_to_watch, watch_subtree, filter);
     if handle == win32.INVALID_HANDLE {
-        fmt.println_err("FindFirstChangeNotification failed");
+        fmt.eprintln("FindFirstChangeNotification failed");
         return -1;
     }
 
@@ -63,15 +63,15 @@ watcher_thread_proc :: proc(^thread.Thread) -> int {
                 did_get_change = false;
                 next_timeout_ms = win32.INFINITE;
                 if ok := compile_game_dll(); !ok {
-                    fmt.println_err("result:", ok);
+                    fmt.eprintln("result:", ok);
                 }
             case:
-                fmt.println_err("unhandled wait_status", wait_status);
+                fmt.eprintln("unhandled wait_status", wait_status);
                 return -1;
         }
 
         if win32.find_next_change_notification(handle) == FALSE {
-            fmt.println_err("error in find_next_change_notification");
+            fmt.eprintln("error in find_next_change_notification");
             return -1;
         }
     }

@@ -2,7 +2,7 @@ package sprite
 
 import "core:fmt"
 
-import "../../../raylib/bridge"
+import rl "../../../raylib/bridge"
 
 import "../../shared/game_math"
 
@@ -13,7 +13,7 @@ Sprite :: struct {
     rotation: f32,
     scale: f32,
     origin: linalg.Vector2,
-    tint: Color,
+    tint: rl.Color,
     flip_x: bool,
     flip_y: bool,
     animations: []Anim,
@@ -22,8 +22,8 @@ Sprite :: struct {
 
 Anim :: struct {
     name: string,
-    texture: raylib.Texture,
-    rects: []raylib.Rectangle,
+    texture: rl.Texture,
+    rects: []rl.Rectangle,
     fps: f32,
     current_time: f32,
 }
@@ -37,8 +37,8 @@ Sprite_destroy :: proc(using spr: ^Sprite) {
     delete(animations);
 }
 
-Rectangle_scale :: proc(rec: Rectangle, xscale, yscale: f32) -> Rectangle { 
-    return Rectangle {rec.x, rec.y, rec.width*xscale, rec.height*yscale};
+Rectangle_scale :: proc(rec: rl.Rectangle, xscale, yscale: f32) -> rl.Rectangle { 
+    return rl.Rectangle {rec.x, rec.y, rec.width*xscale, rec.height*yscale};
 }
 
 destroy :: proc(using spr: ^Sprite) {
@@ -61,15 +61,15 @@ update_many :: proc(sprites: []Sprite, delta_time: f32) {
     }
 }
 
-rects_from_horizontal_texture :: proc(width: f32, height: f32, num_frames: uint) -> []Rectangle {
+rects_from_horizontal_texture :: proc(width: f32, height: f32, num_frames: uint) -> []rl.Rectangle {
 
-    rects := make([]Rectangle, num_frames);
+    rects := make([]rl.Rectangle, num_frames);
 
     x :f32 = 0.0;
     w := width / cast(f32)num_frames;
 
     for i in 0..num_frames-1 {
-        rects[i] = Rectangle {x, 0, w, height};
+        rects[i] = rl.Rectangle {x, 0, w, height};
         x += w;
     }
 
@@ -81,7 +81,7 @@ current_rect_index :: inline proc(using sprite: ^Sprite) -> int {
         current_anim.current_time * current_anim.fps, cast(f32)len(current_anim.rects));
 }
 
-current_rect :: proc(using sprite: ^Sprite) -> Rectangle {
+current_rect :: proc(using sprite: ^Sprite) -> rl.Rectangle {
     rect_index := current_rect_index(sprite);
     return current_anim.rects[rect_index];
 }
@@ -92,14 +92,14 @@ draw_many :: proc(sprites: []Sprite) {
         using sprite;
 
         source_rect := current_anim.rects[current_rect_index(sprite)];
-        dest_rect := Rectangle { pos.x, pos.y, source_rect.width * scale, source_rect.height * scale };
+        dest_rect := rl.Rectangle { pos.x, pos.y, source_rect.width * scale, source_rect.height * scale };
 
         scale_x := f32(flip_x ? -1 : 1);
         scale_y := f32(flip_y ? -1 : 1);
 
         source_rect = Rectangle_scale(source_rect, scale_x, scale_y);
 
-        draw_texture_pro(
+        rl.draw_texture_pro(
             current_anim.texture, 
             source_rect,
             dest_rect,
@@ -123,7 +123,7 @@ play_anim :: proc(using sprite: ^Sprite, anim_name: string) {
     }
 
     if !found {
-        fmt.println_err("WARNING: animation", anim_name, "doesn't exist");
+        fmt.eprintln("WARNING: animation", anim_name, "doesn't exist");
         return;
     }
 

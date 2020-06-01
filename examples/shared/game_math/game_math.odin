@@ -79,13 +79,14 @@ unlerp :: proc(ax, a1, a2: f64) -> f64 {
 // thanks Unity decompiled
 smooth_damp :: proc(
     current: f32,
-    target: f32,
+    target_: f32,
     current_velocity: ^f32,
-    smooth_time: f32,
+    smooth_time_: f32,
     delta_time: f32,
     max_speed: f32 = INFINITY,
 ) -> f32 {
-    smooth_time = max(0.0001, smooth_time);
+    target := target_;
+    smooth_time := max(0.0001, smooth_time_);
     num:f32 = 2.0 / smooth_time;
     num2:f32 = num * delta_time;
     num3:f32 = 1.0 / (1.0 + num2 + 0.48 * num2 * num2 + 0.235 * num2 * num2 * num2);
