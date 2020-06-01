@@ -2,27 +2,29 @@ package bunnymark
 
 import "core:fmt"
 import "core:strings"
+import "core:math/linalg"
 
-import "../../raylib"
+import rl "../../raylib"
 
 MAX_BUNNIES :: 100000;
 
 Bunny :: struct {
-    position : Vector2,
-    speed : Vector2,
-    color : Color,
+    position : linalg.Vector2,
+    speed : linalg.Vector2,
+    color : rl.Color,
 }
 
-get_random_color :: inline proc() -> Color {
-    return Color {
-        cast(u8)get_random_value(0, 255),
-        cast(u8)get_random_value(0, 255),
-        cast(u8)get_random_value(0, 255),
+get_random_color :: inline proc() -> rl.Color {
+    return rl.Color {
+        cast(u8)rl.get_random_value(0, 255),
+        cast(u8)rl.get_random_value(0, 255),
+        cast(u8)rl.get_random_value(0, 255),
         255
     };
 }
 
 main :: proc() {
+    using rl;
 
     screen_width :: 1280;
     screen_height :: 960;
