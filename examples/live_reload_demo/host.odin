@@ -1,6 +1,6 @@
 package live_reload_demo
 
-import "../../raylib"
+import rl "../../raylib"
 
 import "core:fmt"
 import "core:os"
@@ -13,7 +13,8 @@ screenWidth :i32 = 800;
 screenHeight :i32 = 450;
 
 main :: proc() {
-    using raylib;
+    using rl;
+    using plugin;
 
     // Create the window
     set_config_flags(
@@ -33,7 +34,7 @@ main :: proc() {
 
     // Load the plugin
     plugin_funcs : raylib_Funcs;
-    raylib.get_function_pointers(&plugin_funcs);
+    rl.get_function_pointers(&plugin_funcs);
 
     plugin: Plugin;
     if !plugin_load(&plugin, "bin/game.dll", &plugin_funcs) {
@@ -53,7 +54,7 @@ main :: proc() {
     reload_timer := RELOAD_INTERVAL_MS;
     for !window_should_close() {
         force_reload := false;
-        switch plugin.update_and_draw_proc() {
+        #partial switch plugin.update_and_draw_proc() {
             case .Reload: force_reload = true;
             case .Quit: return;
         }

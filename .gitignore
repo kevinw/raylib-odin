@@ -8,6 +8,7 @@
 .vs/
 .vscode/
 temp/
+bin/
 game.lib
 game.exp
 

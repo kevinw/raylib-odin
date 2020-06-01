@@ -1,6 +1,6 @@
 package live_reload_demo
 
-import "../../raylib"
+import rl "../../raylib"
 
 import "core:fmt"
 import "core:os"
@@ -13,6 +13,8 @@ screenWidth :i32 = 800;
 screenHeight :i32 = 450;
 
 main :: proc() {
+    using rl;
+
     // Create the window
     set_config_flags(
         // TODO: bindings could remove FLAG_ and the like from enums
@@ -31,14 +33,14 @@ main :: proc() {
 
     // Load the plugin
     plugin_funcs : raylib_Funcs;
-    raylib.get_function_pointers(&plugin_funcs);
+    rl.get_function_pointers(&plugin_funcs);
 
-    plugin: Plugin;
-    if !plugin_load(&plugin, "bin/sprites_game.dll", &plugin_funcs) {
+    game_dll: plugin.Plugin;
+    if !plugin.plugin_load(&game_dll, "bin/sprites_game.dll", &plugin_funcs) {
         fmt.println("error loading bin/sprites_game.dll");
         return;
     }
-    defer plugin_unload(&plugin);
+    defer plugin.plugin_unload(&game_dll);
 
     // kick off live reload watcher thread
     when os.OS == "windows" {
@@ -51,7 +53,7 @@ main :: proc() {
     reload_timer := RELOAD_INTERVAL_MS;
     for !window_should_close() {
         force_reload := false;
-        switch plugin.update_and_draw_proc() {
+        #partial switch game_dll.update_and_draw_proc() {
             case .Reload: force_reload = true;
             case .Quit: return;
         }
@@ -66,7 +68,7 @@ main :: proc() {
         }
 
         if needs_reload_check || force_reload {
-            plugin_maybe_reload(&plugin, &plugin_funcs, force_reload);
+            plugin.plugin_maybe_reload(&game_dll, &plugin_funcs, force_reload);
         }
     }
 }

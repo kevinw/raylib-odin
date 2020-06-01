@@ -27,17 +27,17 @@ compile_game_dll :: proc() -> bool {
     return true;
 }
 
-watcher_thread_proc :: proc(^thread.Thread) -> int {
+watcher_thread_proc :: proc(^thread.Thread) {
     fmt.println("watching for changes in", _directory_to_watch);
 
     watch_subtree:win32.Bool : true;
-    filter:u32 : win32.FILE_NOTIFY_CHANGE_LAST_WRITE;
+    filter:u32 = win32.FILE_NOTIFY_CHANGE_LAST_WRITE;
     FALSE:win32.Bool : false;
 
     handle := win32.find_first_change_notification_a(_directory_to_watch, watch_subtree, filter);
     if handle == win32.INVALID_HANDLE {
         fmt.eprintln("FindFirstChangeNotification failed");
-        return -1;
+        return;
     }
 
     next_timeout_ms:u32 = win32.INFINITE;
@@ -56,7 +56,7 @@ watcher_thread_proc :: proc(^thread.Thread) -> int {
             case win32.WAIT_TIMEOUT:
                 if !did_get_change {
                     panic("error: infinite timeout triggered");
-                    return -1;
+                    return;
                 }
 
                 // actually recompile the game.dll
@@ -67,16 +67,16 @@ watcher_thread_proc :: proc(^thread.Thread) -> int {
                 }
             case:
                 fmt.eprintln("unhandled wait_status", wait_status);
-                return -1;
+                return;
         }
 
         if win32.find_next_change_notification(handle) == FALSE {
             fmt.eprintln("error in find_next_change_notification");
-            return -1;
+            return;
         }
     }
 
-    return 0;
+    return;
 }
 
 _recompile_script: cstring;
