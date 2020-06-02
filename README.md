@@ -1,6 +1,6 @@
 # odin-raylib
 
-Bindings for [raylib](http://www.raylib.com), a small C gamedev library, for the [odin programming language](https://odin.handmade.network/).
+Bindings for [raylib](http://www.raylib.com) 3.0.0, a small C gamedev library, for the [odin programming language](https://odin.handmade.network/).
 
 These are usable, but in a pre-alpha state and definitely a work in progress.
 
