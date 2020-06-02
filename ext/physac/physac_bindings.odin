@@ -5,7 +5,7 @@
 
 package physac_bindings
 
-foreign import "../lib/physac.lib"
+foreign import physac_native "physac.lib"
 
 import _c "core:c"
 import "../../raylib/types"
@@ -61,7 +61,7 @@ get_function_pointers :: proc(funcs: ^physac_types.physac_Funcs) {
 }
 
 @(default_calling_convention="c")
-foreign physac {
+foreign physac_native {
 
     @(link_name="InitPhysics")
     init_physics :: proc() ---;

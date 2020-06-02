@@ -21,6 +21,8 @@ ParserOptions :: struct {
     customHandlers : map[string]CustomHandler,
     customExpressionHandlers : map[string]CustomExpressionHandler,
 
+    eat_lines_starting_with: []string,
+
     enum_args_map : Enum_Args_Map,
 }
 
@@ -82,12 +84,26 @@ parse :: proc(bytes : []u8, options_: ParserOptions, loc := #caller_location) ->
         else if token == "typedef" {
             parse_typedef(&data);
         }
-        else if is_identifier(token) {
-            parse_variable_or_function_declaration(&data);
-        }
         else {
-            print_error(&data, loc, "Unexpected token: ", token, ".");
-            return data.nodes;
+            did_eat := false;
+            for prefix in options.eat_lines_starting_with {
+                if token == prefix {
+                    check_and_eat_token(&data, prefix);
+                    eat_line(&data);
+                    did_eat = true;
+                    break;
+                }
+            }
+
+            if !did_eat {
+                if is_identifier(token) {
+                    parse_variable_or_function_declaration(&data);
+                }
+                else {
+                    print_error(&data, loc, "Unexpected token: ", token, ".");
+                    return data.nodes;
+                }
+            }
         }
     }
 
@@ -218,6 +234,12 @@ parse_builtin_type :: proc(data : ^ParserData) -> BuiltinType {
         }
         else if token == "int" {
             eat_token(data);
+            intFound = true;
+            break;
+        }
+        else if token == "__int64" {
+            eat_token(data);
+            longCount = 2;
             intFound = true;
             break;
         }

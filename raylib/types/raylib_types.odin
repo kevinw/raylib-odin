@@ -7,91 +7,62 @@ package raylib_types
 import _c "core:c"
 
 import "core:math/linalg"
-RAYLIB_H :: 1;
-PI :: 3.142;
-DEG2RAD :: 0.017;
-RAD2DEG :: 57.296;
-MAX_TOUCH_POINTS :: 10;
-MAX_SHADER_LOCATIONS :: 32;
-MAX_MATERIAL_MAPS :: 12;
-LIGHTGRAY := Color { 200, 200, 200, 255 };
-GRAY := Color { 130, 130, 130, 255 };
-DARKGRAY := Color { 80, 80, 80, 255 };
-YELLOW := Color { 253, 249, 0, 255 };
-GOLD := Color { 255, 203, 0, 255 };
-ORANGE := Color { 255, 161, 0, 255 };
-PINK := Color { 255, 109, 194, 255 };
-RED := Color { 230, 41, 55, 255 };
-MAROON := Color { 190, 33, 55, 255 };
-GREEN := Color { 0, 228, 48, 255 };
-LIME := Color { 0, 158, 47, 255 };
-DARKGREEN := Color { 0, 117, 44, 255 };
-SKYBLUE := Color { 102, 191, 255, 255 };
-BLUE := Color { 0, 121, 241, 255 };
-DARKBLUE := Color { 0, 82, 172, 255 };
-PURPLE := Color { 200, 122, 255, 255 };
-VIOLET := Color { 135, 60, 190, 255 };
-DARKPURPLE := Color { 112, 31, 126, 255 };
-BEIGE := Color { 211, 176, 131, 255 };
-BROWN := Color { 127, 106, 79, 255 };
-DARKBROWN := Color { 76, 63, 47, 255 };
-WHITE := Color { 255, 255, 255, 255 };
-BLACK := Color { 0, 0, 0, 255 };
-BLANK := Color { 0, 0, 0, 0 };
-MAGENTA := Color { 255, 0, 255, 255 };
-RAYWHITE := Color { 245, 245, 245, 255 };
-SpriteFont :: Font;
-Camera :: Camera3D;
-LOC_MAP_DIFFUSE :: 14;
-LOC_MAP_SPECULAR :: 15;
-MAP_DIFFUSE :: 0;
-MAP_SPECULAR :: 1;
 
+UintptrT :: _c.ulonglong;
+VaList :: cstring;
+SizeT :: _c.ulonglong;
+PtrdiffT :: _c.longlong;
+IntptrT :: _c.longlong;
+VcrtBool :: Bool;
+WcharT :: _c.ushort;
+Bool :: AnonymousEnum0;
 Quaternion :: Vector4;
 Texture :: Texture2D;
 TextureCubemap :: Texture2D;
 RenderTexture :: RenderTexture2D;
-Music :: ^MusicData;
-ConfigFlag :: AnonymousEnum0;
-TraceLogType :: AnonymousEnum1;
-KeyboardKey :: AnonymousEnum2;
-AndroidButton :: AnonymousEnum3;
-MouseButton :: AnonymousEnum4;
-GamepadNumber :: AnonymousEnum5;
-GamepadPS3Button :: AnonymousEnum6;
-GamepadPS3Axis :: AnonymousEnum7;
-GamepadXbox360Button :: AnonymousEnum8;
-GamepadXbox360Axis :: AnonymousEnum9;
-GamepadAndroid :: AnonymousEnum10;
-ShaderLocationIndex :: AnonymousEnum11;
-ShaderUniformDataType :: AnonymousEnum12;
-TexmapIndex :: AnonymousEnum13;
-PixelFormat :: AnonymousEnum14;
-TextureFilterMode :: AnonymousEnum15;
-CubemapLayoutType :: AnonymousEnum16;
-TextureWrapMode :: AnonymousEnum17;
-FontType :: AnonymousEnum18;
-BlendMode :: AnonymousEnum19;
-GestureType :: AnonymousEnum20;
-CameraMode :: AnonymousEnum21;
-CameraType :: AnonymousEnum22;
-VrDeviceType :: AnonymousEnum23;
-NPatchType :: AnonymousEnum24;
+Camera :: Camera3D;
+ConfigFlag :: AnonymousEnum1;
+TraceLogType :: AnonymousEnum2;
+KeyboardKey :: AnonymousEnum3;
+AndroidButton :: AnonymousEnum4;
+MouseButton :: AnonymousEnum5;
+GamepadNumber :: AnonymousEnum6;
+GamepadButton :: AnonymousEnum7;
+GamepadAxis :: AnonymousEnum8;
+ShaderLocationIndex :: AnonymousEnum9;
+ShaderUniformDataType :: AnonymousEnum10;
+MaterialMapType :: AnonymousEnum11;
+PixelFormat :: AnonymousEnum12;
+TextureFilterMode :: AnonymousEnum13;
+CubemapLayoutType :: AnonymousEnum14;
+TextureWrapMode :: AnonymousEnum15;
+FontType :: AnonymousEnum16;
+BlendMode :: AnonymousEnum17;
+GestureType :: AnonymousEnum18;
+CameraMode :: AnonymousEnum19;
+CameraType :: AnonymousEnum20;
+NPatchType :: AnonymousEnum21;
 TraceLogCallback :: #type proc();
 
 AnonymousEnum0 :: enum i32 {
-    SHOW_LOGO = 1,
+    false,
+    true,
+};
+
+AnonymousEnum1 :: enum i32 {
+    RESERVED = 1,
     FULLSCREEN_MODE = 2,
     WINDOW_RESIZABLE = 4,
     WINDOW_UNDECORATED = 8,
     WINDOW_TRANSPARENT = 16,
     WINDOW_HIDDEN = 128,
+    WINDOW_ALWAYS_RUN = 256,
     MSAA_4X_HINT = 32,
     VSYNC_HINT = 64,
 };
 
-AnonymousEnum1 :: enum i32 {
-    ALL,
+AnonymousEnum2 :: enum i32 {
+    ALL = 0,
     TRACE,
     DEBUG,
     INFO,
@@ -101,7 +72,7 @@ AnonymousEnum1 :: enum i32 {
     NONE,
 };
 
-AnonymousEnum2 :: enum i32 {
+AnonymousEnum3 :: enum i32 {
     APOSTROPHE = 39,
     COMMA = 44,
     MINUS = 45,
@@ -209,97 +180,58 @@ AnonymousEnum2 :: enum i32 {
     KP_EQUAL = 336,
 };
 
-AnonymousEnum3 :: enum i32 {
+AnonymousEnum4 :: enum i32 {
     BACK = 4,
     MENU = 82,
     VOLUME_UP = 24,
     VOLUME_DOWN = 25,
 };
 
-AnonymousEnum4 :: enum i32 {
+AnonymousEnum5 :: enum i32 {
     LEFT_BUTTON = 0,
     RIGHT_BUTTON = 1,
     MIDDLE_BUTTON = 2,
 };
 
-AnonymousEnum5 :: enum i32 {
+AnonymousEnum6 :: enum i32 {
     PLAYER1 = 0,
     PLAYER2 = 1,
     PLAYER3 = 2,
     PLAYER4 = 3,
 };
 
-AnonymousEnum6 :: enum i32 {
-    PS3_BUTTON_TRIANGLE = 0,
-    PS3_BUTTON_CIRCLE = 1,
-    PS3_BUTTON_CROSS = 2,
-    PS3_BUTTON_SQUARE = 3,
-    PS3_BUTTON_L1 = 6,
-    PS3_BUTTON_R1 = 7,
-    PS3_BUTTON_L2 = 4,
-    PS3_BUTTON_R2 = 5,
-    PS3_BUTTON_START = 8,
-    PS3_BUTTON_SELECT = 9,
-    PS3_BUTTON_PS = 12,
-    PS3_BUTTON_UP = 24,
-    PS3_BUTTON_RIGHT = 25,
-    PS3_BUTTON_DOWN = 26,
-    PS3_BUTTON_LEFT = 27,
-};
-
 AnonymousEnum7 :: enum i32 {
-    PS3_AXIS_LEFT_X = 0,
-    PS3_AXIS_LEFT_Y = 1,
-    PS3_AXIS_RIGHT_X = 2,
-    PS3_AXIS_RIGHT_Y = 5,
-    PS3_AXIS_L2 = 3,
-    PS3_AXIS_R2 = 4,
+    BUTTON_UNKNOWN = 0,
+    BUTTON_LEFT_FACE_UP,
+    BUTTON_LEFT_FACE_RIGHT,
+    BUTTON_LEFT_FACE_DOWN,
+    BUTTON_LEFT_FACE_LEFT,
+    BUTTON_RIGHT_FACE_UP,
+    BUTTON_RIGHT_FACE_RIGHT,
+    BUTTON_RIGHT_FACE_DOWN,
+    BUTTON_RIGHT_FACE_LEFT,
+    BUTTON_LEFT_TRIGGER_1,
+    BUTTON_LEFT_TRIGGER_2,
+    BUTTON_RIGHT_TRIGGER_1,
+    BUTTON_RIGHT_TRIGGER_2,
+    BUTTON_MIDDLE_LEFT,
+    BUTTON_MIDDLE,
+    BUTTON_MIDDLE_RIGHT,
+    BUTTON_LEFT_THUMB,
+    BUTTON_RIGHT_THUMB,
 };
 
 AnonymousEnum8 :: enum i32 {
-    XBOX_BUTTON_A = 0,
-    XBOX_BUTTON_B = 1,
-    XBOX_BUTTON_X = 2,
-    XBOX_BUTTON_Y = 3,
-    XBOX_BUTTON_LB = 4,
-    XBOX_BUTTON_RB = 5,
-    XBOX_BUTTON_SELECT = 6,
-    XBOX_BUTTON_START = 7,
-    XBOX_BUTTON_HOME = 8,
-    XBOX_BUTTON_UP = 10,
-    XBOX_BUTTON_RIGHT = 11,
-    XBOX_BUTTON_DOWN = 12,
-    XBOX_BUTTON_LEFT = 13,
+    AXIS_UNKNOWN = 0,
+    AXIS_LEFT_X,
+    AXIS_LEFT_Y,
+    AXIS_RIGHT_X,
+    AXIS_RIGHT_Y,
+    AXIS_LEFT_TRIGGER,
+    AXIS_RIGHT_TRIGGER,
 };
 
 AnonymousEnum9 :: enum i32 {
-    XBOX_AXIS_LEFT_X = 0,
-    XBOX_AXIS_LEFT_Y = 1,
-    XBOX_AXIS_RIGHT_X = 2,
-    XBOX_AXIS_RIGHT_Y = 3,
-    XBOX_AXIS_LT = 4,
-    XBOX_AXIS_RT = 5,
-};
-
-AnonymousEnum10 :: enum i32 {
-    ANDROID_DPAD_UP = 19,
-    ANDROID_DPAD_DOWN = 20,
-    ANDROID_DPAD_LEFT = 21,
-    ANDROID_DPAD_RIGHT = 22,
-    ANDROID_DPAD_CENTER = 23,
-    ANDROID_BUTTON_A = 96,
-    ANDROID_BUTTON_B = 97,
-    ANDROID_BUTTON_C = 98,
-    ANDROID_BUTTON_X = 99,
-    ANDROID_BUTTON_Y = 100,
-    ANDROID_BUTTON_Z = 101,
-    ANDROID_BUTTON_L1 = 102,
-    ANDROID_BUTTON_R1 = 103,
-    ANDROID_BUTTON_L2 = 104,
-    ANDROID_BUTTON_R2 = 105,
-};
-
-AnonymousEnum11 :: enum i32 {
     VERTEX_POSITION = 0,
     VERTEX_TEXCOORD01,
     VERTEX_TEXCOORD02,
@@ -327,7 +259,7 @@ AnonymousEnum11 :: enum i32 {
     BRDF,
 };
 
-AnonymousEnum12 :: enum i32 {
+AnonymousEnum10 :: enum i32 {
     FLOAT = 0,
     VEC2,
     VEC3,
@@ -339,7 +271,7 @@ AnonymousEnum12 :: enum i32 {
     SAMPLER2D,
 };
 
-AnonymousEnum13 :: enum i32 {
+AnonymousEnum11 :: enum i32 {
     ALBEDO = 0,
     METALNESS = 1,
     NORMAL = 2,
@@ -353,7 +285,7 @@ AnonymousEnum13 :: enum i32 {
     BRDF,
 };
 
-AnonymousEnum14 :: enum i32 {
+AnonymousEnum12 :: enum i32 {
     UNCOMPRESSED_GRAYSCALE = 1,
     UNCOMPRESSED_GRAY_ALPHA,
     UNCOMPRESSED_R5G6B5,
@@ -377,7 +309,7 @@ AnonymousEnum14 :: enum i32 {
     COMPRESSED_ASTC_8x8_RGBA,
 };
 
-AnonymousEnum15 :: enum i32 {
+AnonymousEnum13 :: enum i32 {
     POINT = 0,
     BILINEAR,
     TRILINEAR,
@@ -386,7 +318,7 @@ AnonymousEnum15 :: enum i32 {
     ANISOTROPIC_16X,
 };
 
-AnonymousEnum16 :: enum i32 {
+AnonymousEnum14 :: enum i32 {
     CUBEMAP_AUTO_DETECT = 0,
     CUBEMAP_LINE_VERTICAL,
     CUBEMAP_LINE_HORIZONTAL,
@@ -395,26 +327,26 @@ AnonymousEnum16 :: enum i32 {
     CUBEMAP_PANORAMA,
 };
 
-AnonymousEnum17 :: enum i32 {
+AnonymousEnum15 :: enum i32 {
     WRAP_REPEAT = 0,
     WRAP_CLAMP,
     WRAP_MIRROR_REPEAT,
     WRAP_MIRROR_CLAMP,
 };
 
-AnonymousEnum18 :: enum i32 {
+AnonymousEnum16 :: enum i32 {
     DEFAULT = 0,
     BITMAP,
     SDF,
 };
 
-AnonymousEnum19 :: enum i32 {
+AnonymousEnum17 :: enum i32 {
     ALPHA = 0,
     ADDITIVE,
     MULTIPLIED,
 };
 
-AnonymousEnum20 :: enum i32 {
+AnonymousEnum18 :: enum i32 {
     NONE = 0,
     TAP = 1,
     DOUBLETAP = 2,
@@ -428,7 +360,7 @@ AnonymousEnum20 :: enum i32 {
     PINCH_OUT = 512,
 };
 
-AnonymousEnum21 :: enum i32 {
+AnonymousEnum19 :: enum i32 {
     CUSTOM = 0,
     FREE,
     ORBITAL,
@@ -436,21 +368,12 @@ AnonymousEnum21 :: enum i32 {
     THIRD_PERSON,
 };
 
-AnonymousEnum22 :: enum i32 {
+AnonymousEnum20 :: enum i32 {
     PERSPECTIVE = 0,
     ORTHOGRAPHIC,
 };
 
-AnonymousEnum23 :: enum i32 {
-    DEFAULT_DEVICE = 0,
-    OCULUS_RIFT_DK2,
-    OCULUS_RIFT_CV1,
-    OCULUS_GO,
-    VALVE_HTC_VIVE,
-    SONY_PSVR,
-};
-
-AnonymousEnum24 :: enum i32 {
+AnonymousEnum21 :: enum i32 {
     NPT_9PATCH = 0,
     NPT_3PATCH_VERTICAL,
     NPT_3PATCH_HORIZONTAL,
@@ -508,17 +431,17 @@ NPatchInfo :: struct #packed {
 
 CharInfo :: struct #packed {
     value : _c.int,
-    rec : Rectangle,
     offset_x : _c.int,
     offset_y : _c.int,
     advance_x : _c.int,
-    data : ^_c.uchar,
+    image : Image,
 };
 
 Font :: struct #packed {
-    texture : Texture2D,
     base_size : _c.int,
     chars_count : _c.int,
+    texture : Texture2D,
+    recs : ^Rectangle,
     chars : ^CharInfo,
 };
 
@@ -537,11 +460,6 @@ Camera2D :: struct #packed {
     zoom : _c.float,
 };
 
-BoundingBox :: struct #packed {
-    min : Vector3,
-    max : Vector3,
-};
-
 Mesh :: struct #packed {
     vertex_count : _c.int,
     triangle_count : _c.int,
@@ -552,17 +470,17 @@ Mesh :: struct #packed {
     tangents : ^_c.float,
     colors : ^_c.uchar,
     indices : ^_c.ushort,
-    base_vertices : ^_c.float,
-    base_normals : ^_c.float,
-    weight_bias : ^_c.float,
-    weight_id : ^_c.int,
+    anim_vertices : ^_c.float,
+    anim_normals : ^_c.float,
+    bone_ids : ^_c.int,
+    bone_weights : ^_c.float,
     vao_id : _c.uint,
-    vbo_id : [7]_c.uint,
+    vbo_id : ^_c.uint,
 };
 
 Shader :: struct #packed {
     id : _c.uint,
-    locs : [32]_c.int,
+    locs : ^_c.int,
 };
 
 MaterialMap :: struct #packed {
@@ -573,14 +491,38 @@ MaterialMap :: struct #packed {
 
 Material :: struct #packed {
     shader : Shader,
-    maps : [12]MaterialMap,
+    maps : ^MaterialMap,
     params : ^_c.float,
 };
 
+Transform :: struct #packed {
+    translation : Vector3,
+    rotation : Quaternion,
+    scale : Vector3,
+};
+
+BoneInfo :: struct #packed {
+    name : [32]_c.char,
+    parent : _c.int,
+};
+
 Model :: struct #packed {
-    mesh : Mesh,
     transform : Matrix,
-    material : Material,
+    mesh_count : _c.int,
+    meshes : ^Mesh,
+    material_count : _c.int,
+    materials : ^Material,
+    mesh_material : ^_c.int,
+    bone_count : _c.int,
+    bones : ^BoneInfo,
+    bind_pose : ^Transform,
+};
+
+ModelAnimation :: struct #packed {
+    bone_count : _c.int,
+    bones : ^BoneInfo,
+    frame_count : _c.int,
+    frame_poses : ^^Transform,
 };
 
 Ray :: struct #packed {
@@ -595,6 +537,11 @@ RayHitInfo :: struct #packed {
     normal : Vector3,
 };
 
+BoundingBox :: struct #packed {
+    min : Vector3,
+    max : Vector3,
+};
+
 Wave :: struct #packed {
     sample_count : _c.uint,
     sample_rate : _c.uint,
@@ -603,23 +550,26 @@ Wave :: struct #packed {
     data : rawptr,
 };
 
-Sound :: struct #packed {
-    audio_buffer : rawptr,
-    source : _c.uint,
-    buffer : _c.uint,
-    format : _c.int,
-};
-
-MusicData :: struct #packed {};
+RAudioBuffer :: struct #packed {};
 
 AudioStream :: struct #packed {
     sample_rate : _c.uint,
     sample_size : _c.uint,
     channels : _c.uint,
-    audio_buffer : rawptr,
-    format : _c.int,
-    source : _c.uint,
-    buffers : [2]_c.uint,
+    buffer : ^RAudioBuffer,
+};
+
+Sound :: struct #packed {
+    sample_count : _c.uint,
+    stream : AudioStream,
+};
+
+Music :: struct #packed {
+    ctx_type : _c.int,
+    ctx_data : rawptr,
+    sample_count : _c.uint,
+    loop_count : _c.uint,
+    stream : AudioStream,
 };
 
 VrDeviceInfo :: struct #packed {
@@ -635,15 +585,6 @@ VrDeviceInfo :: struct #packed {
     chroma_ab_correction : [4]_c.float,
 };
 
-VrStereoConfig :: struct #packed {
-    stereo_fbo : RenderTexture2D,
-    distortion_shader : Shader,
-    eyes_projection : [2]Matrix,
-    eyes_view_offset : [2]Matrix,
-    eye_viewport_right : [4]_c.int,
-    eye_viewport_left : [4]_c.int,
-};
-
 raylib_Funcs :: struct {
     init_window : proc "c" (
         width : _c.int,
@@ -656,6 +597,7 @@ raylib_Funcs :: struct {
     is_window_minimized : proc "c" () -> bool,
     is_window_resized : proc "c" () -> bool,
     is_window_hidden : proc "c" () -> bool,
+    is_window_fullscreen : proc "c" () -> bool,
     toggle_fullscreen : proc "c" (),
     unhide_window : proc "c" (),
     hide_window : proc "c" (),
@@ -682,9 +624,11 @@ raylib_Funcs :: struct {
     get_monitor_height : proc "c" (monitor : _c.int) -> _c.int,
     get_monitor_physical_width : proc "c" (monitor : _c.int) -> _c.int,
     get_monitor_physical_height : proc "c" (monitor : _c.int) -> _c.int,
+    get_window_position : proc "c" () -> Vector2,
     get_monitor_name : proc "c" (monitor : _c.int) -> cstring,
     get_clipboard_text : proc "c" () -> cstring,
     set_clipboard_text : proc "c" (text : cstring),
+    hide_cursor : proc "c" (),
     is_cursor_hidden : proc "c" () -> bool,
     enable_cursor : proc "c" (),
     disable_cursor : proc "c" (),
@@ -697,21 +641,44 @@ raylib_Funcs :: struct {
     end_mode_3d : proc "c" (),
     begin_texture_mode : proc "c" (target : RenderTexture2D),
     end_texture_mode : proc "c" (),
+    begin_scissor_mode : proc "c" (
+        x : _c.int,
+        y : _c.int,
+        width : _c.int,
+        height : _c.int
+    ),
+    end_scissor_mode : proc "c" (),
     get_mouse_ray : proc "c" (
         mouse_position : Vector2,
         camera : Camera
     ) -> Ray,
+    get_camera_matrix : proc "c" (camera : Camera) -> Matrix,
+    get_camera_matrix_2d : proc "c" (camera : Camera2D) -> Matrix,
     get_world_to_screen : proc "c" (
         position : Vector3,
         camera : Camera
     ) -> Vector2,
-    get_camera_matrix : proc "c" (camera : Camera) -> Matrix,
+    get_world_to_screen_ex : proc "c" (
+        position : Vector3,
+        camera : Camera,
+        width : _c.int,
+        height : _c.int
+    ) -> Vector2,
+    get_world_to_screen_2d : proc "c" (
+        position : Vector2,
+        camera : Camera2D
+    ) -> Vector2,
+    get_screen_to_world_2d : proc "c" (
+        position : Vector2,
+        camera : Camera2D
+    ) -> Vector2,
     set_target_fps : proc "c" (fps : _c.int),
     get_fps : proc "c" () -> _c.int,
     get_frame_time : proc "c" () -> _c.float,
     get_time : proc "c" () -> _c.double,
     color_to_int : proc "c" (color : Color) -> _c.int,
     color_normalize : proc "c" (color : Color) -> Vector4,
+    color_from_normalized : proc "c" (normalized : Vector4) -> Color,
     color_to_hsv : proc "c" (color : Color) -> Vector3,
     color_from_hsv : proc "c" (hsv : Vector3) -> Color,
     get_color : proc "c" (hex_value : _c.int) -> Color,
@@ -732,15 +699,31 @@ raylib_Funcs :: struct {
         min : _c.int,
         max : _c.int
     ) -> _c.int,
+    load_file_data : proc "c" (
+        file_name : cstring,
+        bytes_read : ^_c.uint
+    ) -> ^_c.uchar,
+    save_file_data : proc "c" (
+        file_name : cstring,
+        data : rawptr,
+        bytes_to_write : _c.uint
+    ),
+    load_file_text : proc "c" (file_name : cstring) -> cstring,
+    save_file_text : proc "c" (
+        file_name : cstring,
+        text : cstring
+    ),
     file_exists : proc "c" (file_name : cstring) -> bool,
     is_file_extension : proc "c" (
         file_name : cstring,
         ext : cstring
     ) -> bool,
+    directory_exists : proc "c" (dir_path : cstring) -> bool,
     get_extension : proc "c" (file_name : cstring) -> cstring,
     get_file_name : proc "c" (file_path : cstring) -> cstring,
     get_file_name_without_ext : proc "c" (file_path : cstring) -> cstring,
-    get_directory_path : proc "c" (file_name : cstring) -> cstring,
+    get_directory_path : proc "c" (file_path : cstring) -> cstring,
+    get_prev_directory_path : proc "c" (dir_path : cstring) -> cstring,
     get_working_directory : proc "c" () -> cstring,
     get_directory_files : proc "c" (
         dir_path : cstring,
@@ -752,18 +735,28 @@ raylib_Funcs :: struct {
     get_dropped_files : proc "c" (count : ^_c.int) -> ^cstring,
     clear_dropped_files : proc "c" (),
     get_file_mod_time : proc "c" (file_name : cstring) -> _c.long,
-    storage_save_value : proc "c" (
-        position : _c.int,
+    compress_data : proc "c" (
+        data : ^_c.uchar,
+        data_length : _c.int,
+        comp_data_length : ^_c.int
+    ) -> ^_c.uchar,
+    decompress_data : proc "c" (
+        comp_data : ^_c.uchar,
+        comp_data_length : _c.int,
+        data_length : ^_c.int
+    ) -> ^_c.uchar,
+    save_storage_value : proc "c" (
+        position : _c.uint,
         value : _c.int
     ),
-    storage_load_value : proc "c" (position : _c.int) -> _c.int,
+    load_storage_value : proc "c" (position : _c.uint) -> _c.int,
     open_url : proc "c" (url : cstring),
     is_key_pressed : proc "c" (key : KeyboardKey) -> bool,
     is_key_down : proc "c" (key : KeyboardKey) -> bool,
     is_key_released : proc "c" (key : KeyboardKey) -> bool,
     is_key_up : proc "c" (key : KeyboardKey) -> bool,
-    get_key_pressed : proc "c" () -> _c.int,
     set_exit_key : proc "c" (key : KeyboardKey),
+    get_key_pressed : proc "c" () -> _c.int,
     is_gamepad_available : proc "c" (gamepad : GamepadNumber) -> bool,
     is_gamepad_name : proc "c" (
         gamepad : GamepadNumber,
@@ -873,6 +866,11 @@ raylib_Funcs :: struct {
         thick : _c.float,
         color : Color
     ),
+    draw_line_strip : proc "c" (
+        points : ^Vector2,
+        num_points : _c.int,
+        color : Color
+    ),
     draw_circle : proc "c" (
         center_x : _c.int,
         center_y : _c.int,
@@ -884,6 +882,15 @@ raylib_Funcs :: struct {
         radius : _c.float,
         start_angle : _c.int,
         end_angle : _c.int,
+        segments : _c.int,
+        color : Color
+    ),
+    draw_circle_sector_lines : proc "c" (
+        center : Vector2,
+        radius : _c.float,
+        start_angle : _c.int,
+        end_angle : _c.int,
+        segments : _c.int,
         color : Color
     ),
     draw_circle_gradient : proc "c" (
@@ -902,6 +909,38 @@ raylib_Funcs :: struct {
         center_x : _c.int,
         center_y : _c.int,
         radius : _c.float,
+        color : Color
+    ),
+    draw_ellipse : proc "c" (
+        center_x : _c.int,
+        center_y : _c.int,
+        radius_h : _c.float,
+        radius_v : _c.float,
+        color : Color
+    ),
+    draw_ellipse_lines : proc "c" (
+        center_x : _c.int,
+        center_y : _c.int,
+        radius_h : _c.float,
+        radius_v : _c.float,
+        color : Color
+    ),
+    draw_ring : proc "c" (
+        center : Vector2,
+        inner_radius : _c.float,
+        outer_radius : _c.float,
+        start_angle : _c.int,
+        end_angle : _c.int,
+        segments : _c.int,
+        color : Color
+    ),
+    draw_ring_lines : proc "c" (
+        center : Vector2,
+        inner_radius : _c.float,
+        outer_radius : _c.float,
+        start_angle : _c.int,
+        end_angle : _c.int,
+        segments : _c.int,
         color : Color
     ),
     draw_rectangle : proc "c" (
@@ -961,6 +1000,19 @@ raylib_Funcs :: struct {
         line_thick : _c.int,
         color : Color
     ),
+    draw_rectangle_rounded : proc "c" (
+        rec : Rectangle,
+        roundness : _c.float,
+        segments : _c.int,
+        color : Color
+    ),
+    draw_rectangle_rounded_lines : proc "c" (
+        rec : Rectangle,
+        roundness : _c.float,
+        segments : _c.int,
+        line_thick : _c.int,
+        color : Color
+    ),
     draw_triangle : proc "c" (
         v1 : Vector2,
         v2 : Vector2,
@@ -973,6 +1025,16 @@ raylib_Funcs :: struct {
         v3 : Vector2,
         color : Color
     ),
+    draw_triangle_fan : proc "c" (
+        points : ^Vector2,
+        num_points : _c.int,
+        color : Color
+    ),
+    draw_triangle_strip : proc "c" (
+        points : ^Vector2,
+        points_count : _c.int,
+        color : Color
+    ),
     draw_poly : proc "c" (
         center : Vector2,
         sides : _c.int,
@@ -980,19 +1042,12 @@ raylib_Funcs :: struct {
         rotation : _c.float,
         color : Color
     ),
-    draw_poly_ex : proc "c" (
-        points : ^Vector2,
-        num_points : _c.int,
+    draw_poly_lines : proc "c" (
+        center : Vector2,
+        sides : _c.int,
+        radius : _c.float,
+        rotation : _c.float,
         color : Color
-    ),
-    draw_poly_ex_lines : proc "c" (
-        points : ^Vector2,
-        num_points : _c.int,
-        color : Color
-    ),
-    set_shapes_texture : proc "c" (
-        texture : Texture2D,
-        source : Rectangle
     ),
     check_collision_recs : proc "c" (
         rec1 : Rectangle,
@@ -1047,6 +1102,7 @@ raylib_Funcs :: struct {
         format : _c.int,
         header_size : _c.int
     ) -> Image,
+    unload_image : proc "c" (image : Image),
     export_image : proc "c" (
         image : Image,
         file_name : cstring
@@ -1055,33 +1111,74 @@ raylib_Funcs :: struct {
         image : Image,
         file_name : cstring
     ),
-    load_texture : proc "c" (file_name : cstring) -> Texture2D,
-    load_texture_from_image : proc "c" (image : Image) -> Texture2D,
-    load_texture_cubemap : proc "c" (
-        image : Image,
-        layout_type : _c.int
-    ) -> TextureCubemap,
-    load_render_texture : proc "c" (
-        width : _c.int,
-        height : _c.int
-    ) -> RenderTexture2D,
-    unload_image : proc "c" (image : Image),
-    unload_texture : proc "c" (texture : Texture2D),
-    unload_render_texture : proc "c" (target : RenderTexture2D),
     get_image_data : proc "c" (image : Image) -> ^Color,
     get_image_data_normalized : proc "c" (image : Image) -> ^Vector4,
-    get_pixel_data_size : proc "c" (
+    gen_image_color : proc "c" (
         width : _c.int,
         height : _c.int,
-        format : _c.int
-    ) -> _c.int,
-    get_texture_data : proc "c" (texture : Texture2D) -> Image,
-    get_screen_data : proc "c" () -> Image,
-    update_texture : proc "c" (
-        texture : Texture2D,
-        pixels : rawptr
-    ),
+        color : Color
+    ) -> Image,
+    gen_image_gradient_v : proc "c" (
+        width : _c.int,
+        height : _c.int,
+        top : Color,
+        bottom : Color
+    ) -> Image,
+    gen_image_gradient_h : proc "c" (
+        width : _c.int,
+        height : _c.int,
+        left : Color,
+        right : Color
+    ) -> Image,
+    gen_image_gradient_radial : proc "c" (
+        width : _c.int,
+        height : _c.int,
+        density : _c.float,
+        inner : Color,
+        outer : Color
+    ) -> Image,
+    gen_image_checked : proc "c" (
+        width : _c.int,
+        height : _c.int,
+        checks_x : _c.int,
+        checks_y : _c.int,
+        col1 : Color,
+        col2 : Color
+    ) -> Image,
+    gen_image_white_noise : proc "c" (
+        width : _c.int,
+        height : _c.int,
+        factor : _c.float
+    ) -> Image,
+    gen_image_perlin_noise : proc "c" (
+        width : _c.int,
+        height : _c.int,
+        offset_x : _c.int,
+        offset_y : _c.int,
+        scale : _c.float
+    ) -> Image,
+    gen_image_cellular : proc "c" (
+        width : _c.int,
+        height : _c.int,
+        tile_size : _c.int
+    ) -> Image,
     image_copy : proc "c" (image : Image) -> Image,
+    image_from_image : proc "c" (
+        image : Image,
+        rec : Rectangle
+    ) -> Image,
+    image_text : proc "c" (
+        text : cstring,
+        font_size : _c.int,
+        color : Color
+    ) -> Image,
+    image_text_ex : proc "c" (
+        font : Font,
+        text : cstring,
+        font_size : _c.float,
+        spacing : _c.float,
+        tint : Color
+    ) -> Image,
     image_to_pot : proc "c" (
         image : ^Image,
         fill_color : Color
@@ -1134,56 +1231,6 @@ raylib_Funcs :: struct {
         b_bpp : _c.int,
         a_bpp : _c.int
     ),
-    image_extract_palette : proc "c" (
-        image : Image,
-        max_palette_size : _c.int,
-        extract_count : ^_c.int
-    ) -> ^Color,
-    image_text : proc "c" (
-        text : cstring,
-        font_size : _c.int,
-        color : Color
-    ) -> Image,
-    image_text_ex : proc "c" (
-        font : Font,
-        text : cstring,
-        font_size : _c.float,
-        spacing : _c.float,
-        tint : Color
-    ) -> Image,
-    image_draw : proc "c" (
-        dst : ^Image,
-        src : Image,
-        src_rec : Rectangle,
-        dst_rec : Rectangle
-    ),
-    image_draw_rectangle : proc "c" (
-        dst : ^Image,
-        rec : Rectangle,
-        color : Color
-    ),
-    image_draw_rectangle_lines : proc "c" (
-        dst : ^Image,
-        rec : Rectangle,
-        thick : _c.int,
-        color : Color
-    ),
-    image_draw_text : proc "c" (
-        dst : ^Image,
-        position : Vector2,
-        text : cstring,
-        font_size : _c.int,
-        color : Color
-    ),
-    image_draw_text_ex : proc "c" (
-        dst : ^Image,
-        position : Vector2,
-        font : Font,
-        text : cstring,
-        font_size : _c.float,
-        spacing : _c.float,
-        color : Color
-    ),
     image_flip_vertical : proc "c" (image : ^Image),
     image_flip_horizontal : proc "c" (image : ^Image),
     image_rotate_cw : proc "c" (image : ^Image),
@@ -1207,55 +1254,123 @@ raylib_Funcs :: struct {
         color : Color,
         replace : Color
     ),
-    gen_image_color : proc "c" (
+    image_extract_palette : proc "c" (
+        image : Image,
+        max_palette_size : _c.int,
+        extract_count : ^_c.int
+    ) -> ^Color,
+    get_image_alpha_border : proc "c" (
+        image : Image,
+        threshold : _c.float
+    ) -> Rectangle,
+    image_clear_background : proc "c" (
+        dst : ^Image,
+        color : Color
+    ),
+    image_draw_pixel : proc "c" (
+        dst : ^Image,
+        pos_x : _c.int,
+        pos_y : _c.int,
+        color : Color
+    ),
+    image_draw_pixel_v : proc "c" (
+        dst : ^Image,
+        position : Vector2,
+        color : Color
+    ),
+    image_draw_line : proc "c" (
+        dst : ^Image,
+        start_pos_x : _c.int,
+        start_pos_y : _c.int,
+        end_pos_x : _c.int,
+        end_pos_y : _c.int,
+        color : Color
+    ),
+    image_draw_line_v : proc "c" (
+        dst : ^Image,
+        start : Vector2,
+        end : Vector2,
+        color : Color
+    ),
+    image_draw_circle : proc "c" (
+        dst : ^Image,
+        center_x : _c.int,
+        center_y : _c.int,
+        radius : _c.int,
+        color : Color
+    ),
+    image_draw_circle_v : proc "c" (
+        dst : ^Image,
+        center : Vector2,
+        radius : _c.int,
+        color : Color
+    ),
+    image_draw_rectangle : proc "c" (
+        dst : ^Image,
+        pos_x : _c.int,
+        pos_y : _c.int,
         width : _c.int,
         height : _c.int,
         color : Color
-    ) -> Image,
-    gen_image_gradient_v : proc "c" (
+    ),
+    image_draw_rectangle_v : proc "c" (
+        dst : ^Image,
+        position : Vector2,
+        size : Vector2,
+        color : Color
+    ),
+    image_draw_rectangle_rec : proc "c" (
+        dst : ^Image,
+        rec : Rectangle,
+        color : Color
+    ),
+    image_draw_rectangle_lines : proc "c" (
+        dst : ^Image,
+        rec : Rectangle,
+        thick : _c.int,
+        color : Color
+    ),
+    image_draw : proc "c" (
+        dst : ^Image,
+        src : Image,
+        src_rec : Rectangle,
+        dst_rec : Rectangle,
+        tint : Color
+    ),
+    image_draw_text : proc "c" (
+        dst : ^Image,
+        position : Vector2,
+        text : cstring,
+        font_size : _c.int,
+        color : Color
+    ),
+    image_draw_text_ex : proc "c" (
+        dst : ^Image,
+        position : Vector2,
+        font : Font,
+        text : cstring,
+        font_size : _c.float,
+        spacing : _c.float,
+        color : Color
+    ),
+    load_texture : proc "c" (file_name : cstring) -> Texture2D,
+    load_texture_from_image : proc "c" (image : Image) -> Texture2D,
+    load_texture_cubemap : proc "c" (
+        image : Image,
+        layout_type : _c.int
+    ) -> TextureCubemap,
+    load_render_texture : proc "c" (
         width : _c.int,
-        height : _c.int,
-        top : Color,
-        bottom : Color
-    ) -> Image,
-    gen_image_gradient_h : proc "c" (
-        width : _c.int,
-        height : _c.int,
-        left : Color,
-        right : Color
-    ) -> Image,
-    gen_image_gradient_radial : proc "c" (
-        width : _c.int,
-        height : _c.int,
-        density : _c.float,
-        inner : Color,
-        outer : Color
-    ) -> Image,
-    gen_image_checked : proc "c" (
-        width : _c.int,
-        height : _c.int,
-        checks_x : _c.int,
-        checks_y : _c.int,
-        col1 : Color,
-        col2 : Color
-    ) -> Image,
-    gen_image_white_noise : proc "c" (
-        width : _c.int,
-        height : _c.int,
-        factor : _c.float
-    ) -> Image,
-    gen_image_perlin_noise : proc "c" (
-        width : _c.int,
-        height : _c.int,
-        offset_x : _c.int,
-        offset_y : _c.int,
-        scale : _c.float
-    ) -> Image,
-    gen_image_cellular : proc "c" (
-        width : _c.int,
-        height : _c.int,
-        tile_size : _c.int
-    ) -> Image,
+        height : _c.int
+    ) -> RenderTexture2D,
+    unload_texture : proc "c" (texture : Texture2D),
+    unload_render_texture : proc "c" (target : RenderTexture2D),
+    update_texture : proc "c" (
+        texture : Texture2D,
+        pixels : rawptr
+    ),
+    get_texture_data : proc "c" (texture : Texture2D) -> Image,
+    get_screen_data : proc "c" () -> Image,
     gen_texture_mipmaps : proc "c" (texture : ^Texture2D),
     set_texture_filter : proc "c" (
         texture : Texture2D,
@@ -1312,6 +1427,11 @@ raylib_Funcs :: struct {
         rotation : _c.float,
         tint : Color
     ),
+    get_pixel_data_size : proc "c" (
+        width : _c.int,
+        height : _c.int,
+        format : _c.int
+    ) -> _c.int,
     get_font_default : proc "c" () -> Font,
     load_font : proc "c" (file_name : cstring) -> Font,
     load_font_ex : proc "c" (
@@ -1334,6 +1454,7 @@ raylib_Funcs :: struct {
     ) -> ^CharInfo,
     gen_image_font_atlas : proc "c" (
         chars : ^CharInfo,
+        recs : ^^Rectangle,
         chars_count : _c.int,
         font_size : _c.int,
         padding : _c.int,
@@ -1378,8 +1499,15 @@ raylib_Funcs :: struct {
         tint : Color,
         select_start : _c.int,
         select_length : _c.int,
-        select_text : Color,
-        select_back : Color
+        select_tint : Color,
+        select_back_tint : Color
+    ),
+    draw_text_codepoint : proc "c" (
+        font : Font,
+        codepoint : _c.int,
+        position : Vector2,
+        scale : _c.float,
+        tint : Color
     ),
     measure_text : proc "c" (
         text : cstring,
@@ -1393,7 +1521,11 @@ raylib_Funcs :: struct {
     ) -> Vector2,
     get_glyph_index : proc "c" (
         font : Font,
-        character : _c.int
+        codepoint : _c.int
+    ) -> _c.int,
+    text_copy : proc "c" (
+        dst : cstring,
+        src : cstring
     ) -> _c.int,
     text_is_equal : proc "c" (
         text1 : cstring,
@@ -1439,9 +1571,30 @@ raylib_Funcs :: struct {
     text_to_lower : proc "c" (text : cstring) -> cstring,
     text_to_pascal : proc "c" (text : cstring) -> cstring,
     text_to_integer : proc "c" (text : cstring) -> _c.int,
+    text_to_utf_8 : proc "c" (
+        codepoints : ^_c.int,
+        length : _c.int
+    ) -> cstring,
+    get_codepoints : proc "c" (
+        text : cstring,
+        count : ^_c.int
+    ) -> ^_c.int,
+    get_codepoints_count : proc "c" (text : cstring) -> _c.int,
+    get_next_codepoint : proc "c" (
+        text : cstring,
+        bytes_processed : ^_c.int
+    ) -> _c.int,
+    codepoint_to_utf_8 : proc "c" (
+        codepoint : _c.int,
+        byte_length : ^_c.int
+    ) -> cstring,
     draw_line_3d : proc "c" (
         start_pos : Vector3,
         end_pos : Vector3,
+        color : Color
+    ),
+    draw_point_3d : proc "c" (
+        position : Vector3,
         color : Color
     ),
     draw_circle_3d : proc "c" (
@@ -1535,15 +1688,45 @@ raylib_Funcs :: struct {
     load_model : proc "c" (file_name : cstring) -> Model,
     load_model_from_mesh : proc "c" (mesh : Mesh) -> Model,
     unload_model : proc "c" (model : Model),
-    load_mesh : proc "c" (file_name : cstring) -> Mesh,
-    unload_mesh : proc "c" (mesh : ^Mesh),
+    load_meshes : proc "c" (
+        file_name : cstring,
+        mesh_count : ^_c.int
+    ) -> ^Mesh,
     export_mesh : proc "c" (
         mesh : Mesh,
         file_name : cstring
     ),
-    mesh_bounding_box : proc "c" (mesh : Mesh) -> BoundingBox,
-    mesh_tangents : proc "c" (mesh : ^Mesh),
-    mesh_binormals : proc "c" (mesh : ^Mesh),
+    unload_mesh : proc "c" (mesh : Mesh),
+    load_materials : proc "c" (
+        file_name : cstring,
+        material_count : ^_c.int
+    ) -> ^Material,
+    load_material_default : proc "c" () -> Material,
+    unload_material : proc "c" (material : Material),
+    set_material_texture : proc "c" (
+        material : ^Material,
+        map_type : _c.int,
+        texture : Texture2D
+    ),
+    set_model_mesh_material : proc "c" (
+        model : ^Model,
+        mesh_id : _c.int,
+        material_id : _c.int
+    ),
+    load_model_animations : proc "c" (
+        file_name : cstring,
+        anims_count : ^_c.int
+    ) -> ^ModelAnimation,
+    update_model_animation : proc "c" (
+        model : Model,
+        anim : ModelAnimation,
+        frame : _c.int
+    ),
+    unload_model_animation : proc "c" (anim : ModelAnimation),
+    is_model_animation_valid : proc "c" (
+        model : Model,
+        anim : ModelAnimation
+    ) -> bool,
     gen_mesh_poly : proc "c" (
         sides : _c.int,
         radius : _c.float
@@ -1594,9 +1777,9 @@ raylib_Funcs :: struct {
         cubicmap : Image,
         cube_size : Vector3
     ) -> Mesh,
-    load_material : proc "c" (file_name : cstring) -> Material,
-    load_material_default : proc "c" () -> Material,
-    unload_material : proc "c" (material : Material),
+    mesh_bounding_box : proc "c" (mesh : Mesh) -> BoundingBox,
+    mesh_tangents : proc "c" (mesh : ^Mesh),
+    mesh_binormals : proc "c" (mesh : ^Mesh),
     draw_model : proc "c" (
         model : Model,
         position : Vector3,
@@ -1656,18 +1839,18 @@ raylib_Funcs :: struct {
     ) -> bool,
     check_collision_box_sphere : proc "c" (
         box : BoundingBox,
-        center_sphere : Vector3,
-        radius_sphere : _c.float
+        center : Vector3,
+        radius : _c.float
     ) -> bool,
     check_collision_ray_sphere : proc "c" (
         ray : Ray,
-        sphere_position : Vector3,
-        sphere_radius : _c.float
+        center : Vector3,
+        radius : _c.float
     ) -> bool,
     check_collision_ray_sphere_ex : proc "c" (
         ray : Ray,
-        sphere_position : Vector3,
-        sphere_radius : _c.float,
+        center : Vector3,
+        radius : _c.float,
         collision_point : ^Vector3
     ) -> bool,
     check_collision_ray_box : proc "c" (
@@ -1676,7 +1859,7 @@ raylib_Funcs :: struct {
     ) -> bool,
     get_collision_ray_model : proc "c" (
         ray : Ray,
-        model : ^Model
+        model : Model
     ) -> RayHitInfo,
     get_collision_ray_triangle : proc "c" (
         ray : Ray,
@@ -1688,7 +1871,6 @@ raylib_Funcs :: struct {
         ray : Ray,
         ground_height : _c.float
     ) -> RayHitInfo,
-    load_text : proc "c" (file_name : cstring) -> cstring,
     load_shader : proc "c" (
         vs_file_name : cstring,
         fs_file_name : cstring
@@ -1700,6 +1882,12 @@ raylib_Funcs :: struct {
     unload_shader : proc "c" (shader : Shader),
     get_shader_default : proc "c" () -> Shader,
     get_texture_default : proc "c" () -> Texture2D,
+    get_shapes_texture : proc "c" () -> Texture2D,
+    get_shapes_texture_rec : proc "c" () -> Rectangle,
+    set_shapes_texture : proc "c" (
+        texture : Texture2D,
+        source : Rectangle
+    ),
     get_shader_location : proc "c" (
         shader : Shader,
         uniform_name : cstring
@@ -1722,12 +1910,18 @@ raylib_Funcs :: struct {
         uniform_loc : _c.int,
         mat : Matrix
     ),
+    set_shader_value_texture : proc "c" (
+        shader : Shader,
+        uniform_loc : _c.int,
+        texture : Texture2D
+    ),
     set_matrix_projection : proc "c" (proj : Matrix),
     set_matrix_modelview : proc "c" (view : Matrix),
     get_matrix_modelview : proc "c" () -> Matrix,
+    get_matrix_projection : proc "c" () -> Matrix,
     gen_texture_cubemap : proc "c" (
         shader : Shader,
-        sky_hdr : Texture2D,
+        _map : Texture2D,
         size : _c.int
     ) -> Texture2D,
     gen_texture_irradiance : proc "c" (
@@ -1748,17 +1942,13 @@ raylib_Funcs :: struct {
     end_shader_mode : proc "c" (),
     begin_blend_mode : proc "c" (mode : BlendMode),
     end_blend_mode : proc "c" (),
-    begin_scissor_mode : proc "c" (
-        x : _c.int,
-        y : _c.int,
-        width : _c.int,
-        height : _c.int
-    ),
-    end_scissor_mode : proc "c" (),
-    get_vr_device_info : proc "c" (vr_device_type : _c.int) -> VrDeviceInfo,
-    init_vr_simulator : proc "c" (info : VrDeviceInfo),
-    update_vr_tracking : proc "c" (camera : ^Camera),
+    init_vr_simulator : proc "c" (),
     close_vr_simulator : proc "c" (),
+    update_vr_tracking : proc "c" (camera : ^Camera),
+    set_vr_configuration : proc "c" (
+        info : VrDeviceInfo,
+        distortion : Shader
+    ),
     is_vr_simulator_ready : proc "c" () -> bool,
     toggle_vr_mode : proc "c" (),
     begin_vr_drawing : proc "c" (),
@@ -1768,13 +1958,6 @@ raylib_Funcs :: struct {
     is_audio_device_ready : proc "c" () -> bool,
     set_master_volume : proc "c" (volume : _c.float),
     load_wave : proc "c" (file_name : cstring) -> Wave,
-    load_wave_ex : proc "c" (
-        data : rawptr,
-        sample_count : _c.int,
-        sample_rate : _c.int,
-        sample_size : _c.int,
-        channels : _c.int
-    ) -> Wave,
     load_sound : proc "c" (file_name : cstring) -> Sound,
     load_sound_from_wave : proc "c" (wave : Wave) -> Sound,
     update_sound : proc "c" (
@@ -1793,9 +1976,12 @@ raylib_Funcs :: struct {
         file_name : cstring
     ),
     play_sound : proc "c" (sound : Sound),
+    stop_sound : proc "c" (sound : Sound),
     pause_sound : proc "c" (sound : Sound),
     resume_sound : proc "c" (sound : Sound),
-    stop_sound : proc "c" (sound : Sound),
+    play_sound_multi : proc "c" (sound : Sound),
+    stop_sound_multi : proc "c" (),
+    get_sounds_playing : proc "c" () -> _c.int,
     is_sound_playing : proc "c" (sound : Sound) -> bool,
     set_sound_volume : proc "c" (
         sound : Sound,
@@ -1851,7 +2037,7 @@ raylib_Funcs :: struct {
         samples_count : _c.int
     ),
     close_audio_stream : proc "c" (stream : AudioStream),
-    is_audio_buffer_processed : proc "c" (stream : AudioStream) -> bool,
+    is_audio_stream_processed : proc "c" (stream : AudioStream) -> bool,
     play_audio_stream : proc "c" (stream : AudioStream),
     pause_audio_stream : proc "c" (stream : AudioStream),
     resume_audio_stream : proc "c" (stream : AudioStream),
@@ -1865,5 +2051,6 @@ raylib_Funcs :: struct {
         stream : AudioStream,
         pitch : _c.float
     ),
+    set_audio_stream_buffer_size_default : proc "c" (size : _c.int),
 }
 

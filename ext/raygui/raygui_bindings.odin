@@ -5,10 +5,9 @@
 
 package raygui_bindings
 
-foreign import "../lib/raygui.lib"
+foreign import raygui_native "raygui.lib"
 
 import _c "core:c"
-import "../../raylib/types"
 
 
 import raygui_types "./types"
@@ -86,7 +85,7 @@ get_function_pointers :: proc(funcs: ^raygui_types.raygui_Funcs) {
 }
 
 @(default_calling_convention="c")
-foreign raygui {
+foreign raygui_native {
 
     @(link_name="GuiListElement")
     gui_list_element :: proc(

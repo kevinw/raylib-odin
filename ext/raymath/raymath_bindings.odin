@@ -5,7 +5,7 @@
 
 package raymath_bindings
 
-foreign import "../lib/raymath.lib"
+foreign import raymath_native "raymath.lib"
 
 import _c "core:c"
 import "../../raylib/types"
@@ -104,7 +104,7 @@ get_function_pointers :: proc(funcs: ^raymath_types.raymath_Funcs) {
 }
 
 @(default_calling_convention="c")
-foreign raymath {
+foreign raymath_native {
 
     @(link_name="Clamp")
     clamp :: proc(

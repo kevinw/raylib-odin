@@ -83,11 +83,23 @@ Export_Functions_Mode :: enum {
     Plugin_Pointers,
 }
 
+should_skip_function_node :: proc(data: ^GeneratorData, node: FunctionDeclarationNode) -> bool {
+    for fnName in data.options.removeFunctions {
+        if fnName == node.name do return true;
+    }
+    return false;
+}
+
 export_functions :: proc(data : ^GeneratorData, mode: Export_Functions_Mode = Export_Functions_Mode.Top_Level) {
     using Export_Functions_Mode;
 
     for node in data.nodes.functionDeclarations {
         functionName := clean_function_name(node.name, data.options);
+        if should_skip_function_node(data, node) {
+            fmt.println("SKIPPING FUNCTION", functionName);
+            continue;
+        }
+
         if mode == Top_Level {
             fmt.fprint(data.handle, "    @(link_name=\"", node.name, "\")\n");
         }

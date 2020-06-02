@@ -46,6 +46,8 @@ GeneratorOptions :: struct {
     odin_includes: []string,
     odin_using_includes: []string,
     typeReplacements: map[string]string,
+    extra_type_string_lines: []string,
+    removeFunctions: []string,
 
     parserOptions : ParserOptions,
 }
@@ -158,6 +160,8 @@ generate :: proc(
         }
         additional_includes_string := strings.to_string(builder);
 
+        foreignLibrarySimple := fmt.tprintf("%s_native", simplify_library_name(foreignLibrary));
+        assert(len(foreignLibrarySimple) > 0, fmt.tprint("simplified a foreign library name to a zero-length string: ", foreignLibrary));
 
         fmt.fprintf(data.handle, `
 //
@@ -166,7 +170,7 @@ generate :: proc(
 
 package %s_bindings
 
-foreign import "../lib/%s"
+foreign import %s "%s"
 
 import _c "core:c"
 %s
@@ -175,7 +179,7 @@ import %s_types "./types"
 
 %s_Funcs :: %s_types.%s_Funcs;
 
-`, packageName, foreignLibrary, additional_includes_string, packageName, packageName, packageName, packageName);
+`, packageName, foreignLibrarySimple, foreignLibrary, additional_includes_string, packageName, packageName, packageName, packageName);
 
         reexport_types(data, packageName);
 
@@ -185,6 +189,7 @@ get_function_pointers :: proc(funcs: ^%s_types.%s_Funcs) {{
 
         // assign incoming func pointers to struct
         for node in data.nodes.functionDeclarations {
+            if should_skip_function_node(&data, node) do continue;
             function_name := clean_function_name(node.name, data.options);
             fmt.fprintf(data.handle, "    funcs.%s = %s;\n", function_name, function_name);
         }
@@ -192,7 +197,6 @@ get_function_pointers :: proc(funcs: ^%s_types.%s_Funcs) {{
         fmt.fprint(data.handle, "}\n\n");
 
         // Foreign block for functions
-        foreignLibrarySimple := simplify_library_name(foreignLibrary);
         fmt.fprint(data.handle, "@(default_calling_convention=\"c\")\n");
         fmt.fprint(data.handle, "foreign ", foreignLibrarySimple, " {\n");
         fmt.fprint(data.handle, "\n");
@@ -234,6 +238,7 @@ bridge_init :: proc(funcs: ^%s_Funcs) {{
 
         // assign incoming struct function pointers to package level function pointers 
         for node in data.nodes.functionDeclarations {
+            if should_skip_function_node(&data, node) do continue;
             function_name := clean_function_name(node.name, data.options);
             if count == 0 {
                 fmt.fprint(data.handle, "    assert(funcs != nil);\n");
@@ -264,9 +269,11 @@ simplify_library_name :: proc(libraryName : string) -> string {
         if startOffset == 0 && c == ':' {
             startOffset = i + 1;
         }
+        else if c == '/' {
+            startOffset = i + 1;
+        }
         else if c == '.' {
             endOffset = i;
-            break;
         }
     }
 
@@ -314,6 +321,10 @@ merge_forward_declared_nodes :: proc(nodes : ^$T, headerNodes : ^T) {
 
 reexport_types :: proc(data: GeneratorData, packageName: string = "") {
     fmt.fprint(data.handle, "// re-export everything from ./types for convienience\n");
+
+    for line in data.options.extra_type_string_lines {
+        fmt.fprintf(data.handle, "%s\n", line);
+    }
 
     types_prefix := "";
     if len(packageName) > 0 {

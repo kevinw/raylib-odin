@@ -7,8 +7,6 @@ import "./bindgen"
 // import "core:encoding/json"
 import "./preprocessed/aux_data"
 
-USE_MATH_TYPES :: true;
-
 when os.OS == "windows" {
     import "core:sys/win32"
 
@@ -64,33 +62,72 @@ default_generator_options :: proc() -> bindgen.GeneratorOptions {
     functionCase = .Snake;
     pseudoTypeCase = .Pascal;
 
-    when USE_MATH_TYPES {
-        typeReplacements["Vector2"] = "linalg.Vector2";
-        typeReplacements["Vector3"] = "linalg.Vector3";
-        typeReplacements["Vector4"] = "linalg.Vector4";
-        typeReplacements["Matrix"] = "linalg.Matrix4";
-    }
+    typeReplacements["Vector2"] = "linalg.Vector2";
+    typeReplacements["Vector3"] = "linalg.Vector3";
+    typeReplacements["Vector4"] = "linalg.Vector4";
+    typeReplacements["Matrix"] = "linalg.Matrix4";
 
     return options;
 }
 
 generate_raylib_bindings :: proc() {
     options := default_generator_options();
-    when USE_MATH_TYPES do options.odin_includes = []string {
-        "core:math/linalg",
-    };
-    options.enumValuePrefixes = {
-        "FLAG_", "LOG_", "KEY_", "GAMEPAD_", "MOUSE_", "LOC_",
-        "UNIFORM_", "MAP_", "FONT_", "GESTURE_", "CAMERA_", "HMD_",
-        "BLEND_", "FILTER_",
-    };
+    {
+        using options;
+        removeFunctions = []string{
+            "ShowCursor", 
+            "__va_start", "__security_init_cookie", "__security_check_cookie",
+        };
+        odin_includes = []string {
+            "core:math/linalg",
+        };
+        enumValuePrefixes = {
+            "FLAG_", "LOG_", "KEY_", "GAMEPAD_", "MOUSE_", "LOC_",
+            "UNIFORM_", "MAP_", "FONT_", "GESTURE_", "CAMERA_", "HMD_",
+            "BLEND_", "FILTER_",
+        };
+        extra_type_string_lines = []string {
+            "LIGHTGRAY :: Color {200, 200, 200, 255};",
+            "GRAY      :: Color{ 130, 130, 130, 255 };   // Gray",
+            "DARKGRAY  :: Color{ 80, 80, 80, 255 };      // Dark Gray",
+            "YELLOW    :: Color{ 253, 249, 0, 255 };     // Yellow",
+            "GOLD      :: Color{ 255, 203, 0, 255 };     // Gold",
+            "ORANGE    :: Color{ 255, 161, 0, 255 };     // Orange",
+            "PINK      :: Color{ 255, 109, 194, 255 };   // Pink",
+            "RED       :: Color{ 230, 41, 55, 255 };     // Red",
+            "MAROON    :: Color{ 190, 33, 55, 255 };     // Maroon",
+            "GREEN     :: Color{ 0, 228, 48, 255 };      // Green",
+            "LIME      :: Color{ 0, 158, 47, 255 };      // Lime",
+            "DARKGREEN :: Color{ 0, 117, 44, 255 };      // Dark Green",
+            "SKYBLUE   :: Color{ 102, 191, 255, 255 };   // Sky Blue",
+            "BLUE      :: Color{ 0, 121, 241, 255 };     // Blue",
+            "DARKBLUE  :: Color{ 0, 82, 172, 255 };      // Dark Blue",
+            "PURPLE    :: Color{ 200, 122, 255, 255 };   // Purple",
+            "VIOLET    :: Color{ 135, 60, 190, 255 };    // Violet",
+            "DARKPURPLE:: Color{ 112, 31, 126, 255 };    // Dark Purple",
+            "BEIGE     :: Color{ 211, 176, 131, 255 };   // Beige",
+            "BROWN     :: Color{ 127, 106, 79, 255 };    // Brown",
+            "DARKBROWN :: Color{ 76, 63, 47, 255 };      // Dark Brown",
+
+            "WHITE     :: Color{ 255, 255, 255, 255 };   // White",
+            "BLACK     :: Color{ 0, 0, 0, 255 };         // Black",
+            "BLANK     :: Color{ 0, 0, 0, 0 };           // Blank (Transparent)",
+            "MAGENTA   :: Color{ 255, 0, 255, 255 };     // Magenta",
+            "RAYWHITE  :: Color{ 245, 245, 245, 255 };   // My own White (raylib logo)",
+        };
+    }
 
     {
         using options.parserOptions;
+        eat_lines_starting_with = []string {
+            "__declspec",
+            "__pragma",
+        };
         customExpressionHandlers["CLITERAL"] = cliteral_handler;
         customExpressionHandlers["Font"] = font_handler;
         customExpressionHandlers["Camera3D"] = camera3d_handler;
-        ignoredTokens = []string{"RLAPI"};
+        customExpressionHandlers["__declspec"] = declspec_handler;
+        ignoredTokens = []string{"RLAPI", "__cdecl"};
     }
 
     args_map : bindgen.Enum_Args_Map = aux_data.get_enum_args();
@@ -103,12 +140,19 @@ generate_raylib_bindings :: proc() {
     typesFile  := "raylib/types/raylib_types.odin";
     bridgeFile := "raylib/bridge/raylib_bridge.odin";
 
-    preprocessed_target_file := "./generator/preprocessed/raylib-preprocessed.h";
-    preprocess_source("ext/raylib/include/raylib.h", preprocessed_target_file);
+    // invoke the C preprocessor on the header
+    PREPROCESS :: true;
+
+    when PREPROCESS {
+        preprocessed_target_file := "./generator/preprocessed/raylib-preprocessed.h";
+        preprocess_source("ext/raylib/include/raylib.h", preprocessed_target_file);
+    } else {
+        preprocessed_target_file := "ext/raylib/include/raylib.h";
+    }
 
     ok := bindgen.generate(
         packageName = "raylib",
-        foreignLibrary = "raylib.lib",
+        foreignLibrary = "../ext/raylib/lib/raylib.lib",
         outputFile = outputFile,
         typesFile = typesFile,
         bridgeFile = bridgeFile,
@@ -126,8 +170,8 @@ generate_raylib_bindings :: proc() {
 
 generate_raygui_bindings :: proc() {
     options := default_generator_options();
-    options.odin_using_includes = []string{ "../../raylib/types", };
-    when USE_MATH_TYPES do options.odin_includes = []string{
+    options.odin_includes = []string{
+        "../../raylib/types", 
         "core:math/linalg"
     };
 
@@ -305,6 +349,7 @@ declspec_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue
 
 cliteral_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue
 {
+    fmt.println("~~~~~~~~~~~~~~~ in cliteral");
     bindgen.check_and_eat_token(data, "CLITERAL");
     bindgen.check_and_eat_token(data, "{");
     r := bindgen.evaluate_i64(data);
@@ -347,11 +392,3 @@ font_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
 camera3d_handler :: proc(data: ^bindgen.ParserData) -> bindgen.LiteralValue {
     bindgen.check_and_eat_token(data, "Camera3D"); return "Camera3D";
 }
-
-_cliteral_handler :: proc(data: ^bindgen.ParserData) {
-    bindgen.check_and_eat_token(data, "(");
-    bindgen.parse_identifier(data);
-    bindgen.check_and_eat_token(data, ")");
-}
-
-
