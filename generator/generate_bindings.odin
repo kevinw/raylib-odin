@@ -2,6 +2,7 @@ package generate
 
 import "core:fmt"
 import "core:os"
+import "core:strings"
 import "./bindgen"
 // import "core:encoding/json"
 import "./preprocessed/aux_data"
@@ -15,6 +16,41 @@ when os.OS == "windows" {
         dir_wstr := win32.utf8_to_wstring(dir, context.temp_allocator);
         if win32.Bool(false) == win32.create_directory_w(dir_wstr, nil) do return os.Errno(win32.get_last_error());
         return os.ERROR_NONE;
+    }
+
+    preprocess_source :: proc(path_to_source_file: string, path_to_output_file: string) -> bool {
+        cmdline := strings.clone_to_cstring(fmt.tprint("cmd /c cl /EP ", path_to_source_file, " > ", path_to_output_file), context.temp_allocator);
+
+        startup_info: win32.Startup_Info = { cb = size_of(win32.Startup_Info) };
+        process_information: win32.Process_Information;
+        if ok := win32.create_process_a(nil, cmdline, nil, nil, false, 0, nil,  nil, &startup_info, &process_information); !ok {
+            fmt.eprintln("could not invoke build script");
+            return false;
+        }
+
+        if win32.WAIT_OBJECT_0 != win32.wait_for_single_object(process_information.process, win32.INFINITE) {
+            fmt.eprintln("ERROR invoking build batch file");
+            return false;
+        }
+
+        output, ok := os.read_entire_file(path_to_output_file);
+        if !ok {
+            fmt.eprintln("cl.exe preprocessor did not output to ", path_to_output_file);
+        }
+        output_lines := strings.split(cast(string)output, "\n");
+
+        trimmed_lines: [dynamic]string;
+        for line in output_lines {
+            line_trimmed := strings.trim_space(line);
+            if len(line_trimmed) == 0 do continue;
+            append(&trimmed_lines, fmt.tprintf("%s\n", line_trimmed));
+        }
+        trimmed_output := strings.join(trimmed_lines[:], "", context.temp_allocator);
+
+        os.write_entire_file(path_to_output_file, transmute([]u8)trimmed_output);
+
+        // TODO: something like win32.destroy_handle(process_information.process);
+        return true;
     }
 }
 
@@ -67,13 +103,16 @@ generate_raylib_bindings :: proc() {
     typesFile  := "raylib/types/raylib_types.odin";
     bridgeFile := "raylib/bridge/raylib_bridge.odin";
 
+    preprocessed_target_file := "./generator/preprocessed/raylib-preprocessed.h";
+    preprocess_source("ext/raylib/include/raylib.h", preprocessed_target_file);
+
     ok := bindgen.generate(
         packageName = "raylib",
         foreignLibrary = "raylib.lib",
         outputFile = outputFile,
         typesFile = typesFile,
         bridgeFile = bridgeFile,
-        headerFiles = []string{"./generator/preprocessed/raylib.h"},
+        headerFiles = []string{ preprocessed_target_file },
         options_= options,
         enum_args_map = args_map,
     );
