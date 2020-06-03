@@ -524,10 +524,11 @@ CharInfo :: struct #packed {
     data : ^_c.uchar,
 };
 
-Font :: struct #packed {
-    texture : Texture2D,
+Font :: struct  {
     base_size : _c.int,
     chars_count : _c.int,
+    texture : Texture2D,
+    recs :  ^Rectangle,
     chars : ^CharInfo,
 };
 
