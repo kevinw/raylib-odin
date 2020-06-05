@@ -647,6 +647,19 @@ foreign raylib {
         position : Vector3,
         camera : Camera
     ) -> Vector2 ---;
+    
+    @(link_name="GetWorldToScreen2D")
+    get_world_to_screen2d :: proc(
+        position : Vector2,
+        camera : Camera2D
+    ) -> Vector2 ---;
+
+    @(link_name="GetScreenToWorld2D")
+    get_screen_to_world2d :: proc(
+        position : Vector2,
+        camera : Camera2D
+    ) -> Vector2 ---;
+
 
     @(link_name="GetCameraMatrix")
     get_camera_matrix :: proc(camera : Camera) -> Matrix ---;
