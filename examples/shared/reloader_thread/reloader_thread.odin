@@ -54,10 +54,8 @@ watcher_thread_proc :: proc(^thread.Thread) {
                 next_timeout_ms = 150;
                 did_get_change = true;
             case win32.WAIT_TIMEOUT:
-                if !did_get_change {
+                if !did_get_change do
                     panic("error: infinite timeout triggered");
-                    return;
-                }
 
                 // actually recompile the game.dll
                 did_get_change = false;

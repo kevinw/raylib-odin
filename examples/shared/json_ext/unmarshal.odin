@@ -110,21 +110,8 @@ unmarshal_value_to_any :: proc(data: any, value: json.Value, spec := json.Specif
         case runtime.Type_Info_Enum:
             for name, i in variant.names {
                 if name == string(v) {
-                    switch val in &variant.values[i] {
-                    case rune:    mem.copy(data.data, &val, size_of(val));
-                    case i8:      mem.copy(data.data, &val, size_of(val));
-                    case i16:     mem.copy(data.data, &val, size_of(val));
-                    case i32:     mem.copy(data.data, &val, size_of(val));
-                    case i64:     mem.copy(data.data, &val, size_of(val));
-                    case int:     mem.copy(data.data, &val, size_of(val));
-                    case u8:      mem.copy(data.data, &val, size_of(val));
-                    case u16:     mem.copy(data.data, &val, size_of(val));
-                    case u32:     mem.copy(data.data, &val, size_of(val));
-                    case u64:     mem.copy(data.data, &val, size_of(val));
-                    case uint:    mem.copy(data.data, &val, size_of(val));
-                    case uintptr: mem.copy(data.data, &val, size_of(val));
-                    }
-
+                    val := variant.values[i];
+                    mem.copy(data.data, &val, size_of(val));
                     return true;
                 }
             }
@@ -211,7 +198,6 @@ unmarshal_value_to_any :: proc(data: any, value: json.Value, spec := json.Specif
     }
 
     panic("Unreachable code.");
-    return false;
 }
 
 unmarshal_value_to_type :: inline proc($T: typeid, value: json.Value, spec := json.Specification.JSON) -> (T, bool) {
