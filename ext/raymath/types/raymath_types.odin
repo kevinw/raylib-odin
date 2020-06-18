@@ -10,11 +10,11 @@ import "../../../raylib/types"
 RAYMATH_H :: 1;
 
 
-Float3 :: struct #packed {
+Float3 :: struct {
     v : [3]_c.float,
 };
 
-Float16 :: struct #packed {
+Float16 :: struct {
     v : [16]_c.float,
 };
 

@@ -59,7 +59,7 @@ export_structs :: proc(data : ^GeneratorData) {
         if found {
             fmt.fprint(data.handle, structName, " :: ", replacement, ";\n");
         } else {
-            fmt.fprint(data.handle, structName, " :: struct #packed {");
+            fmt.fprint(data.handle, structName, " :: struct {");
             export_struct_or_union_members(data, node.members);
             fmt.fprint(data.handle, "};\n");
             fmt.fprint(data.handle, "\n");

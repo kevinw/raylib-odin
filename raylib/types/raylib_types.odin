@@ -383,21 +383,21 @@ Vector2 :: linalg.Vector2;
 Vector3 :: linalg.Vector3;
 Vector4 :: linalg.Vector4;
 Matrix :: linalg.Matrix4;
-Color :: struct #packed {
+Color :: struct {
     r : _c.uchar,
     g : _c.uchar,
     b : _c.uchar,
     a : _c.uchar,
 };
 
-Rectangle :: struct #packed {
+Rectangle :: struct {
     x : _c.float,
     y : _c.float,
     width : _c.float,
     height : _c.float,
 };
 
-Image :: struct #packed {
+Image :: struct {
     data : rawptr,
     width : _c.int,
     height : _c.int,
@@ -405,7 +405,7 @@ Image :: struct #packed {
     format : _c.int,
 };
 
-Texture2D :: struct #packed {
+Texture2D :: struct {
     id : _c.uint,
     width : _c.int,
     height : _c.int,
@@ -413,14 +413,14 @@ Texture2D :: struct #packed {
     format : _c.int,
 };
 
-RenderTexture2D :: struct #packed {
+RenderTexture2D :: struct {
     id : _c.uint,
     texture : Texture2D,
     depth : Texture2D,
     depth_texture : bool,
 };
 
-NPatchInfo :: struct #packed {
+NPatchInfo :: struct {
     source_rec : Rectangle,
     left : _c.int,
     top : _c.int,
@@ -429,7 +429,7 @@ NPatchInfo :: struct #packed {
     type : _c.int,
 };
 
-CharInfo :: struct #packed {
+CharInfo :: struct {
     value : _c.int,
     offset_x : _c.int,
     offset_y : _c.int,
@@ -437,7 +437,7 @@ CharInfo :: struct #packed {
     image : Image,
 };
 
-Font :: struct #packed {
+Font :: struct {
     base_size : _c.int,
     chars_count : _c.int,
     texture : Texture2D,
@@ -445,7 +445,7 @@ Font :: struct #packed {
     chars : ^CharInfo,
 };
 
-Camera3D :: struct #packed {
+Camera3D :: struct {
     position : Vector3,
     target : Vector3,
     up : Vector3,
@@ -453,14 +453,14 @@ Camera3D :: struct #packed {
     type : _c.int,
 };
 
-Camera2D :: struct #packed {
+Camera2D :: struct {
     offset : Vector2,
     target : Vector2,
     rotation : _c.float,
     zoom : _c.float,
 };
 
-Mesh :: struct #packed {
+Mesh :: struct {
     vertex_count : _c.int,
     triangle_count : _c.int,
     vertices : ^_c.float,
@@ -478,35 +478,35 @@ Mesh :: struct #packed {
     vbo_id : ^_c.uint,
 };
 
-Shader :: struct #packed {
+Shader :: struct {
     id : _c.uint,
     locs : ^_c.int,
 };
 
-MaterialMap :: struct #packed {
+MaterialMap :: struct {
     texture : Texture2D,
     color : Color,
     value : _c.float,
 };
 
-Material :: struct #packed {
+Material :: struct {
     shader : Shader,
     maps : ^MaterialMap,
     params : ^_c.float,
 };
 
-Transform :: struct #packed {
+Transform :: struct {
     translation : Vector3,
     rotation : Quaternion,
     scale : Vector3,
 };
 
-BoneInfo :: struct #packed {
+BoneInfo :: struct {
     name : [32]_c.char,
     parent : _c.int,
 };
 
-Model :: struct #packed {
+Model :: struct {
     transform : Matrix,
     mesh_count : _c.int,
     meshes : ^Mesh,
@@ -518,31 +518,31 @@ Model :: struct #packed {
     bind_pose : ^Transform,
 };
 
-ModelAnimation :: struct #packed {
+ModelAnimation :: struct {
     bone_count : _c.int,
     bones : ^BoneInfo,
     frame_count : _c.int,
     frame_poses : ^^Transform,
 };
 
-Ray :: struct #packed {
+Ray :: struct {
     position : Vector3,
     direction : Vector3,
 };
 
-RayHitInfo :: struct #packed {
+RayHitInfo :: struct {
     hit : bool,
     distance : _c.float,
     position : Vector3,
     normal : Vector3,
 };
 
-BoundingBox :: struct #packed {
+BoundingBox :: struct {
     min : Vector3,
     max : Vector3,
 };
 
-Wave :: struct #packed {
+Wave :: struct {
     sample_count : _c.uint,
     sample_rate : _c.uint,
     sample_size : _c.uint,
@@ -550,21 +550,21 @@ Wave :: struct #packed {
     data : rawptr,
 };
 
-RAudioBuffer :: struct #packed {};
+RAudioBuffer :: struct {};
 
-AudioStream :: struct #packed {
+AudioStream :: struct {
     sample_rate : _c.uint,
     sample_size : _c.uint,
     channels : _c.uint,
     buffer : ^RAudioBuffer,
 };
 
-Sound :: struct #packed {
+Sound :: struct {
     sample_count : _c.uint,
     stream : AudioStream,
 };
 
-Music :: struct #packed {
+Music :: struct {
     ctx_type : _c.int,
     ctx_data : rawptr,
     sample_count : _c.uint,
@@ -572,7 +572,7 @@ Music :: struct #packed {
     stream : AudioStream,
 };
 
-VrDeviceInfo :: struct #packed {
+VrDeviceInfo :: struct {
     h_resolution : _c.int,
     v_resolution : _c.int,
     h_screen_size : _c.float,

@@ -27,7 +27,7 @@ PhysicsShapeType :: enum i32 {
     PHYSICS_POLYGON,
 };
 
-PhysicsBodyData :: struct #packed {
+PhysicsBodyData :: struct {
     id : _c.uint,
     enabled : bool,
     position : Vector2,
@@ -49,20 +49,20 @@ PhysicsBodyData :: struct #packed {
     shape : PhysicsShape,
 };
 
-Mat2 :: struct #packed {
+Mat2 :: struct {
     m00 : _c.float,
     m01 : _c.float,
     m10 : _c.float,
     m11 : _c.float,
 };
 
-PolygonData :: struct #packed {
+PolygonData :: struct {
     vertex_count : _c.uint,
     positions : [24]Vector2,
     normals : [24]Vector2,
 };
 
-PhysicsShape :: struct #packed {
+PhysicsShape :: struct {
     type : PhysicsShapeType,
     body : PhysicsBody,
     radius : _c.float,
@@ -70,7 +70,7 @@ PhysicsShape :: struct #packed {
     vertex_data : PolygonData,
 };
 
-PhysicsManifoldData :: struct #packed {
+PhysicsManifoldData :: struct {
     id : _c.uint,
     body_a : PhysicsBody,
     body_b : PhysicsBody,
