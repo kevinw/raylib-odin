@@ -8,7 +8,7 @@ package physac_bindings
 foreign import "../lib/physac.lib"
 
 import _c "core:c"
-using import "../../raylib/types"
+import raylib_types "../../raylib/types"
 
 
 import physac_types "./types"
@@ -77,14 +77,14 @@ foreign physac {
 
     @(link_name="CreatePhysicsBodyCircle")
     create_physics_body_circle :: proc(
-        pos : Vector2,
+        pos : raylib_types.Vector2,
         radius : _c.float,
         density : _c.float
     ) -> PhysicsBody ---;
 
     @(link_name="CreatePhysicsBodyRectangle")
     create_physics_body_rectangle :: proc(
-        pos : Vector2,
+        pos : raylib_types.Vector2,
         width : _c.float,
         height : _c.float,
         density : _c.float
@@ -92,7 +92,7 @@ foreign physac {
 
     @(link_name="CreatePhysicsBodyPolygon")
     create_physics_body_polygon :: proc(
-        pos : Vector2,
+        pos : raylib_types.Vector2,
         radius : _c.float,
         sides : _c.int,
         density : _c.float
@@ -101,7 +101,7 @@ foreign physac {
     @(link_name="PhysicsAddForce")
     physics_add_force :: proc(
         body : PhysicsBody,
-        force : Vector2
+        force : raylib_types.Vector2
     ) ---;
 
     @(link_name="PhysicsAddTorque")
@@ -113,7 +113,7 @@ foreign physac {
     @(link_name="PhysicsShatter")
     physics_shatter :: proc(
         body : PhysicsBody,
-        position : Vector2,
+        position : raylib_types.Vector2,
         force : _c.float
     ) ---;
 
@@ -133,7 +133,7 @@ foreign physac {
     get_physics_shape_vertex :: proc(
         body : PhysicsBody,
         vertex : _c.int
-    ) -> Vector2 ---;
+    ) -> raylib_types.Vector2 ---;
 
     @(link_name="SetPhysicsBodyRotation")
     set_physics_body_rotation :: proc(

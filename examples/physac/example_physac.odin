@@ -2,25 +2,26 @@ package example_physac
 
 import "core:thread"
 
-using import "../../raylib"
+ import "../../raylib"
 
 import physac "../../ext/physac"
 
-_physics_loop :: proc(^thread.Thread) -> int {
+_physics_loop :: proc(^thread.Thread) {
     physac.physics_loop(nil);
-    return 0;
 }
 
 main :: proc() {
+    using raylib;
     screenWidth:f32 = 800.0;
     screenHeight:f32 = 450.0;
     init_window(cast(i32)screenWidth, cast(i32)screenHeight, "raylib-odin :: physac example");
     set_target_fps(60);
 
     physac.init_physics();
-
-    t := thread.create(_physics_loop);
-    thread.start(t);
+if t := thread.create(_physics_loop); t!= nil{
+        t.init_context = context;
+        thread.start(t);
+    }
 
     defer physac.close_physics();
 

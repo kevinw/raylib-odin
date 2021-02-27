@@ -6,7 +6,7 @@ package physac_types
 
 import _c "core:c"
 
-using import "../../../raylib/types"
+import raylib_types "../../../raylib/types"
 PHYSAC_H :: 1;
 PHYSAC_MAX_BODIES :: 64;
 PHYSAC_MAX_MANIFOLDS :: 4096;
@@ -30,9 +30,9 @@ PhysicsShapeType :: enum i32 {
 PhysicsBodyData :: struct #packed {
     id : _c.uint,
     enabled : bool,
-    position : Vector2,
-    velocity : Vector2,
-    force : Vector2,
+    position : raylib_types.Vector2,
+    velocity : raylib_types.Vector2,
+    force    : raylib_types.Vector2,
     angular_velocity : _c.float,
     torque : _c.float,
     orient : _c.float,
@@ -58,8 +58,8 @@ Mat2 :: struct #packed {
 
 PolygonData :: struct #packed {
     vertex_count : _c.uint,
-    positions : [24]Vector2,
-    normals : [24]Vector2,
+    positions : [24]raylib_types.Vector2,
+    normals   : [24]raylib_types.Vector2,
 };
 
 PhysicsShape :: struct #packed {
@@ -75,8 +75,8 @@ PhysicsManifoldData :: struct #packed {
     body_a : PhysicsBody,
     body_b : PhysicsBody,
     penetration : _c.float,
-    normal : Vector2,
-    contacts : [2]Vector2,
+    normal : raylib_types.Vector2,
+    contacts : [2]raylib_types.Vector2,
     contacts_count : _c.uint,
     restitution : _c.float,
     dynamic_friction : _c.float,
@@ -91,25 +91,25 @@ physac_Funcs :: struct {
         y : _c.float
     ),
     create_physics_body_circle : proc "c" (
-        pos : Vector2,
+        pos : raylib_types.Vector2,
         radius : _c.float,
         density : _c.float
     ) -> PhysicsBody,
     create_physics_body_rectangle : proc "c" (
-        pos : Vector2,
+        pos : raylib_types.Vector2,
         width : _c.float,
         height : _c.float,
         density : _c.float
     ) -> PhysicsBody,
     create_physics_body_polygon : proc "c" (
-        pos : Vector2,
+        pos : raylib_types.Vector2,
         radius : _c.float,
         sides : _c.int,
         density : _c.float
     ) -> PhysicsBody,
     physics_add_force : proc "c" (
         body : PhysicsBody,
-        force : Vector2
+        force : raylib_types.Vector2
     ),
     physics_add_torque : proc "c" (
         body : PhysicsBody,
@@ -117,7 +117,7 @@ physac_Funcs :: struct {
     ),
     physics_shatter : proc "c" (
         body : PhysicsBody,
-        position : Vector2,
+        position : raylib_types.Vector2,
         force : _c.float
     ),
     get_physics_bodies_count : proc "c" () -> _c.int,
@@ -127,7 +127,7 @@ physac_Funcs :: struct {
     get_physics_shape_vertex : proc "c" (
         body : PhysicsBody,
         vertex : _c.int
-    ) -> Vector2,
+    ) -> raylib_types.Vector2,
     set_physics_body_rotation : proc "c" (
         body : PhysicsBody,
         radians : _c.float
