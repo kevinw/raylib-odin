@@ -1,5 +1,11 @@
 # odin-raylib
 
+## !!
+
+## NEWER AND MAINTAINED REPO HERE: [ftommasi/raylib-odin](https://github.com/ftommasi/raylib-odin)
+
+## !!
+
 Bindings for [raylib](http://www.raylib.com) 3.0.0, a small C gamedev library, for the [odin programming language](https://odin.handmade.network/).
 
 These are usable, but in a pre-alpha state and definitely a work in progress.
